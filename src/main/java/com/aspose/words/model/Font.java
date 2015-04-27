@@ -11,13 +11,13 @@ public class Font {
   private Boolean Bold = null;
   private Boolean BoldBi = null;
   private Border Border = null;
-  private String Color = null;
+  private Color Color = null;
   private Boolean ComplexScript = null;
   private Boolean DoubleStrikeThrough = null;
   private Boolean Emboss = null;
   private Boolean Engrave = null;
   private Boolean Hidden = null;
-  private String HighlightColor = null;
+  private Color HighlightColor = null;
   private Boolean Italic = null;
   private Boolean ItalicBi = null;
   private Double Kerning = null;
@@ -39,13 +39,13 @@ public class Font {
   private Boolean SmallCaps = null;
   private Double Spacing = null;
   private Boolean StrikeThrough = null;
-  private StyleIdentifier StyleIdentifier = null;
+  private String StyleIdentifier = null;
   private String StyleName = null;
   private Boolean Subscript = null;
   private Boolean Superscript = null;
-  private TextEffect TextEffect = null;
-  private Underline Underline = null;
-  private String UnderlineColor = null;
+  private String TextEffect = null;
+  private String Underline = null;
+  private Color UnderlineColor = null;
   private Link link = null;
   /**
 	 * getAllCaps
@@ -139,19 +139,19 @@ public class Font {
 
   /**
 	 * getColor
-	 * Gets String
+	 * Gets Color
 	 * @return Color
 	 */
-  public String getColor() {
+  public Color getColor() {
     return Color;
   }
 
 	/**
 	 * setColor
-	 * Sets String
-	 * @param Color String
+	 * Sets Color
+	 * @param Color Color
 	 */
-  public void setColor(String Color) {
+  public void setColor(Color Color) {
     this.Color = Color;
   }
 
@@ -247,19 +247,19 @@ public class Font {
 
   /**
 	 * getHighlightColor
-	 * Gets String
+	 * Gets Color
 	 * @return HighlightColor
 	 */
-  public String getHighlightColor() {
+  public Color getHighlightColor() {
     return HighlightColor;
   }
 
 	/**
 	 * setHighlightColor
-	 * Sets String
-	 * @param HighlightColor String
+	 * Sets Color
+	 * @param HighlightColor Color
 	 */
-  public void setHighlightColor(String HighlightColor) {
+  public void setHighlightColor(Color HighlightColor) {
     this.HighlightColor = HighlightColor;
   }
 
@@ -643,19 +643,19 @@ public class Font {
 
   /**
 	 * getStyleIdentifier
-	 * Gets StyleIdentifier
+	 * Gets String
 	 * @return StyleIdentifier
 	 */
-  public StyleIdentifier getStyleIdentifier() {
+  public String getStyleIdentifier() {
     return StyleIdentifier;
   }
 
 	/**
 	 * setStyleIdentifier
-	 * Sets StyleIdentifier
-	 * @param StyleIdentifier StyleIdentifier
+	 * Sets String
+	 * @param StyleIdentifier String
 	 */
-  public void setStyleIdentifier(StyleIdentifier StyleIdentifier) {
+  public void setStyleIdentifier(String StyleIdentifier) {
     this.StyleIdentifier = StyleIdentifier;
   }
 
@@ -715,55 +715,55 @@ public class Font {
 
   /**
 	 * getTextEffect
-	 * Gets TextEffect
+	 * Gets String
 	 * @return TextEffect
 	 */
-  public TextEffect getTextEffect() {
+  public String getTextEffect() {
     return TextEffect;
   }
 
 	/**
 	 * setTextEffect
 	 * Sets TextEffect
-	 * @param TextEffect TextEffect
+	 * @param TextEffect String
 	 */
-  public void setTextEffect(TextEffect TextEffect) {
+  public void setTextEffect(String TextEffect) {
     this.TextEffect = TextEffect;
   }
 
   /**
 	 * getUnderline
-	 * Gets Underline
+	 * Gets String
 	 * @return Underline
 	 */
-  public Underline getUnderline() {
+  public String getUnderline() {
     return Underline;
   }
 
 	/**
 	 * setUnderline
 	 * Sets Underline
-	 * @param Underline Underline
+	 * @param Underline String
 	 */
-  public void setUnderline(Underline Underline) {
+  public void setUnderline(String Underline) {
     this.Underline = Underline;
   }
 
   /**
 	 * getUnderlineColor
-	 * Gets String
+	 * Gets Color
 	 * @return UnderlineColor
 	 */
-  public String getUnderlineColor() {
+  public Color getUnderlineColor() {
     return UnderlineColor;
   }
 
 	/**
 	 * setUnderlineColor
-	 * Sets String
-	 * @param UnderlineColor String
+	 * Sets Color
+	 * @param UnderlineColor Color
 	 */
-  public void setUnderlineColor(String UnderlineColor) {
+  public void setUnderlineColor(Color UnderlineColor) {
     this.UnderlineColor = UnderlineColor;
   }
 

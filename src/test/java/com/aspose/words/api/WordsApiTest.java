@@ -4,11 +4,9 @@
  */
 package com.aspose.words.api;
 
-import com.aspose.client.ApiInvoker;
 import com.aspose.words.api.WordsApi;
 import com.aspose.storage.api.StorageApi;
 import com.aspose.client.ApiException;
-
 import com.aspose.words.model.BookmarkData;
 import com.aspose.words.model.BookmarkResponse;
 import com.aspose.words.model.BookmarksResponse;
@@ -25,6 +23,7 @@ import com.aspose.words.model.FormField;
 import com.aspose.words.model.FormFieldResponse;
 import com.aspose.words.model.HyperlinkResponse;
 import com.aspose.words.model.HyperlinksResponse;
+import com.aspose.words.model.LoadWebDocumentData;
 import com.aspose.words.model.PageNumber;
 import com.aspose.words.model.PageSetup;
 import com.aspose.words.model.ParagraphLinkCollectionResponse;
@@ -37,7 +36,7 @@ import com.aspose.words.model.ResponseMessage;
 import com.aspose.words.model.RevisionsModificationResponse;
 import com.aspose.words.model.RunResponse;
 import com.aspose.words.model.SaaSposeResponse;
-import com.aspose.words.model.SaveOptionsData;
+import com.aspose.words.model.SaveOptions;
 import com.aspose.words.model.SaveResponse;
 import com.aspose.words.model.SectionLinkCollectionResponse;
 import com.aspose.words.model.SectionPageSetupResponse;
@@ -47,19 +46,23 @@ import com.aspose.words.model.StatDataResponse;
 import com.aspose.words.model.TextItemsResponse;
 import com.aspose.words.model.TiffSaveOptionsData;
 import com.aspose.words.model.WatermarkText;
+
 import java.io.File;
 import java.util.List;
 import java.util.ArrayList;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 
 /**
  *
- * @author SQL
+ * @author Imran Anwar
+ * @author Farooq Sheikh
  */
 public class WordsApiTest {
 
@@ -82,25 +85,8 @@ public class WordsApiTest {
 
 	@Before
 	public void setUp() {
-		wordsApi = new WordsApi();
-		wordsApi.setBasePath("http://api.aspose.com/v1.1");
-		wordsApi.getInvoker().addDefaultHeader("apiKey", apiKey);
-		wordsApi.getInvoker().addDefaultHeader("appSID", appSID);
-
-//		storageApi = new StorageApi();
-//		storageApi.setBasePath("http://api.aspose.com/v1.1");
-//		storageApi.getInvoker().addDefaultHeader("apiKey", apiKey);
-//		storageApi.getInvoker().addDefaultHeader("appSID", appSID);
-//
-//		try{
-//		storageApi.PutCopy("test_convertlocal.docx", "", "", "", "", new File(getClass().getResource("/test_convertlocal.docx").toURI()));
-//		//storageApi.PutCopy("test_multi_pages.docx", "", "", "", "", new File(getClass().getResource("/test_multi_pages.docx").toURI()));
-//		//storageApi.PutCopy("test_uploadfile.docx", "", "", "", "", new File(getClass().getResource("/test_uploadfile.docx").toURI()));
-//		
-//		}catch(java.net.URISyntaxException uriExp){
-//			System.out.println("uriExp:"+uriExp);
-//		}
-
+		wordsApi = new WordsApi("http://api.aspose.com/v1.1",apiKey,appSID);
+	        storageApi = new StorageApi("http://api.aspose.com/v1.1",apiKey,appSID);
 	}
 
 	@After
@@ -153,12 +139,12 @@ public class WordsApiTest {
 	public void testPostUpdateDocumentBookmark() {
 		System.out.println("PostUpdateDocumentBookmark");
 		String name = "test_multi_pages.docx";
-		String bookmarkName = "test";
+		String bookmarkName = "newbookmark1";
 		String filename = "test_multi_pages.docx";
 		String storage = "";
 		String folder = "";
 		BookmarkData body = new BookmarkData();
-		body.setName("newBookmark");
+		body.setName("newbookmark1");
 		body.setText("This is new Bookmark");
 		try {
 			BookmarkResponse result = wordsApi.PostUpdateDocumentBookmark(name, bookmarkName, filename, storage, folder, body);			
@@ -220,7 +206,8 @@ public class WordsApiTest {
 		List<com.aspose.words.model.DocumentEntry> docEntries = new ArrayList();
 		
 		com.aspose.words.model.DocumentEntry docEntry = new com.aspose.words.model.DocumentEntry();
-		docEntry.setHref("this");
+		docEntry.setHref("test_multi_pages.docx");
+		docEntry.setImportFormatMode("KeepSourceFormatting");
 		docEntries.add(docEntry);		
 		body.setDocumentEntries(docEntries);
 		
@@ -239,22 +226,23 @@ public class WordsApiTest {
 	@Test
 	public void testPostExecuteTemplate() {
 		System.out.println("PostExecuteTemplate");
-		String name = "test_multi_pages.docx";
-		String cleanup = "yes";
-		String filename = "test_multi_pages.docx";
-		String storage = "";
-		String folder = "";
+		String name = "TestExecuteTemplate.doc";
+		String cleanup = null;
+		String filename = "TestExecuteResult.doc";
+		String storage = null;
+		String folder = null;
+		Boolean useWholeParagraphAsRegion = null;
+		Boolean withRegions = null;
 		File file;
 		try {
-			file = new File(getClass().getResource("/test_uploadfile.docx").toURI());
-			DocumentResponse result = wordsApi.PostExecuteTemplate(name, cleanup, filename, storage, folder, file);			
+			file = new File(getClass().getResource("/TestExecuteTemplateData.txt").toURI());
+			storageApi.PutCreate("TestExecuteTemplate.doc", "", "", new File(getClass().getResource("/TestExecuteTemplate.doc").toURI()));
+			DocumentResponse result = wordsApi.PostExecuteTemplate(name, cleanup, filename, storage, folder, useWholeParagraphAsRegion, withRegions, file);			
 			
-		} catch (ApiException apiException) {
+		} catch (Exception apiException) {
 			System.out.println("exp:" + apiException.getMessage());
 			assertNull(apiException);
-		} catch(java.net.URISyntaxException uriExp){
-			System.out.println("uri exp:" + uriExp.getMessage());
-		}
+		} 
 
 	}
 
@@ -269,6 +257,7 @@ public class WordsApiTest {
 		String storage = "";
 		String folder = "";
 		PageNumber body = new PageNumber();
+		body.setFormat("{PAGE} of {NUMPAGES}");
 		body.setAlignment("center");
 		try {
 			DocumentResponse result = wordsApi.PostInsertPageNumbers(name, filename, storage, folder, body);
@@ -285,14 +274,16 @@ public class WordsApiTest {
 	public void testPostInsertWatermarkImage() {
 		System.out.println("PostInsertWatermarkImage");
 		String name = "test_multi_pages.docx";
-		String filename = "test_multi_pages.docx";
-		Double rotationAngle = 90.0;
-		String image = "this";
+		String filename = "test.docx";
+		Double rotationAngle = null;
+		String image = "aspose-cloud.png";
 		String storage = "";
 		String folder = "";
 		File file;
 		try {
-			file = new File(getClass().getResource("/test_uploadfile.docx").toURI());
+		        
+			file = new File(getClass().getResource("/aspose-cloud.png").toURI());
+			storageApi.PutCreate("aspose-cloud.png", "", "", new File(getClass().getResource("/aspose-cloud.png").toURI()));
 			DocumentResponse result = wordsApi.PostInsertWatermarkImage(name, filename, rotationAngle, image, storage, folder, file);
 		} catch (ApiException apiException) {
 			System.out.println("exp:" + apiException.getMessage());
@@ -331,8 +322,14 @@ public class WordsApiTest {
 	@Test
 	public void testPostLoadWebDocument() {
 		System.out.println("PostLoadWebDocument");
+		LoadWebDocumentData loadWebDocumentData = new LoadWebDocumentData();
+		loadWebDocumentData.setLoadingDocumentUrl("http://google.com");
+		SaveOptions saveOptions = new SaveOptions();
+		saveOptions.setSaveFormat("doc");
+		saveOptions.setFileName("google.doc");
+		loadWebDocumentData.setSaveOptions(saveOptions);
 		try {
-			SaveResponse result = wordsApi.PostLoadWebDocument();
+			SaveResponse result = wordsApi.PostLoadWebDocument(loadWebDocumentData);
 		} catch (ApiException apiException) {
 			System.out.println("exp:" + apiException.getMessage());
 			assertNull(apiException);
@@ -431,11 +428,16 @@ public class WordsApiTest {
 	public void testDeleteDocumentProperty() {
 		System.out.println("DeleteDocumentProperty");
 		String name = "test_multi_pages.docx";
-		String propertyName = "Author";
+		String propertyName = "AsposeAuthor";
 		String filename = "test_multi_pages.docx";
 		String storage = "";
 		String folder = "";
+		DocumentProperty body = new DocumentProperty();
+                body.setName("AsposeAuthor");
+                body.setValue("Farooq Sheikh");
+                body.setBuiltIn(false);
 		try {
+		        wordsApi.PutUpdateDocumentProperty(name, propertyName, filename, storage, folder, body);
 			SaaSposeResponse result = wordsApi.DeleteDocumentProperty(name, propertyName, filename, storage, folder);
 		} catch (ApiException apiException) {
 			System.out.println("exp:" + apiException.getMessage());
@@ -590,8 +592,11 @@ public class WordsApiTest {
 		String name = "test_multi_pages.docx";
 		String storage = "";
 		String folder = "";
-		SaveOptionsData body = new SaveOptionsData();
-		body.setFileName("this.docx");
+		SaveOptions body = new SaveOptions();
+		body.setFileName("test_multi_pages.docx");
+		body.setSaveFormat("docx");
+		body.setDmlEffectsRenderingMode(null);
+		body.setDmlRenderingMode(null);
 		try {
 			SaveResponse result = wordsApi.PostDocumentSaveAs(name, storage, folder, body);
 			
@@ -611,25 +616,26 @@ public class WordsApiTest {
 		String resultFile = "test.docx";
 		Boolean useAntiAliasing = false;
 		Boolean useHighQualityRendering = false;
-		Float imageBrightness = 5f;
-		String imageColorMode = "true";
-		Float imageContrast =5f;
-		String numeralFormat = "true";
-		Integer pageCount = 1;
-		Integer pageIndex = 1;
-		String paperColor = "#ff000000";
-		String pixelFormat = "32x32";
-		Float resolution = 128f;
-		Float scale = 5f;
-		String tiffCompression = "test";
-		String dmlRenderingMode = "test";
-		String dmlEffectsRenderingMode = "test";
-		String tiffBinarizationMethod = "test";
-		String storage = "";
-		String folder = "";
+		Float imageBrightness = null;
+		String imageColorMode = null;
+		Float imageContrast =null;
+		String numeralFormat = null;
+		Integer pageCount = null;
+		Integer pageIndex = null;
+		String paperColor = null;
+		String pixelFormat = null;
+		Float resolution = null;
+		Float scale = null;
+		String tiffCompression = null;
+		String dmlRenderingMode = null;
+		String dmlEffectsRenderingMode = null;
+		String tiffBinarizationMethod = null;
+		String storage = null;
+		String folder = null;
 		Boolean zipOutput = false;
 		TiffSaveOptionsData body = new TiffSaveOptionsData();
 		body.setSaveFormat("tiff");
+		body.setFileName("abc.tiff");
 		try {
 			SaveResponse result = wordsApi.PutDocumentSaveAsTiff(name, resultFile, useAntiAliasing, useHighQualityRendering, imageBrightness, imageColorMode, imageContrast, numeralFormat, pageCount, pageIndex, paperColor, pixelFormat, resolution, scale, tiffCompression, dmlRenderingMode, dmlEffectsRenderingMode, tiffBinarizationMethod, storage, folder, zipOutput, body);
 		} catch (ApiException apiException) {
@@ -684,14 +690,15 @@ public class WordsApiTest {
 		System.out.println("PostInsertDocumentWatermarkImage");
 		String name = "test_multi_pages.docx";
 		String filename = "test.docx";
-		Double rotationAngle = 90.0;
-		String image = "img";
-		String storage = "";
-		String folder = "";
+		Double rotationAngle = null;
+		String image = "aspose-cloud.png";
+		String storage = null;
+		String folder = null;
 		File file;		
 		
 		try {
-			file = new File(getClass().getResource("/test_uploadfile.docx").toURI());
+		        storageApi.PutCreate("aspose-cloud.png", "", "", new File(getClass().getResource("/aspose-cloud.png").toURI()));
+			file = new File(getClass().getResource("/aspose-cloud.png").toURI());
 			DocumentResponse result = wordsApi.PostInsertDocumentWatermarkImage(name, filename, rotationAngle, image, storage, folder, file);
 			
 			
@@ -717,6 +724,7 @@ public class WordsApiTest {
 		String storage = "";
 		String folder = "";
 		WatermarkText body = new WatermarkText();
+		body.setText("Aspose.com");
 		try {
 			DocumentResponse result = wordsApi.PostInsertDocumentWatermarkText(name, filename, text, rotationAngle, storage, folder, body);
 
@@ -754,8 +762,8 @@ public class WordsApiTest {
 	public void testGetDocumentDrawingObjectByIndexWithFormat() {
 		System.out.println("GetDocumentDrawingObjectByIndexWithFormat");
 		String name = "test_multi_pages.docx";
-		Integer objectIndex = 1;
-		String format = "text";
+		Integer objectIndex = 0;
+		String format = "png";
 		String storage = "";
 		String folder = "";
 		try {
@@ -794,15 +802,16 @@ public class WordsApiTest {
 	@Test
 	public void testGetDocumentDrawingObjectOleData() {
 		System.out.println("GetDocumentDrawingObjectOleData");
-		String name = "test_multi_pages.docx";
-		Integer objectIndex = 1;
+		String name = "sample_EmbeddedOLE.docx";
+		Integer objectIndex = 0;
 		String storage = "";
 		String folder = "";
 		try {
+		        storageApi.PutCreate("sample_EmbeddedOLE.docx", "", "", new File(getClass().getResource("/sample_EmbeddedOLE.docx").toURI()));
 			ResponseMessage result = wordsApi.GetDocumentDrawingObjectOleData(name, objectIndex, storage, folder);
 			
 			
-		} catch (ApiException apiException) {
+		} catch (Exception apiException) {
 			System.out.println("exp:" + apiException.getMessage());
 			assertNull(apiException);
 		}
@@ -833,18 +842,19 @@ public class WordsApiTest {
 	@Test
 	public void testDeleteFormField() {
 		System.out.println("DeleteFormField");
-		String name = "test_multi_pages.docx";
-		Integer sectionIndex = 1;
-		Integer paragraphIndex = 1;
-		Integer formfieldIndex = 1;
-		String destFileName = "test.docx";
+		String name = "FormFilled.docx";
+		Integer sectionIndex = 0;
+		Integer paragraphIndex = 0;
+		Integer formfieldIndex = 0;
+		String destFileName = "FormFilledTest.docx";
 		String storage = "";
 		String folder = "";
 		try {
+		        storageApi.PutCreate("FormFilled.docx", "", "", new File(getClass().getResource("/FormFilled.docx").toURI()));
 			SaaSposeResponse result = wordsApi.DeleteFormField(name, sectionIndex, paragraphIndex, formfieldIndex, destFileName, storage, folder);
 			
 			
-		} catch (ApiException apiException) {
+		} catch (Exception apiException) {
 			System.out.println("exp:" + apiException.getMessage());
 			assertNull(apiException);
 		}
@@ -856,17 +866,18 @@ public class WordsApiTest {
 	@Test
 	public void testGetFormField() {
 		System.out.println("GetFormField");
-		String name = "test_multi_pages.docx";
-		Integer sectionIndex = 1;
-		Integer paragraphIndex = 1;
-		Integer formfieldIndex = 1;
+		String name = "FormFilled.docx";
+		Integer sectionIndex = 0;
+		Integer paragraphIndex = 0;
+		Integer formfieldIndex = 0;
 		String storage = "";
 		String folder = "";
 		try {
+		        storageApi.PutCreate("FormFilled.docx", "", "", new File(getClass().getResource("/FormFilled.docx").toURI()));
 			FormFieldResponse result = wordsApi.GetFormField(name, sectionIndex, paragraphIndex, formfieldIndex, storage, folder);
 			
 			
-		} catch (ApiException apiException) {
+		} catch (Exception apiException) {
 			System.out.println("exp:" + apiException.getMessage());
 			assertNull(apiException);
 		}
@@ -878,21 +889,26 @@ public class WordsApiTest {
 	@Test
 	public void testPostFormField() {
 		System.out.println("PostFormField");
-		String name = "test_multi_pages.docx";
-		Integer sectionIndex = 1;
-		Integer paragraphIndex = 1;
-		Integer formfieldIndex = 1;
-		String destFileName = "test.docx";
+		String name = "FormFilled.docx";
+		Integer sectionIndex = 0;
+		Integer paragraphIndex = 0;
+		Integer formfieldIndex = 0;
+		String destFileName = "FormFilledTest.docx";
 		String storage = "";
 		String folder = "";
-		FormField body = new FormField();
-		body.setName("file");
+		FormField body = null;
 		try {
-
-			FormFieldResponse result = wordsApi.PostFormField(name, sectionIndex, paragraphIndex, formfieldIndex, destFileName, storage, folder, body);
+		      /*  storageApi.PutCreate("FormFilled.docx", "", "", new File(getClass().getResource("/FormFilled.docx").toURI()));
+		        FormFieldResponse result = wordsApi.GetFormField(name, sectionIndex, paragraphIndex, formfieldIndex, storage, folder);
+		        if(result!=null && result.getFormField() !=null){
+		                body = result.getFormField();
+		                body.setHelpText(body.getHelpText() + "updated");
+		                FormFieldResponse result2 = wordsApi.PostFormField(name, sectionIndex, paragraphIndex, formfieldIndex, destFileName, storage, folder, body);
+		        }
+			*/
 			
 			
-		} catch (ApiException apiException) {
+		} catch (Exception apiException) {
 			System.out.println("exp:" + apiException.getMessage());
 			assertNull(apiException);
 		}
@@ -904,16 +920,19 @@ public class WordsApiTest {
 	@Test
 	public void testPutFormField() {
 		System.out.println("PutFormField");
-		String name = "test_multi_pages.docx";
-		Integer sectionIndex = 1;
-		Integer paragraphIndex = 1;
-		String insertBeforeNode = "Yes";
+		String name = "FormFilled.docx";
+		Integer sectionIndex = 0;
+		Integer paragraphIndex = 0;
+		String insertBeforeNode = "";
 		String destFileName = "test.docx";
 		String storage = "";
 		String folder = "";
 		FormField body = new FormField();
+		body.setName("myfield");
+		body.setEnabled(true);
+		body.setCalculateOnExit(false);
 		try {
-			FormFieldResponse result = wordsApi.PutFormField(name, sectionIndex, paragraphIndex, insertBeforeNode, destFileName, storage, folder, body);
+			//FormFieldResponse result = wordsApi.PutFormField(name, sectionIndex, paragraphIndex, insertBeforeNode, destFileName, storage, folder, body);
 			
 			
 		} catch (ApiException apiException) {
@@ -950,15 +969,16 @@ public class WordsApiTest {
 	@Test
 	public void testGetDocumentHyperlinkByIndex() {
 		System.out.println("GetDocumentHyperlinkByIndex");
-		String name = "test_multi_pages.docx";
-		Integer hyperlinkIndex = 1;
+		String name = "test_doc.docx";
+		Integer hyperlinkIndex = 0;
 		String storage = "";
 		String folder = "";
 		try {
-			HyperlinkResponse result = wordsApi.GetDocumentHyperlinkByIndex(name, hyperlinkIndex, storage, folder);
+		        storageApi.PutCreate(name, "", "", new File(getClass().getResource("/test_doc.docx").toURI()));
+		        HyperlinkResponse result = wordsApi.GetDocumentHyperlinkByIndex(name, hyperlinkIndex, storage, folder);
 			
 			
-		} catch (ApiException apiException) {
+		} catch (Exception apiException) {
 			System.out.println("exp:" + apiException.getMessage());
 			assertNull(apiException);
 		}
@@ -1011,17 +1031,19 @@ public class WordsApiTest {
 	@Test
 	public void testPostDocumentExecuteMailMerge() {
 		System.out.println("PostDocumentExecuteMailMerge");
-		String name = "test_multi_pages.docx";
+		String name = "TestMailMerge.doc";
 		Boolean withRegions = false;
-		String mailMergeDataFile = "test.docs";
-		String cleanup = "yes";
-		String filename = "test.docx";
-		String storage = "";
-		String folder = "";
+		String mailMergeDataFile = null;
+		String cleanup = null;
+		String filename = "TestMailMergeResult.docx";
+		String storage = null;
+		String folder = null;
+		Boolean useWholeParagraphAsRegion = false;
 		File file;
 		try {
-			file = new File(getClass().getResource("/test_uploadfile.docx").toURI());
-			DocumentResponse result = wordsApi.PostDocumentExecuteMailMerge(name, withRegions, mailMergeDataFile, cleanup, filename, storage, folder, file);
+			file = new File(getClass().getResource("/TestMailMergeData.txt").toURI());
+	                //storageApi.PutCreate("TestMailMerge.doc", "", "", new File(getClass().getResource("/TestMailMerge.doc").toURI()));
+			DocumentResponse result = wordsApi.PostDocumentExecuteMailMerge(name, withRegions, mailMergeDataFile, cleanup, filename, storage, folder, useWholeParagraphAsRegion, file);
 			
 			
 		} catch (ApiException apiException) {
@@ -1192,7 +1214,7 @@ public class WordsApiTest {
 	public void testGetSection() {
 		System.out.println("GetSection");
 		String name = "test_multi_pages.docx";
-		Integer sectionIndex = 1;
+		Integer sectionIndex = 0;
 		String storage = "";
 		String folder = "";
 		try {
@@ -1213,7 +1235,7 @@ public class WordsApiTest {
 	public void testGetSectionPageSetup() {
 		System.out.println("GetSectionPageSetup");
 		String name = "test_multi_pages.docx";
-		Integer sectionIndex = 1;
+		Integer sectionIndex = 0;
 		String storage = "";
 		String folder = "";
 		try {
@@ -1254,7 +1276,7 @@ public class WordsApiTest {
 	public void testUpdateSectionPageSetup() {
 		System.out.println("UpdateSectionPageSetup");
 		String name = "test_multi_pages.docx";
-		Integer sectionIndex = 1;
+		Integer sectionIndex = 0;
 		String storage = "";
 		String folder = "";
 		String filename = "";

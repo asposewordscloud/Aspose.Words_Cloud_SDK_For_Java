@@ -6,7 +6,7 @@ import com.aspose.words.model.DocumentProperties;
 public class Document {
   private List<Link> Links = new ArrayList<Link>();
   private String FileName = null;
-  private DocumentFormat SourceFormat = null;
+  private Integer SourceFormat = null;
   private Boolean IsEncrypted = null;
   private Boolean IsSigned = null;
   private DocumentProperties DocumentProperties = null;
@@ -48,19 +48,19 @@ public class Document {
 
   /**
 	 * getSourceFormat
-	 * Gets DocumentFormat
+	 * Gets Integer
 	 * @return SourceFormat
 	 */
-  public DocumentFormat getSourceFormat() {
+  public Integer getSourceFormat() {
     return SourceFormat;
   }
 
 	/**
 	 * setSourceFormat
 	 * Sets DocumentFormat
-	 * @param SourceFormat DocumentFormat
+	 * @param SourceFormat Integer
 	 */
-  public void setSourceFormat(DocumentFormat SourceFormat) {
+  public void setSourceFormat(Integer SourceFormat) {
     this.SourceFormat = SourceFormat;
   }
 

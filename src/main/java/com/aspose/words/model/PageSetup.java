@@ -12,8 +12,8 @@ import com.aspose.words.model.Orientation;
 public class PageSetup {
   private Boolean Bidi = null;
   private Boolean BorderAlwaysInFront = null;
-  private PageBorderAppliesTo BorderAppliesTo = null;
-  private PageBorderDistanceFrom BorderDistanceFrom = null;
+  private String BorderAppliesTo = null;
+  private String BorderDistanceFrom = null;
   private Double BottomMargin = null;
   private Boolean DifferentFirstPageHeaderFooter = null;
   private Integer FirstPageTray = null;
@@ -23,22 +23,22 @@ public class PageSetup {
   private Double LeftMargin = null;
   private Integer LineNumberCountBy = null;
   private Double LineNumberDistanceFromText = null;
-  private LineNumberRestartMode LineNumberRestartMode = null;
+  private String LineNumberRestartMode = null;
   private Integer LineStartingNumber = null;
-  private Orientation Orientation = null;
+  private String Orientation = null;
   private Integer OtherPagesTray = null;
   private Double PageHeight = null;
-  private NumberStyle PageNumberStyle = null;
+  private String PageNumberStyle = null;
   private Integer PageStartingNumber = null;
   private Double PageWidth = null;
-  private PaperSize PaperSize = null;
+  private String PaperSize = null;
   private Boolean RestartPageNumbering = null;
   private Double RightMargin = null;
   private Boolean RtlGutter = null;
-  private SectionStart SectionStart = null;
+  private String SectionStart = null;
   private Boolean SuppressEndnotes = null;
   private Double TopMargin = null;
-  private PageVerticalAlignment VerticalAlignment = null;
+  private String VerticalAlignment = null;
   private Link link = null;
   /**
 	 * getBidi
@@ -78,37 +78,37 @@ public class PageSetup {
 
   /**
 	 * getBorderAppliesTo
-	 * Gets PageBorderAppliesTo
+	 * Gets String
 	 * @return BorderAppliesTo
 	 */
-  public PageBorderAppliesTo getBorderAppliesTo() {
+  public String getBorderAppliesTo() {
     return BorderAppliesTo;
   }
 
 	/**
 	 * setBorderAppliesTo
 	 * Sets PageBorderAppliesTo
-	 * @param BorderAppliesTo PageBorderAppliesTo
+	 * @param BorderAppliesTo String
 	 */
-  public void setBorderAppliesTo(PageBorderAppliesTo BorderAppliesTo) {
+  public void setBorderAppliesTo(String BorderAppliesTo) {
     this.BorderAppliesTo = BorderAppliesTo;
   }
 
   /**
 	 * getBorderDistanceFrom
-	 * Gets PageBorderDistanceFrom
+	 * Gets String
 	 * @return BorderDistanceFrom
 	 */
-  public PageBorderDistanceFrom getBorderDistanceFrom() {
+  public String getBorderDistanceFrom() {
     return BorderDistanceFrom;
   }
 
 	/**
 	 * setBorderDistanceFrom
 	 * Sets PageBorderDistanceFrom
-	 * @param BorderDistanceFrom PageBorderDistanceFrom
+	 * @param BorderDistanceFrom String
 	 */
-  public void setBorderDistanceFrom(PageBorderDistanceFrom BorderDistanceFrom) {
+  public void setBorderDistanceFrom(String BorderDistanceFrom) {
     this.BorderDistanceFrom = BorderDistanceFrom;
   }
 
@@ -276,19 +276,19 @@ public class PageSetup {
 
   /**
 	 * getLineNumberRestartMode
-	 * Gets LineNumberRestartMode
+	 * Gets String
 	 * @return LineNumberRestartMode
 	 */
-  public LineNumberRestartMode getLineNumberRestartMode() {
+  public String getLineNumberRestartMode() {
     return LineNumberRestartMode;
   }
 
 	/**
 	 * setLineNumberRestartMode
 	 * Sets LineNumberRestartMode
-	 * @param LineNumberRestartMode LineNumberRestartMode
+	 * @param LineNumberRestartMode String
 	 */
-  public void setLineNumberRestartMode(LineNumberRestartMode LineNumberRestartMode) {
+  public void setLineNumberRestartMode(String LineNumberRestartMode) {
     this.LineNumberRestartMode = LineNumberRestartMode;
   }
 
@@ -312,19 +312,19 @@ public class PageSetup {
 
   /**
 	 * getOrientation
-	 * Gets Orientation
+	 * Gets String
 	 * @return Orientation
 	 */
-  public Orientation getOrientation() {
+  public String getOrientation() {
     return Orientation;
   }
 
 	/**
 	 * setOrientation
 	 * Sets Orientation
-	 * @param Orientation Orientation
+	 * @param Orientation String
 	 */
-  public void setOrientation(Orientation Orientation) {
+  public void setOrientation(String Orientation) {
     this.Orientation = Orientation;
   }
 
@@ -366,19 +366,19 @@ public class PageSetup {
 
   /**
 	 * getPageNumberStyle
-	 * Gets NumberStyle
+	 * Gets String
 	 * @return PageNumberStyle
 	 */
-  public NumberStyle getPageNumberStyle() {
+  public String getPageNumberStyle() {
     return PageNumberStyle;
   }
 
 	/**
 	 * setPageNumberStyle
 	 * Sets NumberStyle
-	 * @param PageNumberStyle NumberStyle
+	 * @param PageNumberStyle String
 	 */
-  public void setPageNumberStyle(NumberStyle PageNumberStyle) {
+  public void setPageNumberStyle(String PageNumberStyle) {
     this.PageNumberStyle = PageNumberStyle;
   }
 
@@ -421,18 +421,18 @@ public class PageSetup {
   /**
 	 * getPaperSize
 	 * Gets PaperSize
-	 * @return PaperSize
+	 * @return String
 	 */
-  public PaperSize getPaperSize() {
+  public String getPaperSize() {
     return PaperSize;
   }
 
 	/**
 	 * setPaperSize
 	 * Sets PaperSize
-	 * @param PaperSize PaperSize
+	 * @param PaperSize String
 	 */
-  public void setPaperSize(PaperSize PaperSize) {
+  public void setPaperSize(String PaperSize) {
     this.PaperSize = PaperSize;
   }
 
@@ -492,19 +492,19 @@ public class PageSetup {
 
   /**
 	 * getSectionStart
-	 * Gets SectionStart
+	 * Gets String
 	 * @return SectionStart
 	 */
-  public SectionStart getSectionStart() {
+  public String getSectionStart() {
     return SectionStart;
   }
 
 	/**
 	 * setSectionStart
 	 * Sets SectionStart
-	 * @param SectionStart SectionStart
+	 * @param SectionStart String
 	 */
-  public void setSectionStart(SectionStart SectionStart) {
+  public void setSectionStart(String SectionStart) {
     this.SectionStart = SectionStart;
   }
 
@@ -549,7 +549,7 @@ public class PageSetup {
 	 * Gets PageVerticalAlignment
 	 * @return VerticalAlignment
 	 */
-  public PageVerticalAlignment getVerticalAlignment() {
+  public String getVerticalAlignment() {
     return VerticalAlignment;
   }
 
@@ -558,7 +558,7 @@ public class PageSetup {
 	 * Sets PageVerticalAlignment
 	 * @param VerticalAlignment PageVerticalAlignment
 	 */
-  public void setVerticalAlignment(PageVerticalAlignment VerticalAlignment) {
+  public void setVerticalAlignment(String VerticalAlignment) {
     this.VerticalAlignment = VerticalAlignment;
   }
 

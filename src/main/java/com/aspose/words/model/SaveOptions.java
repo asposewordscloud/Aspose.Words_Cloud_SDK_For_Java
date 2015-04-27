@@ -1,11 +1,11 @@
 package com.aspose.words.model;
 
-public class SaveOptionsData {
+public class SaveOptions {
   private String SaveFormat = null;
   private String FileName = null;
   private String DmlRenderingMode = null;
   private String DmlEffectsRenderingMode = null;
-  private Boolean ZipOutput = null;
+  private Boolean ZipOutput = true;
   /**
 	 * getSaveFormat
 	 * Gets String

@@ -2,9 +2,9 @@ package com.aspose.words.model;
 
 import com.aspose.words.model.LineStyle;
 public class Border {
-  private LineStyle LineStyle = null;
+  private String LineStyle = null;
   private Double LineWidth = null;
-  private String Color = null;
+  private Color Color = null;
   private Double DistanceFromText = null;
   private Boolean Shadow = null;
   /**
@@ -12,7 +12,7 @@ public class Border {
 	 * Gets LineStyle
 	 * @return LineStyle
 	 */
-  public LineStyle getLineStyle() {
+  public String getLineStyle() {
     return LineStyle;
   }
 
@@ -21,7 +21,7 @@ public class Border {
 	 * Sets LineStyle
 	 * @param LineStyle LineStyle
 	 */
-  public void setLineStyle(LineStyle LineStyle) {
+  public void setLineStyle(String LineStyle) {
     this.LineStyle = LineStyle;
   }
 
@@ -45,19 +45,19 @@ public class Border {
 
   /**
 	 * getColor
-	 * Gets String
+	 * Gets Color
 	 * @return Color
 	 */
-  public String getColor() {
+  public Color getColor() {
     return Color;
   }
 
 	/**
 	 * setColor
-	 * Sets String
-	 * @param Color String
+	 * Sets Color
+	 * @param Color Color
 	 */
-  public void setColor(String Color) {
+  public void setColor(Color Color) {
     this.Color = Color;
   }
 

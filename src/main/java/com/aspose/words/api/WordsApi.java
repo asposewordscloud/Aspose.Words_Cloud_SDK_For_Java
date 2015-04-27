@@ -3,12 +3,12 @@ package com.aspose.words.api;
 import com.aspose.client.ApiException;
 import com.aspose.client.ApiInvoker;
 import com.aspose.client.ApiInvokerResponse;
-
 import com.aspose.words.model.BookmarksResponse;
 import com.aspose.words.model.HyperlinkResponse;
+import com.aspose.words.model.LoadWebDocumentData;
 import com.aspose.words.model.SplitDocumentResponse;
 import com.aspose.words.model.DocumentResponse;
-import com.aspose.words.model.SaveOptionsData;
+import com.aspose.words.model.SaveOptions;
 import com.aspose.words.model.DocumentEntryList;
 import com.aspose.words.model.FieldNamesResponse;
 import com.aspose.words.model.TiffSaveOptionsData;
@@ -54,6 +54,17 @@ public class WordsApi {
   ApiInvoker apiInvoker = ApiInvoker.getInstance();
   ApiInvokerResponse response = null;
 
+  public WordsApi(String basePath, String apiKey, String appSid) {
+    this.basePath = basePath;
+    apiInvoker.addDefaultHeader(apiInvoker.API_KEY, apiKey);
+    apiInvoker.addDefaultHeader(apiInvoker.APP_SID, appSid);
+  }
+
+  public WordsApi(String apiKey, String appSid) {
+    apiInvoker.addDefaultHeader(apiInvoker.API_KEY, apiKey);
+    apiInvoker.addDefaultHeader(apiInvoker.APP_SID, appSid);
+  }
+
   public ApiInvoker getInvoker() {
     return apiInvoker;
   }
@@ -66,7 +77,6 @@ public class WordsApi {
     return basePath;
   }
 
-  //error info- code: 404 reason: "no project found" model: <none>
   /**
 	* GetDocumentBookmarkByName
 	* Read document bookmark data by its name.
@@ -84,34 +94,36 @@ public class WordsApi {
        throw new ApiException(400, "missing required params");
     }
     // create path and map variables
-    String path = "/words/{name}/bookmarks/{bookmarkName}/?appSid={appSid}&amp;storage={storage}&amp;folder={folder}".replaceAll("\\{format\\}","json");
-
+    String resourcePath = "/words/{name}/bookmarks/{bookmarkName}/?appSid={appSid}&amp;storage={storage}&amp;folder={folder}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
     if(name!=null)
-      queryParams.put("name", String.valueOf(name));
+	  resourcePath = resourcePath.replace("{" + "name" + "}" , apiInvoker.toPathValue(name));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]name.*?(?=&|\\?|$)", "");
     if(bookmarkName!=null)
-      queryParams.put("bookmarkName", String.valueOf(bookmarkName));
+	  resourcePath = resourcePath.replace("{" + "bookmarkName" + "}" , apiInvoker.toPathValue(bookmarkName));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]bookmarkName.*?(?=&|\\?|$)", "");
     if(storage!=null)
-      queryParams.put("storage", String.valueOf(storage));
+	  resourcePath = resourcePath.replace("{" + "storage" + "}" , apiInvoker.toPathValue(storage));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]storage.*?(?=&|\\?|$)", "");
     if(folder!=null)
-      queryParams.put("folder", String.valueOf(folder));
+	  resourcePath = resourcePath.replace("{" + "folder" + "}" , apiInvoker.toPathValue(folder));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]folder.*?(?=&|\\?|$)", "");
     String[] contentTypes = {
       "application/json"};
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
-      FormDataMultiPart mp = new FormDataMultiPart();
-      if(hasFields)
-        postBody = mp;
-    }
-    try {
-		response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType);
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "GET", queryParams, postBody, headerParams, formParams, contentType);
 		return (BookmarkResponse) ApiInvoker.deserialize(response, "", BookmarkResponse.class);
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
@@ -122,7 +134,6 @@ public class WordsApi {
       }
     }
   }
-  //error info- code: 404 reason: "no project found" model: <none>
   /**
 	* GetDocumentBookmarks
 	* Read document bookmarks common info.
@@ -139,32 +150,32 @@ public class WordsApi {
        throw new ApiException(400, "missing required params");
     }
     // create path and map variables
-    String path = "/words/{name}/bookmarks/?appSid={appSid}&amp;storage={storage}&amp;folder={folder}".replaceAll("\\{format\\}","json");
-
+    String resourcePath = "/words/{name}/bookmarks/?appSid={appSid}&amp;storage={storage}&amp;folder={folder}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
     if(name!=null)
-      queryParams.put("name", String.valueOf(name));
+	  resourcePath = resourcePath.replace("{" + "name" + "}" , apiInvoker.toPathValue(name));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]name.*?(?=&|\\?|$)", "");
     if(storage!=null)
-      queryParams.put("storage", String.valueOf(storage));
+	  resourcePath = resourcePath.replace("{" + "storage" + "}" , apiInvoker.toPathValue(storage));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]storage.*?(?=&|\\?|$)", "");
     if(folder!=null)
-      queryParams.put("folder", String.valueOf(folder));
+	  resourcePath = resourcePath.replace("{" + "folder" + "}" , apiInvoker.toPathValue(folder));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]folder.*?(?=&|\\?|$)", "");
     String[] contentTypes = {
       "application/json"};
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
-      FormDataMultiPart mp = new FormDataMultiPart();
-      if(hasFields)
-        postBody = mp;
-    }
-    try {
-		response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType);
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "GET", queryParams, postBody, headerParams, formParams, contentType);
 		return (BookmarksResponse) ApiInvoker.deserialize(response, "", BookmarksResponse.class);
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
@@ -175,7 +186,6 @@ public class WordsApi {
       }
     }
   }
-  //error info- code: 404 reason: "no project found" model: <none>
   /**
 	* PostUpdateDocumentBookmark
 	* Update document bookmark.
@@ -195,36 +205,40 @@ public class WordsApi {
        throw new ApiException(400, "missing required params");
     }
     // create path and map variables
-    String path = "/words/{name}/bookmarks/{bookmarkName}/?appSid={appSid}&amp;filename={filename}&amp;storage={storage}&amp;folder={folder}".replaceAll("\\{format\\}","json");
-
+    String resourcePath = "/words/{name}/bookmarks/{bookmarkName}/?appSid={appSid}&amp;filename={filename}&amp;storage={storage}&amp;folder={folder}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
     if(name!=null)
-      queryParams.put("name", String.valueOf(name));
+	  resourcePath = resourcePath.replace("{" + "name" + "}" , apiInvoker.toPathValue(name));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]name.*?(?=&|\\?|$)", "");
     if(bookmarkName!=null)
-      queryParams.put("bookmarkName", String.valueOf(bookmarkName));
+	  resourcePath = resourcePath.replace("{" + "bookmarkName" + "}" , apiInvoker.toPathValue(bookmarkName));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]bookmarkName.*?(?=&|\\?|$)", "");
     if(filename!=null)
-      queryParams.put("filename", String.valueOf(filename));
+	  resourcePath = resourcePath.replace("{" + "filename" + "}" , apiInvoker.toPathValue(filename));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]filename.*?(?=&|\\?|$)", "");
     if(storage!=null)
-      queryParams.put("storage", String.valueOf(storage));
+	  resourcePath = resourcePath.replace("{" + "storage" + "}" , apiInvoker.toPathValue(storage));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]storage.*?(?=&|\\?|$)", "");
     if(folder!=null)
-      queryParams.put("folder", String.valueOf(folder));
+	  resourcePath = resourcePath.replace("{" + "folder" + "}" , apiInvoker.toPathValue(folder));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]folder.*?(?=&|\\?|$)", "");
     String[] contentTypes = {
       "application/json"};
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
-      FormDataMultiPart mp = new FormDataMultiPart();
-      if(hasFields)
-        postBody = mp;
-    }
-    try {
-		response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType);
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "POST", queryParams, postBody, headerParams, formParams, contentType);
 		return (BookmarkResponse) ApiInvoker.deserialize(response, "", BookmarkResponse.class);
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
@@ -235,7 +249,6 @@ public class WordsApi {
       }
     }
   }
-  //error info- code: 404 reason: "no project found" model: <none>
   /**
 	* GetDocument
 	* RRead document common info.
@@ -252,32 +265,32 @@ public class WordsApi {
        throw new ApiException(400, "missing required params");
     }
     // create path and map variables
-    String path = "/words/{name}/?appSid={appSid}&amp;storage={storage}&amp;folder={folder}".replaceAll("\\{format\\}","json");
-
+    String resourcePath = "/words/{name}/?appSid={appSid}&amp;storage={storage}&amp;folder={folder}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
     if(name!=null)
-      queryParams.put("name", String.valueOf(name));
+	  resourcePath = resourcePath.replace("{" + "name" + "}" , apiInvoker.toPathValue(name));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]name.*?(?=&|\\?|$)", "");
     if(storage!=null)
-      queryParams.put("storage", String.valueOf(storage));
+	  resourcePath = resourcePath.replace("{" + "storage" + "}" , apiInvoker.toPathValue(storage));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]storage.*?(?=&|\\?|$)", "");
     if(folder!=null)
-      queryParams.put("folder", String.valueOf(folder));
+	  resourcePath = resourcePath.replace("{" + "folder" + "}" , apiInvoker.toPathValue(folder));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]folder.*?(?=&|\\?|$)", "");
     String[] contentTypes = {
       "application/json"};
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
-      FormDataMultiPart mp = new FormDataMultiPart();
-      if(hasFields)
-        postBody = mp;
-    }
-    try {
-		response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType);
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "GET", queryParams, postBody, headerParams, formParams, contentType);
 		return (ResponseMessage) ApiInvoker.deserialize(response, "", ResponseMessage.class);
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
@@ -288,7 +301,6 @@ public class WordsApi {
       }
     }
   }
-  //error info- code: 404 reason: "no project found" model: <none>
   /**
 	* GetDocumentWithFormat
 	* Export the document into the specified format.
@@ -307,36 +319,40 @@ public class WordsApi {
        throw new ApiException(400, "missing required params");
     }
     // create path and map variables
-    String path = "/words/{name}/?appSid={appSid}&amp;toFormat={toFormat}&amp;storage={storage}&amp;folder={folder}&amp;outPath={outPath}".replaceAll("\\{format\\}","json");
-
+    String resourcePath = "/words/{name}/?appSid={appSid}&amp;toFormat={toFormat}&amp;storage={storage}&amp;folder={folder}&amp;outPath={outPath}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
     if(name!=null)
-      queryParams.put("name", String.valueOf(name));
+	  resourcePath = resourcePath.replace("{" + "name" + "}" , apiInvoker.toPathValue(name));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]name.*?(?=&|\\?|$)", "");
     if(format!=null)
-      queryParams.put("format", String.valueOf(format));
+	  resourcePath = resourcePath.replace("{" + "format" + "}" , apiInvoker.toPathValue(format));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]format.*?(?=&|\\?|$)", "");
     if(storage!=null)
-      queryParams.put("storage", String.valueOf(storage));
+	  resourcePath = resourcePath.replace("{" + "storage" + "}" , apiInvoker.toPathValue(storage));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]storage.*?(?=&|\\?|$)", "");
     if(folder!=null)
-      queryParams.put("folder", String.valueOf(folder));
+	  resourcePath = resourcePath.replace("{" + "folder" + "}" , apiInvoker.toPathValue(folder));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]folder.*?(?=&|\\?|$)", "");
     if(outPath!=null)
-      queryParams.put("outPath", String.valueOf(outPath));
+	  resourcePath = resourcePath.replace("{" + "outPath" + "}" , apiInvoker.toPathValue(outPath));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]outPath.*?(?=&|\\?|$)", "");
     String[] contentTypes = {
       "application/json"};
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
-      FormDataMultiPart mp = new FormDataMultiPart();
-      if(hasFields)
-        postBody = mp;
-    }
-    try {
-		response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType);
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "GET", queryParams, postBody, headerParams, formParams, contentType);
 		return (ResponseMessage) ApiInvoker.deserialize(response, "", ResponseMessage.class);
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
@@ -347,7 +363,6 @@ public class WordsApi {
       }
     }
   }
-  //error info- code: 404 reason: "no project found" model: <none>
   /**
 	* PostAppendDocument
 	* Append documents to original document.
@@ -366,34 +381,36 @@ public class WordsApi {
        throw new ApiException(400, "missing required params");
     }
     // create path and map variables
-    String path = "/words/{name}/appendDocument/?appSid={appSid}&amp;filename={filename}&amp;storage={storage}&amp;folder={folder}".replaceAll("\\{format\\}","json");
-
+    String resourcePath = "/words/{name}/appendDocument/?appSid={appSid}&amp;filename={filename}&amp;storage={storage}&amp;folder={folder}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
     if(name!=null)
-      queryParams.put("name", String.valueOf(name));
+	  resourcePath = resourcePath.replace("{" + "name" + "}" , apiInvoker.toPathValue(name));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]name.*?(?=&|\\?|$)", "");
     if(filename!=null)
-      queryParams.put("filename", String.valueOf(filename));
+	  resourcePath = resourcePath.replace("{" + "filename" + "}" , apiInvoker.toPathValue(filename));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]filename.*?(?=&|\\?|$)", "");
     if(storage!=null)
-      queryParams.put("storage", String.valueOf(storage));
+	  resourcePath = resourcePath.replace("{" + "storage" + "}" , apiInvoker.toPathValue(storage));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]storage.*?(?=&|\\?|$)", "");
     if(folder!=null)
-      queryParams.put("folder", String.valueOf(folder));
+	  resourcePath = resourcePath.replace("{" + "folder" + "}" , apiInvoker.toPathValue(folder));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]folder.*?(?=&|\\?|$)", "");
     String[] contentTypes = {
       "application/json"};
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
-      FormDataMultiPart mp = new FormDataMultiPart();
-      if(hasFields)
-        postBody = mp;
-    }
-    try {
-		response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType);
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "POST", queryParams, postBody, headerParams, formParams, contentType);
 		return (DocumentResponse) ApiInvoker.deserialize(response, "", DocumentResponse.class);
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
@@ -404,7 +421,6 @@ public class WordsApi {
       }
     }
   }
-  //error info- code: 404 reason: "no project found" model: <none>
   /**
 	* PostExecuteTemplate
 	* Populate document template with data.
@@ -413,49 +429,69 @@ public class WordsApi {
 	* @param filename	String	Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document
 	* @param storage	String	The document storage.
 	* @param folder	String	The document folder.
+	* @param useWholeParagraphAsRegion	Boolean	Gets or sets a value indicating whether paragraph with TableStart or TableEnd field should be fully included into mail merge region or particular range between TableStart and TableEnd fields.              The default value is true.
+	* @param withRegions	Boolean	Merge with regions or not. True by default
 	* @param file	File	
 	* @return DocumentResponse
 	*/
 
-  public DocumentResponse PostExecuteTemplate (String name, String cleanup, String filename, String storage, String folder, File file) {
+  public DocumentResponse PostExecuteTemplate (String name, String cleanup, String filename, String storage, String folder, Boolean useWholeParagraphAsRegion, Boolean withRegions, File file) {
     Object postBody = null;
     // verify required params are set
-    if(name == null || file == null ) {
+    if(name == null  ) {
        throw new ApiException(400, "missing required params");
     }
     // create path and map variables
-    String path = "/words/{name}/executeTemplate/?appSid={appSid}&amp;cleanup={cleanup}&amp;filename={filename}&amp;storage={storage}&amp;folder={folder}".replaceAll("\\{format\\}","json");
-
+    String resourcePath = "/words/{name}/executeTemplate/?appSid={appSid}&amp;cleanup={cleanup}&amp;filename={filename}&amp;storage={storage}&amp;folder={folder}&amp;useWholeParagraphAsRegion={useWholeParagraphAsRegion}&amp;withRegions={withRegions}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
     if(name!=null)
-      queryParams.put("name", String.valueOf(name));
+	  resourcePath = resourcePath.replace("{" + "name" + "}" , apiInvoker.toPathValue(name));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]name.*?(?=&|\\?|$)", "");
     if(cleanup!=null)
-      queryParams.put("cleanup", String.valueOf(cleanup));
+	  resourcePath = resourcePath.replace("{" + "cleanup" + "}" , apiInvoker.toPathValue(cleanup));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]cleanup.*?(?=&|\\?|$)", "");
     if(filename!=null)
-      queryParams.put("filename", String.valueOf(filename));
+	  resourcePath = resourcePath.replace("{" + "filename" + "}" , apiInvoker.toPathValue(filename));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]filename.*?(?=&|\\?|$)", "");
     if(storage!=null)
-      queryParams.put("storage", String.valueOf(storage));
+	  resourcePath = resourcePath.replace("{" + "storage" + "}" , apiInvoker.toPathValue(storage));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]storage.*?(?=&|\\?|$)", "");
     if(folder!=null)
-      queryParams.put("folder", String.valueOf(folder));
+	  resourcePath = resourcePath.replace("{" + "folder" + "}" , apiInvoker.toPathValue(folder));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]folder.*?(?=&|\\?|$)", "");
+    if(useWholeParagraphAsRegion!=null)
+	  resourcePath = resourcePath.replace("{" + "useWholeParagraphAsRegion" + "}" , apiInvoker.toPathValue(useWholeParagraphAsRegion));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]useWholeParagraphAsRegion.*?(?=&|\\?|$)", "");
+    if(withRegions!=null)
+	  resourcePath = resourcePath.replace("{" + "withRegions" + "}" , apiInvoker.toPathValue(withRegions));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]withRegions.*?(?=&|\\?|$)", "");
     String[] contentTypes = {
-      "multipart/form-data"};
+      "application/json"};
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
+    if(file!=null)
+            postBody = file;
+    
+/*if(contentType.startsWith("multipart/form-data")) {      
       FormDataMultiPart mp = new FormDataMultiPart();
-      hasFields = true;
       mp.field("file", file, MediaType.MULTIPART_FORM_DATA_TYPE);
-      if(hasFields)
         postBody = mp;
-    }
-    try {
-		response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType);
+    }*/
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "POST", queryParams, postBody, headerParams, formParams, contentType);
 		return (DocumentResponse) ApiInvoker.deserialize(response, "", DocumentResponse.class);
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
@@ -466,7 +502,6 @@ public class WordsApi {
       }
     }
   }
-  //error info- code: 404 reason: "no project found" model: <none>
   /**
 	* PostInsertPageNumbers
 	* Insert document page numbers.
@@ -485,34 +520,36 @@ public class WordsApi {
        throw new ApiException(400, "missing required params");
     }
     // create path and map variables
-    String path = "/words/{name}/insertPageNumbers/?appSid={appSid}&amp;filename={filename}&amp;storage={storage}&amp;folder={folder}".replaceAll("\\{format\\}","json");
-
+    String resourcePath = "/words/{name}/insertPageNumbers/?appSid={appSid}&amp;filename={filename}&amp;storage={storage}&amp;folder={folder}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
     if(name!=null)
-      queryParams.put("name", String.valueOf(name));
+	  resourcePath = resourcePath.replace("{" + "name" + "}" , apiInvoker.toPathValue(name));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]name.*?(?=&|\\?|$)", "");
     if(filename!=null)
-      queryParams.put("filename", String.valueOf(filename));
+	  resourcePath = resourcePath.replace("{" + "filename" + "}" , apiInvoker.toPathValue(filename));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]filename.*?(?=&|\\?|$)", "");
     if(storage!=null)
-      queryParams.put("storage", String.valueOf(storage));
+	  resourcePath = resourcePath.replace("{" + "storage" + "}" , apiInvoker.toPathValue(storage));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]storage.*?(?=&|\\?|$)", "");
     if(folder!=null)
-      queryParams.put("folder", String.valueOf(folder));
+	  resourcePath = resourcePath.replace("{" + "folder" + "}" , apiInvoker.toPathValue(folder));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]folder.*?(?=&|\\?|$)", "");
     String[] contentTypes = {
       "application/json"};
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
-      FormDataMultiPart mp = new FormDataMultiPart();
-      if(hasFields)
-        postBody = mp;
-    }
-    try {
-		response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType);
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "POST", queryParams, postBody, headerParams, formParams, contentType);
 		return (DocumentResponse) ApiInvoker.deserialize(response, "", DocumentResponse.class);
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
@@ -523,146 +560,22 @@ public class WordsApi {
       }
     }
   }
-  //error info- code: 404 reason: "no project found" model: <none>
-  /**
-	* PostInsertWatermarkImage
-	* Insert document watermark image.
-	* @param name	String	The document name.
-	* @param filename	String	Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document
-	* @param rotationAngle	Double	The watermark rotation angle.
-	* @param image	String	The image file server full name. If the name is empty the image is expected in request content.
-	* @param storage	String	The document storage.
-	* @param folder	String	The document folder.
-	* @param file	File	
-	* @return DocumentResponse
-	*/
-
-  public DocumentResponse PostInsertWatermarkImage (String name, String filename, Double rotationAngle, String image, String storage, String folder, File file) {
-    Object postBody = null;
-    // verify required params are set
-    if(name == null || file == null ) {
-       throw new ApiException(400, "missing required params");
-    }
-    // create path and map variables
-    String path = "/words/{name}/insertWatermarkImage/?appSid={appSid}&amp;filename={filename}&amp;rotationAngle={rotationAngle}&amp;image={image}&amp;storage={storage}&amp;folder={folder}".replaceAll("\\{format\\}","json");
-
-    // query params
-    Map<String, String> queryParams = new HashMap<String, String>();
-    Map<String, String> headerParams = new HashMap<String, String>();
-    Map<String, String> formParams = new HashMap<String, String>();
-
-    if(name!=null)
-      queryParams.put("name", String.valueOf(name));
-    if(filename!=null)
-      queryParams.put("filename", String.valueOf(filename));
-    if(rotationAngle!=null)
-      queryParams.put("rotationAngle", String.valueOf(rotationAngle));
-    if(image!=null)
-      queryParams.put("image", String.valueOf(image));
-    if(storage!=null)
-      queryParams.put("storage", String.valueOf(storage));
-    if(folder!=null)
-      queryParams.put("folder", String.valueOf(folder));
-    String[] contentTypes = {
-      "multipart/form-data"};
-
-    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
-
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
-      FormDataMultiPart mp = new FormDataMultiPart();
-      hasFields = true;
-      mp.field("file", file, MediaType.MULTIPART_FORM_DATA_TYPE);
-      if(hasFields)
-        postBody = mp;
-    }
-    try {
-		response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType);
-		return (DocumentResponse) ApiInvoker.deserialize(response, "", DocumentResponse.class);
-    } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-      	throw new ApiException(404, "");
-      }
-      else {
-        throw ex;
-      }
-    }
-  }
-  //error info- code: 404 reason: "no project found" model: <none>
-  /**
-	* PostInsertWatermarkText
-	* Insert document watermark text.
-	* @param name	String	The document name.
-	* @param text	String	The text to insert.
-	* @param rotationAngle	Double	The text rotation angle.
-	* @param filename	String	Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document
-	* @param storage	String	The document storage.
-	* @param folder	String	The document folder.
-	* @param body	WatermarkText	with the watermark data.            If the parameter is provided the query string parameters are ignored.
-	* @return DocumentResponse
-	*/
-
-  public DocumentResponse PostInsertWatermarkText (String name, String text, Double rotationAngle, String filename, String storage, String folder, WatermarkText body) {
-    Object postBody = body;
-    // verify required params are set
-    if(name == null || body == null ) {
-       throw new ApiException(400, "missing required params");
-    }
-    // create path and map variables
-    String path = "/words/{name}/insertWatermarkText/?appSid={appSid}&amp;text={text}&amp;rotationAngle={rotationAngle}&amp;filename={filename}&amp;storage={storage}&amp;folder={folder}".replaceAll("\\{format\\}","json");
-
-    // query params
-    Map<String, String> queryParams = new HashMap<String, String>();
-    Map<String, String> headerParams = new HashMap<String, String>();
-    Map<String, String> formParams = new HashMap<String, String>();
-
-    if(name!=null)
-      queryParams.put("name", String.valueOf(name));
-    if(text!=null)
-      queryParams.put("text", String.valueOf(text));
-    if(rotationAngle!=null)
-      queryParams.put("rotationAngle", String.valueOf(rotationAngle));
-    if(filename!=null)
-      queryParams.put("filename", String.valueOf(filename));
-    if(storage!=null)
-      queryParams.put("storage", String.valueOf(storage));
-    if(folder!=null)
-      queryParams.put("folder", String.valueOf(folder));
-    String[] contentTypes = {
-      "application/json"};
-
-    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
-
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
-      FormDataMultiPart mp = new FormDataMultiPart();
-      if(hasFields)
-        postBody = mp;
-    }
-    try {
-		response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType);
-		return (DocumentResponse) ApiInvoker.deserialize(response, "", DocumentResponse.class);
-    } catch (ApiException ex) {
-      if(ex.getCode() == 404) {
-      	throw new ApiException(404, "");
-      }
-      else {
-        throw ex;
-      }
-    }
-  }
-  //error info- code: 404 reason: "no project found" model: <none>
   /**
 	* PostLoadWebDocument
 	* Load new document from web into the file with any supported format of data.
 	* @return SaveResponse
 	*/
 
-  public SaveResponse PostLoadWebDocument () {
-    Object postBody = null;
-    // create path and map variables
-    String path = "/words/loadWebDocument/?appSid={appSid}".replaceAll("\\{format\\}","json");
+  public SaveResponse PostLoadWebDocument (LoadWebDocumentData body) {
 
+       // verify required params are set
+          if( body == null ) {
+             throw new ApiException(400, "missing required params");
+          }
+      Object postBody = body;
+    // create path and map variables
+    String resourcePath = "/words/loadWebDocument/?appSid={appSid}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
@@ -673,14 +586,8 @@ public class WordsApi {
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
-      FormDataMultiPart mp = new FormDataMultiPart();
-      if(hasFields)
-        postBody = mp;
-    }
-    try {
-		response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType);
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "POST", queryParams, postBody, headerParams, formParams, contentType);
 		return (SaveResponse) ApiInvoker.deserialize(response, "", SaveResponse.class);
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
@@ -691,7 +598,39 @@ public class WordsApi {
       }
     }
   }
-  //error info- code: 404 reason: "no project found" model: <none>
+  /**
+	* PostRunTask
+	* Run tasks
+	* @return ResponseMessage
+	*/
+
+  public ResponseMessage PostRunTask () {
+    Object postBody = null;
+    // create path and map variables
+    String resourcePath = "/words/tasks/?appSid={appSid}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
+    // query params
+    Map<String, String> queryParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<String, String>();
+
+    String[] contentTypes = {
+      "multipart/form-data"};
+
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "POST", queryParams, postBody, headerParams, formParams, contentType);
+		return (ResponseMessage) ApiInvoker.deserialize(response, "", ResponseMessage.class);
+    } catch (ApiException ex) {
+      if(ex.getCode() == 404) {
+      	throw new ApiException(404, "");
+      }
+      else {
+        throw ex;
+      }
+    }
+  }
   /**
 	* PostSplitDocument
 	* Split document.
@@ -712,40 +651,48 @@ public class WordsApi {
        throw new ApiException(400, "missing required params");
     }
     // create path and map variables
-    String path = "/words/{name}/split/?appSid={appSid}&amp;toFormat={toFormat}&amp;from={from}&amp;to={to}&amp;zipOutput={zipOutput}&amp;storage={storage}&amp;folder={folder}".replaceAll("\\{format\\}","json");
-
+    String resourcePath = "/words/{name}/split/?appSid={appSid}&amp;toFormat={toFormat}&amp;from={from}&amp;to={to}&amp;zipOutput={zipOutput}&amp;storage={storage}&amp;folder={folder}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
     if(name!=null)
-      queryParams.put("name", String.valueOf(name));
+	  resourcePath = resourcePath.replace("{" + "name" + "}" , apiInvoker.toPathValue(name));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]name.*?(?=&|\\?|$)", "");
     if(format!=null)
-      queryParams.put("format", String.valueOf(format));
+	  resourcePath = resourcePath.replace("{" + "format" + "}" , apiInvoker.toPathValue(format));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]format.*?(?=&|\\?|$)", "");
     if(from!=null)
-      queryParams.put("from", String.valueOf(from));
+	  resourcePath = resourcePath.replace("{" + "from" + "}" , apiInvoker.toPathValue(from));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]from.*?(?=&|\\?|$)", "");
     if(to!=null)
-      queryParams.put("to", String.valueOf(to));
+	  resourcePath = resourcePath.replace("{" + "to" + "}" , apiInvoker.toPathValue(to));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]to.*?(?=&|\\?|$)", "");
     if(zipOutput!=null)
-      queryParams.put("zipOutput", String.valueOf(zipOutput));
+	  resourcePath = resourcePath.replace("{" + "zipOutput" + "}" , apiInvoker.toPathValue(zipOutput));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]zipOutput.*?(?=&|\\?|$)", "");
     if(storage!=null)
-      queryParams.put("storage", String.valueOf(storage));
+	  resourcePath = resourcePath.replace("{" + "storage" + "}" , apiInvoker.toPathValue(storage));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]storage.*?(?=&|\\?|$)", "");
     if(folder!=null)
-      queryParams.put("folder", String.valueOf(folder));
+	  resourcePath = resourcePath.replace("{" + "folder" + "}" , apiInvoker.toPathValue(folder));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]folder.*?(?=&|\\?|$)", "");
     String[] contentTypes = {
       "application/json"};
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
-      FormDataMultiPart mp = new FormDataMultiPart();
-      if(hasFields)
-        postBody = mp;
-    }
-    try {
-		response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType);
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "POST", queryParams, postBody, headerParams, formParams, contentType);
 		return (SplitDocumentResponse) ApiInvoker.deserialize(response, "", SplitDocumentResponse.class);
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
@@ -756,7 +703,6 @@ public class WordsApi {
       }
     }
   }
-  //error info- code: 404 reason: "no project found" model: <none>
   /**
 	* PutConvertDocument
 	* Convert document from request content to format specified.
@@ -773,32 +719,33 @@ public class WordsApi {
        throw new ApiException(400, "missing required params");
     }
     // create path and map variables
-    String path = "/words/convert/?appSid={appSid}&amp;toFormat={toFormat}&amp;outPath={outPath}".replaceAll("\\{format\\}","json");
-
+    String resourcePath = "/words/convert/?appSid={appSid}&amp;toFormat={toFormat}&amp;outPath={outPath}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
     if(format!=null)
-      queryParams.put("format", String.valueOf(format));
+	  resourcePath = resourcePath.replace("{" + "format" + "}" , apiInvoker.toPathValue(format));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]format.*?(?=&|\\?|$)", "");
     if(outPath!=null)
-      queryParams.put("outPath", String.valueOf(outPath));
+	  resourcePath = resourcePath.replace("{" + "outPath" + "}" , apiInvoker.toPathValue(outPath));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]outPath.*?(?=&|\\?|$)", "");
     String[] contentTypes = {
       "multipart/form-data"};
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
+if(contentType.startsWith("multipart/form-data")) {      
       FormDataMultiPart mp = new FormDataMultiPart();
-      hasFields = true;
       mp.field("file", file, MediaType.MULTIPART_FORM_DATA_TYPE);
-      if(hasFields)
         postBody = mp;
     }
-    try {
-		response = apiInvoker.invokeAPI(basePath, path, "PUT", queryParams, postBody, headerParams, formParams, contentType);
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "PUT", queryParams, postBody, headerParams, formParams, contentType);
 		return (ResponseMessage) ApiInvoker.deserialize(response, "", ResponseMessage.class);
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
@@ -809,7 +756,44 @@ public class WordsApi {
       }
     }
   }
-  //error info- code: 404 reason: "no project found" model: <none>
+  /**
+	* PutDocumentFieldNames
+	* Read document field names.
+	* @param useNonMergeFields	Boolean	
+	* @return FieldNamesResponse
+	*/
+
+  public FieldNamesResponse PutDocumentFieldNames (Boolean useNonMergeFields) {
+    Object postBody = null;
+    // create path and map variables
+    String resourcePath = "/words/mailMergeFieldNames/?appSid={appSid}&amp;useNonMergeFields={useNonMergeFields}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
+    // query params
+    Map<String, String> queryParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<String, String>();
+
+    if(useNonMergeFields!=null)
+	  resourcePath = resourcePath.replace("{" + "useNonMergeFields" + "}" , apiInvoker.toPathValue(useNonMergeFields));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]useNonMergeFields.*?(?=&|\\?|$)", "");
+    String[] contentTypes = {
+      "application/json"};
+
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "PUT", queryParams, postBody, headerParams, formParams, contentType);
+		return (FieldNamesResponse) ApiInvoker.deserialize(response, "", FieldNamesResponse.class);
+    } catch (ApiException ex) {
+      if(ex.getCode() == 404) {
+      	throw new ApiException(404, "");
+      }
+      else {
+        throw ex;
+      }
+    }
+  }
   /**
 	* PutExecuteMailMergeOnline
 	* Execute document mail merge online.
@@ -826,32 +810,33 @@ public class WordsApi {
        throw new ApiException(400, "missing required params");
     }
     // create path and map variables
-    String path = "/words/executeMailMerge/?withRegions={withRegions}&amp;appSid={appSid}&amp;cleanup={cleanup}".replaceAll("\\{format\\}","json");
-
+    String resourcePath = "/words/executeMailMerge/?withRegions={withRegions}&amp;appSid={appSid}&amp;cleanup={cleanup}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
     if(withRegions!=null)
-      queryParams.put("withRegions", String.valueOf(withRegions));
+	  resourcePath = resourcePath.replace("{" + "withRegions" + "}" , apiInvoker.toPathValue(withRegions));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]withRegions.*?(?=&|\\?|$)", "");
     if(cleanup!=null)
-      queryParams.put("cleanup", String.valueOf(cleanup));
+	  resourcePath = resourcePath.replace("{" + "cleanup" + "}" , apiInvoker.toPathValue(cleanup));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]cleanup.*?(?=&|\\?|$)", "");
     String[] contentTypes = {
       "multipart/form-data"};
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
+if(contentType.startsWith("multipart/form-data")) {      
       FormDataMultiPart mp = new FormDataMultiPart();
-      hasFields = true;
       mp.field("file", file, MediaType.MULTIPART_FORM_DATA_TYPE);
-      if(hasFields)
         postBody = mp;
     }
-    try {
-		response = apiInvoker.invokeAPI(basePath, path, "PUT", queryParams, postBody, headerParams, formParams, contentType);
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "PUT", queryParams, postBody, headerParams, formParams, contentType);
 		return (ResponseMessage) ApiInvoker.deserialize(response, "", ResponseMessage.class);
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
@@ -862,7 +847,116 @@ public class WordsApi {
       }
     }
   }
-  //error info- code: 404 reason: "no project found" model: <none>
+  /**
+	* PutExecuteTemplateOnline
+	* Populate document template with data online.
+	* @param cleanup	String	Clean up options.
+	* @param useWholeParagraphAsRegion	Boolean	Gets or sets a value indicating whether paragraph with TableStart or TableEnd field should be fully included into mail merge region or particular range between TableStart and TableEnd fields.             The default value is true.
+	* @param withRegions	Boolean	Merge with regions or not. True by default
+	* @param file	File	
+	* @return ResponseMessage
+	*/
+
+  public ResponseMessage PutExecuteTemplateOnline (String cleanup, Boolean useWholeParagraphAsRegion, Boolean withRegions, File file) {
+    Object postBody = null;
+    // verify required params are set
+    if(file == null ) {
+       throw new ApiException(400, "missing required params");
+    }
+    // create path and map variables
+    String resourcePath = "/words/executeTemplate/?appSid={appSid}&amp;cleanup={cleanup}&amp;useWholeParagraphAsRegion={useWholeParagraphAsRegion}&amp;withRegions={withRegions}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
+    // query params
+    Map<String, String> queryParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<String, String>();
+
+    if(cleanup!=null)
+	  resourcePath = resourcePath.replace("{" + "cleanup" + "}" , apiInvoker.toPathValue(cleanup));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]cleanup.*?(?=&|\\?|$)", "");
+    if(useWholeParagraphAsRegion!=null)
+	  resourcePath = resourcePath.replace("{" + "useWholeParagraphAsRegion" + "}" , apiInvoker.toPathValue(useWholeParagraphAsRegion));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]useWholeParagraphAsRegion.*?(?=&|\\?|$)", "");
+    if(withRegions!=null)
+	  resourcePath = resourcePath.replace("{" + "withRegions" + "}" , apiInvoker.toPathValue(withRegions));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]withRegions.*?(?=&|\\?|$)", "");
+    String[] contentTypes = {
+      "multipart/form-data"};
+
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+if(contentType.startsWith("multipart/form-data")) {      
+      FormDataMultiPart mp = new FormDataMultiPart();
+      mp.field("file", file, MediaType.MULTIPART_FORM_DATA_TYPE);
+        postBody = mp;
+    }
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "PUT", queryParams, postBody, headerParams, formParams, contentType);
+		return (ResponseMessage) ApiInvoker.deserialize(response, "", ResponseMessage.class);
+    } catch (ApiException ex) {
+      if(ex.getCode() == 404) {
+      	throw new ApiException(404, "");
+      }
+      else {
+        throw ex;
+      }
+    }
+  }
+  /**
+	* DeleteDocumentFields
+	* Remove fields from document.
+	* @param name	String	The file name.
+	* @param storage	String	The document storage.
+	* @param folder	String	The document folder.
+	* @return SaaSposeResponse
+	*/
+
+  public SaaSposeResponse DeleteDocumentFields (String name, String storage, String folder) {
+    Object postBody = null;
+    // verify required params are set
+    if(name == null ) {
+       throw new ApiException(400, "missing required params");
+    }
+    // create path and map variables
+    String resourcePath = "/words/{name}/fields/?appSid={appSid}&amp;storage={storage}&amp;folder={folder}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
+    // query params
+    Map<String, String> queryParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<String, String>();
+
+    if(name!=null)
+	  resourcePath = resourcePath.replace("{" + "name" + "}" , apiInvoker.toPathValue(name));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]name.*?(?=&|\\?|$)", "");
+    if(storage!=null)
+	  resourcePath = resourcePath.replace("{" + "storage" + "}" , apiInvoker.toPathValue(storage));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]storage.*?(?=&|\\?|$)", "");
+    if(folder!=null)
+	  resourcePath = resourcePath.replace("{" + "folder" + "}" , apiInvoker.toPathValue(folder));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]folder.*?(?=&|\\?|$)", "");
+    String[] contentTypes = {
+      "application/json"};
+
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "DELETE", queryParams, postBody, headerParams, formParams, contentType);
+		return (SaaSposeResponse) ApiInvoker.deserialize(response, "", SaaSposeResponse.class);
+    } catch (ApiException ex) {
+      if(ex.getCode() == 404) {
+      	throw new ApiException(404, "");
+      }
+      else {
+        throw ex;
+      }
+    }
+  }
   /**
 	* PostUpdateDocumentFields
 	* Update (reevaluate) fields in document.
@@ -880,34 +974,36 @@ public class WordsApi {
        throw new ApiException(400, "missing required params");
     }
     // create path and map variables
-    String path = "/words/{name}/updateFields/?appSid={appSid}&amp;filename={filename}&amp;storage={storage}&amp;folder={folder}".replaceAll("\\{format\\}","json");
-
+    String resourcePath = "/words/{name}/updateFields/?appSid={appSid}&amp;filename={filename}&amp;storage={storage}&amp;folder={folder}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
     if(name!=null)
-      queryParams.put("name", String.valueOf(name));
+	  resourcePath = resourcePath.replace("{" + "name" + "}" , apiInvoker.toPathValue(name));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]name.*?(?=&|\\?|$)", "");
     if(filename!=null)
-      queryParams.put("filename", String.valueOf(filename));
+	  resourcePath = resourcePath.replace("{" + "filename" + "}" , apiInvoker.toPathValue(filename));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]filename.*?(?=&|\\?|$)", "");
     if(storage!=null)
-      queryParams.put("storage", String.valueOf(storage));
+	  resourcePath = resourcePath.replace("{" + "storage" + "}" , apiInvoker.toPathValue(storage));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]storage.*?(?=&|\\?|$)", "");
     if(folder!=null)
-      queryParams.put("folder", String.valueOf(folder));
+	  resourcePath = resourcePath.replace("{" + "folder" + "}" , apiInvoker.toPathValue(folder));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]folder.*?(?=&|\\?|$)", "");
     String[] contentTypes = {
       "application/json"};
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
-      FormDataMultiPart mp = new FormDataMultiPart();
-      if(hasFields)
-        postBody = mp;
-    }
-    try {
-		response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType);
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "POST", queryParams, postBody, headerParams, formParams, contentType);
 		return (DocumentResponse) ApiInvoker.deserialize(response, "", DocumentResponse.class);
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
@@ -918,7 +1014,6 @@ public class WordsApi {
       }
     }
   }
-  //error info- code: 404 reason: "no project found" model: <none>
   /**
 	* DeleteDocumentProperty
 	* Delete document property.
@@ -937,36 +1032,40 @@ public class WordsApi {
        throw new ApiException(400, "missing required params");
     }
     // create path and map variables
-    String path = "/words/{name}/documentProperties/{propertyName}/?appSid={appSid}&amp;filename={filename}&amp;storage={storage}&amp;folder={folder}".replaceAll("\\{format\\}","json");
-
+    String resourcePath = "/words/{name}/documentProperties/{propertyName}/?appSid={appSid}&amp;filename={filename}&amp;storage={storage}&amp;folder={folder}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
     if(name!=null)
-      queryParams.put("name", String.valueOf(name));
+	  resourcePath = resourcePath.replace("{" + "name" + "}" , apiInvoker.toPathValue(name));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]name.*?(?=&|\\?|$)", "");
     if(propertyName!=null)
-      queryParams.put("propertyName", String.valueOf(propertyName));
+	  resourcePath = resourcePath.replace("{" + "propertyName" + "}" , apiInvoker.toPathValue(propertyName));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]propertyName.*?(?=&|\\?|$)", "");
     if(filename!=null)
-      queryParams.put("filename", String.valueOf(filename));
+	  resourcePath = resourcePath.replace("{" + "filename" + "}" , apiInvoker.toPathValue(filename));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]filename.*?(?=&|\\?|$)", "");
     if(storage!=null)
-      queryParams.put("storage", String.valueOf(storage));
+	  resourcePath = resourcePath.replace("{" + "storage" + "}" , apiInvoker.toPathValue(storage));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]storage.*?(?=&|\\?|$)", "");
     if(folder!=null)
-      queryParams.put("folder", String.valueOf(folder));
+	  resourcePath = resourcePath.replace("{" + "folder" + "}" , apiInvoker.toPathValue(folder));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]folder.*?(?=&|\\?|$)", "");
     String[] contentTypes = {
       "application/json"};
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
-      FormDataMultiPart mp = new FormDataMultiPart();
-      if(hasFields)
-        postBody = mp;
-    }
-    try {
-		response = apiInvoker.invokeAPI(basePath, path, "DELETE", queryParams, postBody, headerParams, formParams, contentType);
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "DELETE", queryParams, postBody, headerParams, formParams, contentType);
 		return (SaaSposeResponse) ApiInvoker.deserialize(response, "", SaaSposeResponse.class);
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
@@ -977,7 +1076,6 @@ public class WordsApi {
       }
     }
   }
-  //error info- code: 404 reason: "no project found" model: <none>
   /**
 	* GetDocumentProperties
 	* Read document properties info.
@@ -994,32 +1092,32 @@ public class WordsApi {
        throw new ApiException(400, "missing required params");
     }
     // create path and map variables
-    String path = "/words/{name}/documentProperties/?appSid={appSid}&amp;storage={storage}&amp;folder={folder}".replaceAll("\\{format\\}","json");
-
+    String resourcePath = "/words/{name}/documentProperties/?appSid={appSid}&amp;storage={storage}&amp;folder={folder}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
     if(name!=null)
-      queryParams.put("name", String.valueOf(name));
+	  resourcePath = resourcePath.replace("{" + "name" + "}" , apiInvoker.toPathValue(name));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]name.*?(?=&|\\?|$)", "");
     if(storage!=null)
-      queryParams.put("storage", String.valueOf(storage));
+	  resourcePath = resourcePath.replace("{" + "storage" + "}" , apiInvoker.toPathValue(storage));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]storage.*?(?=&|\\?|$)", "");
     if(folder!=null)
-      queryParams.put("folder", String.valueOf(folder));
+	  resourcePath = resourcePath.replace("{" + "folder" + "}" , apiInvoker.toPathValue(folder));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]folder.*?(?=&|\\?|$)", "");
     String[] contentTypes = {
       "application/json"};
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
-      FormDataMultiPart mp = new FormDataMultiPart();
-      if(hasFields)
-        postBody = mp;
-    }
-    try {
-		response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType);
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "GET", queryParams, postBody, headerParams, formParams, contentType);
 		return (DocumentPropertiesResponse) ApiInvoker.deserialize(response, "", DocumentPropertiesResponse.class);
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
@@ -1030,7 +1128,6 @@ public class WordsApi {
       }
     }
   }
-  //error info- code: 404 reason: "no project found" model: <none>
   /**
 	* GetDocumentProperty
 	* Read document property info by the property name.
@@ -1048,34 +1145,36 @@ public class WordsApi {
        throw new ApiException(400, "missing required params");
     }
     // create path and map variables
-    String path = "/words/{name}/documentProperties/{propertyName}/?appSid={appSid}&amp;storage={storage}&amp;folder={folder}".replaceAll("\\{format\\}","json");
-
+    String resourcePath = "/words/{name}/documentProperties/{propertyName}/?appSid={appSid}&amp;storage={storage}&amp;folder={folder}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
     if(name!=null)
-      queryParams.put("name", String.valueOf(name));
+	  resourcePath = resourcePath.replace("{" + "name" + "}" , apiInvoker.toPathValue(name));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]name.*?(?=&|\\?|$)", "");
     if(propertyName!=null)
-      queryParams.put("propertyName", String.valueOf(propertyName));
+	  resourcePath = resourcePath.replace("{" + "propertyName" + "}" , apiInvoker.toPathValue(propertyName));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]propertyName.*?(?=&|\\?|$)", "");
     if(storage!=null)
-      queryParams.put("storage", String.valueOf(storage));
+	  resourcePath = resourcePath.replace("{" + "storage" + "}" , apiInvoker.toPathValue(storage));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]storage.*?(?=&|\\?|$)", "");
     if(folder!=null)
-      queryParams.put("folder", String.valueOf(folder));
+	  resourcePath = resourcePath.replace("{" + "folder" + "}" , apiInvoker.toPathValue(folder));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]folder.*?(?=&|\\?|$)", "");
     String[] contentTypes = {
       "application/json"};
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
-      FormDataMultiPart mp = new FormDataMultiPart();
-      if(hasFields)
-        postBody = mp;
-    }
-    try {
-		response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType);
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "GET", queryParams, postBody, headerParams, formParams, contentType);
 		return (DocumentPropertyResponse) ApiInvoker.deserialize(response, "", DocumentPropertyResponse.class);
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
@@ -1086,7 +1185,6 @@ public class WordsApi {
       }
     }
   }
-  //error info- code: 404 reason: "no project found" model: <none>
   /**
 	* PutUpdateDocumentProperty
 	* Add new or update existing document property.
@@ -1106,36 +1204,40 @@ public class WordsApi {
        throw new ApiException(400, "missing required params");
     }
     // create path and map variables
-    String path = "/words/{name}/documentProperties/{propertyName}/?appSid={appSid}&amp;filename={filename}&amp;storage={storage}&amp;folder={folder}".replaceAll("\\{format\\}","json");
-
+    String resourcePath = "/words/{name}/documentProperties/{propertyName}/?appSid={appSid}&amp;filename={filename}&amp;storage={storage}&amp;folder={folder}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
     if(name!=null)
-      queryParams.put("name", String.valueOf(name));
+	  resourcePath = resourcePath.replace("{" + "name" + "}" , apiInvoker.toPathValue(name));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]name.*?(?=&|\\?|$)", "");
     if(propertyName!=null)
-      queryParams.put("propertyName", String.valueOf(propertyName));
+	  resourcePath = resourcePath.replace("{" + "propertyName" + "}" , apiInvoker.toPathValue(propertyName));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]propertyName.*?(?=&|\\?|$)", "");
     if(filename!=null)
-      queryParams.put("filename", String.valueOf(filename));
+	  resourcePath = resourcePath.replace("{" + "filename" + "}" , apiInvoker.toPathValue(filename));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]filename.*?(?=&|\\?|$)", "");
     if(storage!=null)
-      queryParams.put("storage", String.valueOf(storage));
+	  resourcePath = resourcePath.replace("{" + "storage" + "}" , apiInvoker.toPathValue(storage));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]storage.*?(?=&|\\?|$)", "");
     if(folder!=null)
-      queryParams.put("folder", String.valueOf(folder));
+	  resourcePath = resourcePath.replace("{" + "folder" + "}" , apiInvoker.toPathValue(folder));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]folder.*?(?=&|\\?|$)", "");
     String[] contentTypes = {
       "application/json"};
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
-      FormDataMultiPart mp = new FormDataMultiPart();
-      if(hasFields)
-        postBody = mp;
-    }
-    try {
-		response = apiInvoker.invokeAPI(basePath, path, "PUT", queryParams, postBody, headerParams, formParams, contentType);
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "PUT", queryParams, postBody, headerParams, formParams, contentType);
 		return (DocumentPropertyResponse) ApiInvoker.deserialize(response, "", DocumentPropertyResponse.class);
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
@@ -1146,7 +1248,6 @@ public class WordsApi {
       }
     }
   }
-  //error info- code: 404 reason: "no project found" model: <none>
   /**
 	* DeleteUnprotectDocument
 	* Unprotect document.
@@ -1165,34 +1266,36 @@ public class WordsApi {
        throw new ApiException(400, "missing required params");
     }
     // create path and map variables
-    String path = "/words/{name}/protection/?appSid={appSid}&amp;filename={filename}&amp;storage={storage}&amp;folder={folder}".replaceAll("\\{format\\}","json");
-
+    String resourcePath = "/words/{name}/protection/?appSid={appSid}&amp;filename={filename}&amp;storage={storage}&amp;folder={folder}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
     if(name!=null)
-      queryParams.put("name", String.valueOf(name));
+	  resourcePath = resourcePath.replace("{" + "name" + "}" , apiInvoker.toPathValue(name));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]name.*?(?=&|\\?|$)", "");
     if(filename!=null)
-      queryParams.put("filename", String.valueOf(filename));
+	  resourcePath = resourcePath.replace("{" + "filename" + "}" , apiInvoker.toPathValue(filename));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]filename.*?(?=&|\\?|$)", "");
     if(storage!=null)
-      queryParams.put("storage", String.valueOf(storage));
+	  resourcePath = resourcePath.replace("{" + "storage" + "}" , apiInvoker.toPathValue(storage));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]storage.*?(?=&|\\?|$)", "");
     if(folder!=null)
-      queryParams.put("folder", String.valueOf(folder));
+	  resourcePath = resourcePath.replace("{" + "folder" + "}" , apiInvoker.toPathValue(folder));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]folder.*?(?=&|\\?|$)", "");
     String[] contentTypes = {
       "application/json"};
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
-      FormDataMultiPart mp = new FormDataMultiPart();
-      if(hasFields)
-        postBody = mp;
-    }
-    try {
-		response = apiInvoker.invokeAPI(basePath, path, "DELETE", queryParams, postBody, headerParams, formParams, contentType);
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "DELETE", queryParams, postBody, headerParams, formParams, contentType);
 		return (ProtectionDataResponse) ApiInvoker.deserialize(response, "", ProtectionDataResponse.class);
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
@@ -1203,7 +1306,6 @@ public class WordsApi {
       }
     }
   }
-  //error info- code: 404 reason: "no project found" model: <none>
   /**
 	* GetDocumentProtection
 	* Read document protection common info.
@@ -1220,32 +1322,32 @@ public class WordsApi {
        throw new ApiException(400, "missing required params");
     }
     // create path and map variables
-    String path = "/words/{name}/protection/?appSid={appSid}&amp;storage={storage}&amp;folder={folder}".replaceAll("\\{format\\}","json");
-
+    String resourcePath = "/words/{name}/protection/?appSid={appSid}&amp;storage={storage}&amp;folder={folder}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
     if(name!=null)
-      queryParams.put("name", String.valueOf(name));
+	  resourcePath = resourcePath.replace("{" + "name" + "}" , apiInvoker.toPathValue(name));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]name.*?(?=&|\\?|$)", "");
     if(storage!=null)
-      queryParams.put("storage", String.valueOf(storage));
+	  resourcePath = resourcePath.replace("{" + "storage" + "}" , apiInvoker.toPathValue(storage));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]storage.*?(?=&|\\?|$)", "");
     if(folder!=null)
-      queryParams.put("folder", String.valueOf(folder));
+	  resourcePath = resourcePath.replace("{" + "folder" + "}" , apiInvoker.toPathValue(folder));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]folder.*?(?=&|\\?|$)", "");
     String[] contentTypes = {
       "application/json"};
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
-      FormDataMultiPart mp = new FormDataMultiPart();
-      if(hasFields)
-        postBody = mp;
-    }
-    try {
-		response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType);
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "GET", queryParams, postBody, headerParams, formParams, contentType);
 		return (ProtectionDataResponse) ApiInvoker.deserialize(response, "", ProtectionDataResponse.class);
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
@@ -1256,7 +1358,6 @@ public class WordsApi {
       }
     }
   }
-  //error info- code: 404 reason: "no project found" model: <none>
   /**
 	* PostChangeDocumentProtection
 	* Change document protection.
@@ -1275,34 +1376,36 @@ public class WordsApi {
        throw new ApiException(400, "missing required params");
     }
     // create path and map variables
-    String path = "/words/{name}/protection/?appSid={appSid}&amp;filename={filename}&amp;storage={storage}&amp;folder={folder}".replaceAll("\\{format\\}","json");
-
+    String resourcePath = "/words/{name}/protection/?appSid={appSid}&amp;filename={filename}&amp;storage={storage}&amp;folder={folder}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
     if(name!=null)
-      queryParams.put("name", String.valueOf(name));
+	  resourcePath = resourcePath.replace("{" + "name" + "}" , apiInvoker.toPathValue(name));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]name.*?(?=&|\\?|$)", "");
     if(filename!=null)
-      queryParams.put("filename", String.valueOf(filename));
+	  resourcePath = resourcePath.replace("{" + "filename" + "}" , apiInvoker.toPathValue(filename));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]filename.*?(?=&|\\?|$)", "");
     if(storage!=null)
-      queryParams.put("storage", String.valueOf(storage));
+	  resourcePath = resourcePath.replace("{" + "storage" + "}" , apiInvoker.toPathValue(storage));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]storage.*?(?=&|\\?|$)", "");
     if(folder!=null)
-      queryParams.put("folder", String.valueOf(folder));
+	  resourcePath = resourcePath.replace("{" + "folder" + "}" , apiInvoker.toPathValue(folder));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]folder.*?(?=&|\\?|$)", "");
     String[] contentTypes = {
       "application/json"};
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
-      FormDataMultiPart mp = new FormDataMultiPart();
-      if(hasFields)
-        postBody = mp;
-    }
-    try {
-		response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType);
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "POST", queryParams, postBody, headerParams, formParams, contentType);
 		return (ProtectionDataResponse) ApiInvoker.deserialize(response, "", ProtectionDataResponse.class);
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
@@ -1313,7 +1416,6 @@ public class WordsApi {
       }
     }
   }
-  //error info- code: 404 reason: "no project found" model: <none>
   /**
 	* PutProtectDocument
 	* Protect document.
@@ -1332,34 +1434,36 @@ public class WordsApi {
        throw new ApiException(400, "missing required params");
     }
     // create path and map variables
-    String path = "/words/{name}/protection/?appSid={appSid}&amp;filename={filename}&amp;storage={storage}&amp;folder={folder}".replaceAll("\\{format\\}","json");
-
+    String resourcePath = "/words/{name}/protection/?appSid={appSid}&amp;filename={filename}&amp;storage={storage}&amp;folder={folder}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
     if(name!=null)
-      queryParams.put("name", String.valueOf(name));
+	  resourcePath = resourcePath.replace("{" + "name" + "}" , apiInvoker.toPathValue(name));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]name.*?(?=&|\\?|$)", "");
     if(filename!=null)
-      queryParams.put("filename", String.valueOf(filename));
+	  resourcePath = resourcePath.replace("{" + "filename" + "}" , apiInvoker.toPathValue(filename));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]filename.*?(?=&|\\?|$)", "");
     if(storage!=null)
-      queryParams.put("storage", String.valueOf(storage));
+	  resourcePath = resourcePath.replace("{" + "storage" + "}" , apiInvoker.toPathValue(storage));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]storage.*?(?=&|\\?|$)", "");
     if(folder!=null)
-      queryParams.put("folder", String.valueOf(folder));
+	  resourcePath = resourcePath.replace("{" + "folder" + "}" , apiInvoker.toPathValue(folder));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]folder.*?(?=&|\\?|$)", "");
     String[] contentTypes = {
       "application/json"};
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
-      FormDataMultiPart mp = new FormDataMultiPart();
-      if(hasFields)
-        postBody = mp;
-    }
-    try {
-		response = apiInvoker.invokeAPI(basePath, path, "PUT", queryParams, postBody, headerParams, formParams, contentType);
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "PUT", queryParams, postBody, headerParams, formParams, contentType);
 		return (ProtectionDataResponse) ApiInvoker.deserialize(response, "", ProtectionDataResponse.class);
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
@@ -1370,7 +1474,6 @@ public class WordsApi {
       }
     }
   }
-  //error info- code: 404 reason: "no project found" model: <none>
   /**
 	* PostDocumentSaveAs
 	* Convert document to tiff with detailed settings and save result to storage.
@@ -1381,39 +1484,39 @@ public class WordsApi {
 	* @return SaveResponse
 	*/
 
-  public SaveResponse PostDocumentSaveAs (String name, String storage, String folder, SaveOptionsData body) {
+  public SaveResponse PostDocumentSaveAs (String name, String storage, String folder, Object body) {
     Object postBody = body;
     // verify required params are set
     if(name == null || body == null ) {
        throw new ApiException(400, "missing required params");
     }
     // create path and map variables
-    String path = "/words/{name}/SaveAs/?appSid={appSid}&amp;storage={storage}&amp;folder={folder}".replaceAll("\\{format\\}","json");
-
+    String resourcePath = "/words/{name}/SaveAs/?appSid={appSid}&amp;storage={storage}&amp;folder={folder}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
     if(name!=null)
-      queryParams.put("name", String.valueOf(name));
+	  resourcePath = resourcePath.replace("{" + "name" + "}" , apiInvoker.toPathValue(name));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]name.*?(?=&|\\?|$)", "");
     if(storage!=null)
-      queryParams.put("storage", String.valueOf(storage));
+	  resourcePath = resourcePath.replace("{" + "storage" + "}" , apiInvoker.toPathValue(storage));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]storage.*?(?=&|\\?|$)", "");
     if(folder!=null)
-      queryParams.put("folder", String.valueOf(folder));
+	  resourcePath = resourcePath.replace("{" + "folder" + "}" , apiInvoker.toPathValue(folder));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]folder.*?(?=&|\\?|$)", "");
     String[] contentTypes = {
       "application/json"};
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
-      FormDataMultiPart mp = new FormDataMultiPart();
-      if(hasFields)
-        postBody = mp;
-    }
-    try {
-		response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType);
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "POST", queryParams, postBody, headerParams, formParams, contentType);
 		return (SaveResponse) ApiInvoker.deserialize(response, "", SaveResponse.class);
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
@@ -1424,7 +1527,6 @@ public class WordsApi {
       }
     }
   }
-  //error info- code: 404 reason: "no project found" model: <none>
   /**
 	* PutDocumentSaveAsTiff
 	* Convert document to tiff with detailed settings and save result to storage.
@@ -1460,68 +1562,104 @@ public class WordsApi {
        throw new ApiException(400, "missing required params");
     }
     // create path and map variables
-    String path = "/words/{name}/SaveAs/tiff/?appSid={appSid}&amp;resultFile={resultFile}&amp;useAntiAliasing={useAntiAliasing}&amp;useHighQualityRendering={useHighQualityRendering}&amp;imageBrightness={imageBrightness}&amp;imageColorMode={imageColorMode}&amp;imageContrast={imageContrast}&amp;numeralFormat={numeralFormat}&amp;pageCount={pageCount}&amp;pageIndex={pageIndex}&amp;paperColor={paperColor}&amp;pixelFormat={pixelFormat}&amp;resolution={resolution}&amp;scale={scale}&amp;tiffCompression={tiffCompression}&amp;dmlRenderingMode={dmlRenderingMode}&amp;dmlEffectsRenderingMode={dmlEffectsRenderingMode}&amp;tiffBinarizationMethod={tiffBinarizationMethod}&amp;storage={storage}&amp;folder={folder}&amp;zipOutput={zipOutput}".replaceAll("\\{format\\}","json");
-
+    String resourcePath = "/words/{name}/SaveAs/tiff/?appSid={appSid}&amp;resultFile={resultFile}&amp;useAntiAliasing={useAntiAliasing}&amp;useHighQualityRendering={useHighQualityRendering}&amp;imageBrightness={imageBrightness}&amp;imageColorMode={imageColorMode}&amp;imageContrast={imageContrast}&amp;numeralFormat={numeralFormat}&amp;pageCount={pageCount}&amp;pageIndex={pageIndex}&amp;paperColor={paperColor}&amp;pixelFormat={pixelFormat}&amp;resolution={resolution}&amp;scale={scale}&amp;tiffCompression={tiffCompression}&amp;dmlRenderingMode={dmlRenderingMode}&amp;dmlEffectsRenderingMode={dmlEffectsRenderingMode}&amp;tiffBinarizationMethod={tiffBinarizationMethod}&amp;storage={storage}&amp;folder={folder}&amp;zipOutput={zipOutput}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
     if(name!=null)
-      queryParams.put("name", String.valueOf(name));
+	  resourcePath = resourcePath.replace("{" + "name" + "}" , apiInvoker.toPathValue(name));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]name.*?(?=&|\\?|$)", "");
     if(resultFile!=null)
-      queryParams.put("resultFile", String.valueOf(resultFile));
+	  resourcePath = resourcePath.replace("{" + "resultFile" + "}" , apiInvoker.toPathValue(resultFile));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]resultFile.*?(?=&|\\?|$)", "");
     if(useAntiAliasing!=null)
-      queryParams.put("useAntiAliasing", String.valueOf(useAntiAliasing));
+	  resourcePath = resourcePath.replace("{" + "useAntiAliasing" + "}" , apiInvoker.toPathValue(useAntiAliasing));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]useAntiAliasing.*?(?=&|\\?|$)", "");
     if(useHighQualityRendering!=null)
-      queryParams.put("useHighQualityRendering", String.valueOf(useHighQualityRendering));
+	  resourcePath = resourcePath.replace("{" + "useHighQualityRendering" + "}" , apiInvoker.toPathValue(useHighQualityRendering));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]useHighQualityRendering.*?(?=&|\\?|$)", "");
     if(imageBrightness!=null)
-      queryParams.put("imageBrightness", String.valueOf(imageBrightness));
+	  resourcePath = resourcePath.replace("{" + "imageBrightness" + "}" , apiInvoker.toPathValue(imageBrightness));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]imageBrightness.*?(?=&|\\?|$)", "");
     if(imageColorMode!=null)
-      queryParams.put("imageColorMode", String.valueOf(imageColorMode));
+	  resourcePath = resourcePath.replace("{" + "imageColorMode" + "}" , apiInvoker.toPathValue(imageColorMode));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]imageColorMode.*?(?=&|\\?|$)", "");
     if(imageContrast!=null)
-      queryParams.put("imageContrast", String.valueOf(imageContrast));
+	  resourcePath = resourcePath.replace("{" + "imageContrast" + "}" , apiInvoker.toPathValue(imageContrast));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]imageContrast.*?(?=&|\\?|$)", "");
     if(numeralFormat!=null)
-      queryParams.put("numeralFormat", String.valueOf(numeralFormat));
+	  resourcePath = resourcePath.replace("{" + "numeralFormat" + "}" , apiInvoker.toPathValue(numeralFormat));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]numeralFormat.*?(?=&|\\?|$)", "");
     if(pageCount!=null)
-      queryParams.put("pageCount", String.valueOf(pageCount));
+	  resourcePath = resourcePath.replace("{" + "pageCount" + "}" , apiInvoker.toPathValue(pageCount));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]pageCount.*?(?=&|\\?|$)", "");
     if(pageIndex!=null)
-      queryParams.put("pageIndex", String.valueOf(pageIndex));
+	  resourcePath = resourcePath.replace("{" + "pageIndex" + "}" , apiInvoker.toPathValue(pageIndex));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]pageIndex.*?(?=&|\\?|$)", "");
     if(paperColor!=null)
-      queryParams.put("paperColor", String.valueOf(paperColor));
+	  resourcePath = resourcePath.replace("{" + "paperColor" + "}" , apiInvoker.toPathValue(paperColor));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]paperColor.*?(?=&|\\?|$)", "");
     if(pixelFormat!=null)
-      queryParams.put("pixelFormat", String.valueOf(pixelFormat));
+	  resourcePath = resourcePath.replace("{" + "pixelFormat" + "}" , apiInvoker.toPathValue(pixelFormat));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]pixelFormat.*?(?=&|\\?|$)", "");
     if(resolution!=null)
-      queryParams.put("resolution", String.valueOf(resolution));
+	  resourcePath = resourcePath.replace("{" + "resolution" + "}" , apiInvoker.toPathValue(resolution));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]resolution.*?(?=&|\\?|$)", "");
     if(scale!=null)
-      queryParams.put("scale", String.valueOf(scale));
+	  resourcePath = resourcePath.replace("{" + "scale" + "}" , apiInvoker.toPathValue(scale));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]scale.*?(?=&|\\?|$)", "");
     if(tiffCompression!=null)
-      queryParams.put("tiffCompression", String.valueOf(tiffCompression));
+	  resourcePath = resourcePath.replace("{" + "tiffCompression" + "}" , apiInvoker.toPathValue(tiffCompression));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]tiffCompression.*?(?=&|\\?|$)", "");
     if(dmlRenderingMode!=null)
-      queryParams.put("dmlRenderingMode", String.valueOf(dmlRenderingMode));
+	  resourcePath = resourcePath.replace("{" + "dmlRenderingMode" + "}" , apiInvoker.toPathValue(dmlRenderingMode));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]dmlRenderingMode.*?(?=&|\\?|$)", "");
     if(dmlEffectsRenderingMode!=null)
-      queryParams.put("dmlEffectsRenderingMode", String.valueOf(dmlEffectsRenderingMode));
+	  resourcePath = resourcePath.replace("{" + "dmlEffectsRenderingMode" + "}" , apiInvoker.toPathValue(dmlEffectsRenderingMode));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]dmlEffectsRenderingMode.*?(?=&|\\?|$)", "");
     if(tiffBinarizationMethod!=null)
-      queryParams.put("tiffBinarizationMethod", String.valueOf(tiffBinarizationMethod));
+	  resourcePath = resourcePath.replace("{" + "tiffBinarizationMethod" + "}" , apiInvoker.toPathValue(tiffBinarizationMethod));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]tiffBinarizationMethod.*?(?=&|\\?|$)", "");
     if(storage!=null)
-      queryParams.put("storage", String.valueOf(storage));
+	  resourcePath = resourcePath.replace("{" + "storage" + "}" , apiInvoker.toPathValue(storage));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]storage.*?(?=&|\\?|$)", "");
     if(folder!=null)
-      queryParams.put("folder", String.valueOf(folder));
+	  resourcePath = resourcePath.replace("{" + "folder" + "}" , apiInvoker.toPathValue(folder));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]folder.*?(?=&|\\?|$)", "");
     if(zipOutput!=null)
-      queryParams.put("zipOutput", String.valueOf(zipOutput));
+	  resourcePath = resourcePath.replace("{" + "zipOutput" + "}" , apiInvoker.toPathValue(zipOutput));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]zipOutput.*?(?=&|\\?|$)", "");
     String[] contentTypes = {
       "application/json"};
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
-      FormDataMultiPart mp = new FormDataMultiPart();
-      if(hasFields)
-        postBody = mp;
-    }
-    try {
-		response = apiInvoker.invokeAPI(basePath, path, "PUT", queryParams, postBody, headerParams, formParams, contentType);
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "PUT", queryParams, postBody, headerParams, formParams, contentType);
 		return (SaveResponse) ApiInvoker.deserialize(response, "", SaveResponse.class);
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
@@ -1532,7 +1670,6 @@ public class WordsApi {
       }
     }
   }
-  //error info- code: 404 reason: "no project found" model: <none>
   /**
 	* GetDocumentStatistics
 	* Read document statistics.
@@ -1549,32 +1686,32 @@ public class WordsApi {
        throw new ApiException(400, "missing required params");
     }
     // create path and map variables
-    String path = "/words/{name}/statistics/?appSid={appSid}&amp;storage={storage}&amp;folder={folder}".replaceAll("\\{format\\}","json");
-
+    String resourcePath = "/words/{name}/statistics/?appSid={appSid}&amp;storage={storage}&amp;folder={folder}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
     if(name!=null)
-      queryParams.put("name", String.valueOf(name));
+	  resourcePath = resourcePath.replace("{" + "name" + "}" , apiInvoker.toPathValue(name));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]name.*?(?=&|\\?|$)", "");
     if(storage!=null)
-      queryParams.put("storage", String.valueOf(storage));
+	  resourcePath = resourcePath.replace("{" + "storage" + "}" , apiInvoker.toPathValue(storage));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]storage.*?(?=&|\\?|$)", "");
     if(folder!=null)
-      queryParams.put("folder", String.valueOf(folder));
+	  resourcePath = resourcePath.replace("{" + "folder" + "}" , apiInvoker.toPathValue(folder));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]folder.*?(?=&|\\?|$)", "");
     String[] contentTypes = {
       "application/json"};
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
-      FormDataMultiPart mp = new FormDataMultiPart();
-      if(hasFields)
-        postBody = mp;
-    }
-    try {
-		response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType);
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "GET", queryParams, postBody, headerParams, formParams, contentType);
 		return (StatDataResponse) ApiInvoker.deserialize(response, "", StatDataResponse.class);
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
@@ -1585,7 +1722,6 @@ public class WordsApi {
       }
     }
   }
-  //error info- code: 404 reason: "no project found" model: <none>
   /**
 	* DeleteDocumentWatermark
 	* Delete watermark (for deleting last watermark from the document).
@@ -1603,34 +1739,36 @@ public class WordsApi {
        throw new ApiException(400, "missing required params");
     }
     // create path and map variables
-    String path = "/words/{name}/watermark/?appSid={appSid}&amp;filename={filename}&amp;storage={storage}&amp;folder={folder}".replaceAll("\\{format\\}","json");
-
+    String resourcePath = "/words/{name}/watermark/?appSid={appSid}&amp;filename={filename}&amp;storage={storage}&amp;folder={folder}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
     if(name!=null)
-      queryParams.put("name", String.valueOf(name));
+	  resourcePath = resourcePath.replace("{" + "name" + "}" , apiInvoker.toPathValue(name));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]name.*?(?=&|\\?|$)", "");
     if(filename!=null)
-      queryParams.put("filename", String.valueOf(filename));
+	  resourcePath = resourcePath.replace("{" + "filename" + "}" , apiInvoker.toPathValue(filename));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]filename.*?(?=&|\\?|$)", "");
     if(storage!=null)
-      queryParams.put("storage", String.valueOf(storage));
+	  resourcePath = resourcePath.replace("{" + "storage" + "}" , apiInvoker.toPathValue(storage));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]storage.*?(?=&|\\?|$)", "");
     if(folder!=null)
-      queryParams.put("folder", String.valueOf(folder));
+	  resourcePath = resourcePath.replace("{" + "folder" + "}" , apiInvoker.toPathValue(folder));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]folder.*?(?=&|\\?|$)", "");
     String[] contentTypes = {
       "application/json"};
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
-      FormDataMultiPart mp = new FormDataMultiPart();
-      if(hasFields)
-        postBody = mp;
-    }
-    try {
-		response = apiInvoker.invokeAPI(basePath, path, "DELETE", queryParams, postBody, headerParams, formParams, contentType);
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "DELETE", queryParams, postBody, headerParams, formParams, contentType);
 		return (DocumentResponse) ApiInvoker.deserialize(response, "", DocumentResponse.class);
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
@@ -1641,7 +1779,6 @@ public class WordsApi {
       }
     }
   }
-  //error info- code: 404 reason: "no project found" model: <none>
   /**
 	* PostInsertDocumentWatermarkImage
 	* Insert document watermark image.
@@ -1662,40 +1799,49 @@ public class WordsApi {
        throw new ApiException(400, "missing required params");
     }
     // create path and map variables
-    String path = "/words/{name}/watermark/insertImage/?appSid={appSid}&amp;filename={filename}&amp;rotationAngle={rotationAngle}&amp;image={image}&amp;storage={storage}&amp;folder={folder}".replaceAll("\\{format\\}","json");
-
+    String resourcePath = "/words/{name}/watermark/insertImage/?appSid={appSid}&amp;filename={filename}&amp;rotationAngle={rotationAngle}&amp;image={image}&amp;storage={storage}&amp;folder={folder}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
     if(name!=null)
-      queryParams.put("name", String.valueOf(name));
+	  resourcePath = resourcePath.replace("{" + "name" + "}" , apiInvoker.toPathValue(name));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]name.*?(?=&|\\?|$)", "");
     if(filename!=null)
-      queryParams.put("filename", String.valueOf(filename));
+	  resourcePath = resourcePath.replace("{" + "filename" + "}" , apiInvoker.toPathValue(filename));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]filename.*?(?=&|\\?|$)", "");
     if(rotationAngle!=null)
-      queryParams.put("rotationAngle", String.valueOf(rotationAngle));
+	  resourcePath = resourcePath.replace("{" + "rotationAngle" + "}" , apiInvoker.toPathValue(rotationAngle));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]rotationAngle.*?(?=&|\\?|$)", "");
     if(image!=null)
-      queryParams.put("image", String.valueOf(image));
+	  resourcePath = resourcePath.replace("{" + "image" + "}" , apiInvoker.toPathValue(image));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]image.*?(?=&|\\?|$)", "");
     if(storage!=null)
-      queryParams.put("storage", String.valueOf(storage));
+	  resourcePath = resourcePath.replace("{" + "storage" + "}" , apiInvoker.toPathValue(storage));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]storage.*?(?=&|\\?|$)", "");
     if(folder!=null)
-      queryParams.put("folder", String.valueOf(folder));
+	  resourcePath = resourcePath.replace("{" + "folder" + "}" , apiInvoker.toPathValue(folder));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]folder.*?(?=&|\\?|$)", "");
     String[] contentTypes = {
       "multipart/form-data"};
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
+if(contentType.startsWith("multipart/form-data")) {      
       FormDataMultiPart mp = new FormDataMultiPart();
-      hasFields = true;
       mp.field("file", file, MediaType.MULTIPART_FORM_DATA_TYPE);
-      if(hasFields)
         postBody = mp;
     }
-    try {
-		response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType);
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "POST", queryParams, postBody, headerParams, formParams, contentType);
 		return (DocumentResponse) ApiInvoker.deserialize(response, "", DocumentResponse.class);
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
@@ -1706,7 +1852,6 @@ public class WordsApi {
       }
     }
   }
-  //error info- code: 404 reason: "no project found" model: <none>
   /**
 	* PostInsertDocumentWatermarkText
 	* Insert document watermark text.
@@ -1727,38 +1872,44 @@ public class WordsApi {
        throw new ApiException(400, "missing required params");
     }
     // create path and map variables
-    String path = "/words/{name}/watermark/insertText/?appSid={appSid}&amp;filename={filename}&amp;text={text}&amp;rotationAngle={rotationAngle}&amp;storage={storage}&amp;folder={folder}".replaceAll("\\{format\\}","json");
-
+    String resourcePath = "/words/{name}/watermark/insertText/?appSid={appSid}&amp;filename={filename}&amp;text={text}&amp;rotationAngle={rotationAngle}&amp;storage={storage}&amp;folder={folder}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
     if(name!=null)
-      queryParams.put("name", String.valueOf(name));
+	  resourcePath = resourcePath.replace("{" + "name" + "}" , apiInvoker.toPathValue(name));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]name.*?(?=&|\\?|$)", "");
     if(filename!=null)
-      queryParams.put("filename", String.valueOf(filename));
+	  resourcePath = resourcePath.replace("{" + "filename" + "}" , apiInvoker.toPathValue(filename));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]filename.*?(?=&|\\?|$)", "");
     if(text!=null)
-      queryParams.put("text", String.valueOf(text));
+	  resourcePath = resourcePath.replace("{" + "text" + "}" , apiInvoker.toPathValue(text));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]text.*?(?=&|\\?|$)", "");
     if(rotationAngle!=null)
-      queryParams.put("rotationAngle", String.valueOf(rotationAngle));
+	  resourcePath = resourcePath.replace("{" + "rotationAngle" + "}" , apiInvoker.toPathValue(rotationAngle));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]rotationAngle.*?(?=&|\\?|$)", "");
     if(storage!=null)
-      queryParams.put("storage", String.valueOf(storage));
+	  resourcePath = resourcePath.replace("{" + "storage" + "}" , apiInvoker.toPathValue(storage));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]storage.*?(?=&|\\?|$)", "");
     if(folder!=null)
-      queryParams.put("folder", String.valueOf(folder));
+	  resourcePath = resourcePath.replace("{" + "folder" + "}" , apiInvoker.toPathValue(folder));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]folder.*?(?=&|\\?|$)", "");
     String[] contentTypes = {
       "application/json"};
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
-      FormDataMultiPart mp = new FormDataMultiPart();
-      if(hasFields)
-        postBody = mp;
-    }
-    try {
-		response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType);
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "POST", queryParams, postBody, headerParams, formParams, contentType);
 		return (DocumentResponse) ApiInvoker.deserialize(response, "", DocumentResponse.class);
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
@@ -1769,7 +1920,6 @@ public class WordsApi {
       }
     }
   }
-  //error info- code: 404 reason: "no project found" model: <none>
   /**
 	* GetDocumentDrawingObjectByIndex
 	* Read document drawing object common info by its index or convert to format specified.
@@ -1787,34 +1937,36 @@ public class WordsApi {
        throw new ApiException(400, "missing required params");
     }
     // create path and map variables
-    String path = "/words/{name}/drawingObjects/{objectIndex}/?appSid={appSid}&amp;storage={storage}&amp;folder={folder}".replaceAll("\\{format\\}","json");
-
+    String resourcePath = "/words/{name}/drawingObjects/{objectIndex}/?appSid={appSid}&amp;storage={storage}&amp;folder={folder}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
     if(name!=null)
-      queryParams.put("name", String.valueOf(name));
+	  resourcePath = resourcePath.replace("{" + "name" + "}" , apiInvoker.toPathValue(name));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]name.*?(?=&|\\?|$)", "");
     if(objectIndex!=null)
-      queryParams.put("objectIndex", String.valueOf(objectIndex));
+	  resourcePath = resourcePath.replace("{" + "objectIndex" + "}" , apiInvoker.toPathValue(objectIndex));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]objectIndex.*?(?=&|\\?|$)", "");
     if(storage!=null)
-      queryParams.put("storage", String.valueOf(storage));
+	  resourcePath = resourcePath.replace("{" + "storage" + "}" , apiInvoker.toPathValue(storage));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]storage.*?(?=&|\\?|$)", "");
     if(folder!=null)
-      queryParams.put("folder", String.valueOf(folder));
+	  resourcePath = resourcePath.replace("{" + "folder" + "}" , apiInvoker.toPathValue(folder));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]folder.*?(?=&|\\?|$)", "");
     String[] contentTypes = {
       "application/json"};
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
-      FormDataMultiPart mp = new FormDataMultiPart();
-      if(hasFields)
-        postBody = mp;
-    }
-    try {
-		response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType);
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "GET", queryParams, postBody, headerParams, formParams, contentType);
 		return (ResponseMessage) ApiInvoker.deserialize(response, "", ResponseMessage.class);
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
@@ -1825,7 +1977,6 @@ public class WordsApi {
       }
     }
   }
-  //error info- code: 404 reason: "no project found" model: <none>
   /**
 	* GetDocumentDrawingObjectByIndexWithFormat
 	* Read document drawing object common info by its index or convert to format specified.
@@ -1844,36 +1995,40 @@ public class WordsApi {
        throw new ApiException(400, "missing required params");
     }
     // create path and map variables
-    String path = "/words/{name}/drawingObjects/{objectIndex}/?appSid={appSid}&amp;toFormat={toFormat}&amp;storage={storage}&amp;folder={folder}".replaceAll("\\{format\\}","json");
-
+    String resourcePath = "/words/{name}/drawingObjects/{objectIndex}/?appSid={appSid}&amp;toFormat={toFormat}&amp;storage={storage}&amp;folder={folder}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
     if(name!=null)
-      queryParams.put("name", String.valueOf(name));
+	  resourcePath = resourcePath.replace("{" + "name" + "}" , apiInvoker.toPathValue(name));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]name.*?(?=&|\\?|$)", "");
     if(objectIndex!=null)
-      queryParams.put("objectIndex", String.valueOf(objectIndex));
+	  resourcePath = resourcePath.replace("{" + "objectIndex" + "}" , apiInvoker.toPathValue(objectIndex));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]objectIndex.*?(?=&|\\?|$)", "");
     if(format!=null)
-      queryParams.put("format", String.valueOf(format));
+	  resourcePath = resourcePath.replace("{" + "format" + "}" , apiInvoker.toPathValue(format));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]format.*?(?=&|\\?|$)", "");
     if(storage!=null)
-      queryParams.put("storage", String.valueOf(storage));
+	  resourcePath = resourcePath.replace("{" + "storage" + "}" , apiInvoker.toPathValue(storage));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]storage.*?(?=&|\\?|$)", "");
     if(folder!=null)
-      queryParams.put("folder", String.valueOf(folder));
+	  resourcePath = resourcePath.replace("{" + "folder" + "}" , apiInvoker.toPathValue(folder));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]folder.*?(?=&|\\?|$)", "");
     String[] contentTypes = {
       "application/json"};
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
-      FormDataMultiPart mp = new FormDataMultiPart();
-      if(hasFields)
-        postBody = mp;
-    }
-    try {
-		response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType);
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "GET", queryParams, postBody, headerParams, formParams, contentType);
 		return (ResponseMessage) ApiInvoker.deserialize(response, "", ResponseMessage.class);
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
@@ -1884,7 +2039,6 @@ public class WordsApi {
       }
     }
   }
-  //error info- code: 404 reason: "no project found" model: <none>
   /**
 	* GetDocumentDrawingObjectImageData
 	* Read drawing object image data.
@@ -1902,34 +2056,36 @@ public class WordsApi {
        throw new ApiException(400, "missing required params");
     }
     // create path and map variables
-    String path = "/words/{name}/drawingObjects/{objectIndex}/imageData/?appSid={appSid}&amp;storage={storage}&amp;folder={folder}".replaceAll("\\{format\\}","json");
-
+    String resourcePath = "/words/{name}/drawingObjects/{objectIndex}/imageData/?appSid={appSid}&amp;storage={storage}&amp;folder={folder}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
     if(name!=null)
-      queryParams.put("name", String.valueOf(name));
+	  resourcePath = resourcePath.replace("{" + "name" + "}" , apiInvoker.toPathValue(name));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]name.*?(?=&|\\?|$)", "");
     if(objectIndex!=null)
-      queryParams.put("objectIndex", String.valueOf(objectIndex));
+	  resourcePath = resourcePath.replace("{" + "objectIndex" + "}" , apiInvoker.toPathValue(objectIndex));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]objectIndex.*?(?=&|\\?|$)", "");
     if(storage!=null)
-      queryParams.put("storage", String.valueOf(storage));
+	  resourcePath = resourcePath.replace("{" + "storage" + "}" , apiInvoker.toPathValue(storage));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]storage.*?(?=&|\\?|$)", "");
     if(folder!=null)
-      queryParams.put("folder", String.valueOf(folder));
+	  resourcePath = resourcePath.replace("{" + "folder" + "}" , apiInvoker.toPathValue(folder));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]folder.*?(?=&|\\?|$)", "");
     String[] contentTypes = {
       "application/json"};
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
-      FormDataMultiPart mp = new FormDataMultiPart();
-      if(hasFields)
-        postBody = mp;
-    }
-    try {
-		response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType);
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "GET", queryParams, postBody, headerParams, formParams, contentType);
 		return (ResponseMessage) ApiInvoker.deserialize(response, "", ResponseMessage.class);
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
@@ -1940,7 +2096,6 @@ public class WordsApi {
       }
     }
   }
-  //error info- code: 404 reason: "no project found" model: <none>
   /**
 	* GetDocumentDrawingObjectOleData
 	* Get drawing object OLE data.
@@ -1958,34 +2113,36 @@ public class WordsApi {
        throw new ApiException(400, "missing required params");
     }
     // create path and map variables
-    String path = "/words/{name}/drawingObjects/{objectIndex}/oleData/?appSid={appSid}&amp;storage={storage}&amp;folder={folder}".replaceAll("\\{format\\}","json");
-
+    String resourcePath = "/words/{name}/drawingObjects/{objectIndex}/oleData/?appSid={appSid}&amp;storage={storage}&amp;folder={folder}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
     if(name!=null)
-      queryParams.put("name", String.valueOf(name));
+	  resourcePath = resourcePath.replace("{" + "name" + "}" , apiInvoker.toPathValue(name));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]name.*?(?=&|\\?|$)", "");
     if(objectIndex!=null)
-      queryParams.put("objectIndex", String.valueOf(objectIndex));
+	  resourcePath = resourcePath.replace("{" + "objectIndex" + "}" , apiInvoker.toPathValue(objectIndex));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]objectIndex.*?(?=&|\\?|$)", "");
     if(storage!=null)
-      queryParams.put("storage", String.valueOf(storage));
+	  resourcePath = resourcePath.replace("{" + "storage" + "}" , apiInvoker.toPathValue(storage));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]storage.*?(?=&|\\?|$)", "");
     if(folder!=null)
-      queryParams.put("folder", String.valueOf(folder));
+	  resourcePath = resourcePath.replace("{" + "folder" + "}" , apiInvoker.toPathValue(folder));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]folder.*?(?=&|\\?|$)", "");
     String[] contentTypes = {
       "application/json"};
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
-      FormDataMultiPart mp = new FormDataMultiPart();
-      if(hasFields)
-        postBody = mp;
-    }
-    try {
-		response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType);
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "GET", queryParams, postBody, headerParams, formParams, contentType);
 		return (ResponseMessage) ApiInvoker.deserialize(response, "", ResponseMessage.class);
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
@@ -1996,7 +2153,6 @@ public class WordsApi {
       }
     }
   }
-  //error info- code: 404 reason: "no project found" model: <none>
   /**
 	* GetDocumentDrawingObjects
 	* Read document drawing objects common info.
@@ -2013,32 +2169,32 @@ public class WordsApi {
        throw new ApiException(400, "missing required params");
     }
     // create path and map variables
-    String path = "/words/{name}/drawingObjects/?appSid={appSid}&amp;storage={storage}&amp;folder={folder}".replaceAll("\\{format\\}","json");
-
+    String resourcePath = "/words/{name}/drawingObjects/?appSid={appSid}&amp;storage={storage}&amp;folder={folder}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
     if(name!=null)
-      queryParams.put("name", String.valueOf(name));
+	  resourcePath = resourcePath.replace("{" + "name" + "}" , apiInvoker.toPathValue(name));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]name.*?(?=&|\\?|$)", "");
     if(storage!=null)
-      queryParams.put("storage", String.valueOf(storage));
+	  resourcePath = resourcePath.replace("{" + "storage" + "}" , apiInvoker.toPathValue(storage));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]storage.*?(?=&|\\?|$)", "");
     if(folder!=null)
-      queryParams.put("folder", String.valueOf(folder));
+	  resourcePath = resourcePath.replace("{" + "folder" + "}" , apiInvoker.toPathValue(folder));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]folder.*?(?=&|\\?|$)", "");
     String[] contentTypes = {
       "application/json"};
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
-      FormDataMultiPart mp = new FormDataMultiPart();
-      if(hasFields)
-        postBody = mp;
-    }
-    try {
-		response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType);
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "GET", queryParams, postBody, headerParams, formParams, contentType);
 		return (DrawingObjectsResponse) ApiInvoker.deserialize(response, "", DrawingObjectsResponse.class);
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
@@ -2049,7 +2205,6 @@ public class WordsApi {
       }
     }
   }
-  //error info- code: 404 reason: "no project found" model: <none>
   /**
 	* DeleteFormField
 	* Removes form field from document.
@@ -2070,40 +2225,48 @@ public class WordsApi {
        throw new ApiException(400, "missing required params");
     }
     // create path and map variables
-    String path = "/words/{name}/sections/{sectionIndex}/paragraphs/{paragraphIndex}/formfields/{formfieldIndex}/?appSid={appSid}&amp;destFileName={destFileName}&amp;storage={storage}&amp;folder={folder}".replaceAll("\\{format\\}","json");
-
+    String resourcePath = "/words/{name}/sections/{sectionIndex}/paragraphs/{paragraphIndex}/formfields/{formfieldIndex}/?appSid={appSid}&amp;destFileName={destFileName}&amp;storage={storage}&amp;folder={folder}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
     if(name!=null)
-      queryParams.put("name", String.valueOf(name));
+	  resourcePath = resourcePath.replace("{" + "name" + "}" , apiInvoker.toPathValue(name));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]name.*?(?=&|\\?|$)", "");
     if(sectionIndex!=null)
-      queryParams.put("sectionIndex", String.valueOf(sectionIndex));
+	  resourcePath = resourcePath.replace("{" + "sectionIndex" + "}" , apiInvoker.toPathValue(sectionIndex));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]sectionIndex.*?(?=&|\\?|$)", "");
     if(paragraphIndex!=null)
-      queryParams.put("paragraphIndex", String.valueOf(paragraphIndex));
+	  resourcePath = resourcePath.replace("{" + "paragraphIndex" + "}" , apiInvoker.toPathValue(paragraphIndex));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]paragraphIndex.*?(?=&|\\?|$)", "");
     if(formfieldIndex!=null)
-      queryParams.put("formfieldIndex", String.valueOf(formfieldIndex));
+	  resourcePath = resourcePath.replace("{" + "formfieldIndex" + "}" , apiInvoker.toPathValue(formfieldIndex));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]formfieldIndex.*?(?=&|\\?|$)", "");
     if(destFileName!=null)
-      queryParams.put("destFileName", String.valueOf(destFileName));
+	  resourcePath = resourcePath.replace("{" + "destFileName" + "}" , apiInvoker.toPathValue(destFileName));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]destFileName.*?(?=&|\\?|$)", "");
     if(storage!=null)
-      queryParams.put("storage", String.valueOf(storage));
+	  resourcePath = resourcePath.replace("{" + "storage" + "}" , apiInvoker.toPathValue(storage));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]storage.*?(?=&|\\?|$)", "");
     if(folder!=null)
-      queryParams.put("folder", String.valueOf(folder));
+	  resourcePath = resourcePath.replace("{" + "folder" + "}" , apiInvoker.toPathValue(folder));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]folder.*?(?=&|\\?|$)", "");
     String[] contentTypes = {
       "application/json"};
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
-      FormDataMultiPart mp = new FormDataMultiPart();
-      if(hasFields)
-        postBody = mp;
-    }
-    try {
-		response = apiInvoker.invokeAPI(basePath, path, "DELETE", queryParams, postBody, headerParams, formParams, contentType);
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "DELETE", queryParams, postBody, headerParams, formParams, contentType);
 		return (SaaSposeResponse) ApiInvoker.deserialize(response, "", SaaSposeResponse.class);
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
@@ -2114,7 +2277,6 @@ public class WordsApi {
       }
     }
   }
-  //error info- code: 404 reason: "no project found" model: <none>
   /**
 	* GetFormField
 	* Returns representation of an one of the form field.
@@ -2134,38 +2296,44 @@ public class WordsApi {
        throw new ApiException(400, "missing required params");
     }
     // create path and map variables
-    String path = "/words/{name}/sections/{sectionIndex}/paragraphs/{paragraphIndex}/formfields/{formfieldIndex}/?appSid={appSid}&amp;storage={storage}&amp;folder={folder}".replaceAll("\\{format\\}","json");
-
+    String resourcePath = "/words/{name}/sections/{sectionIndex}/paragraphs/{paragraphIndex}/formfields/{formfieldIndex}/?appSid={appSid}&amp;storage={storage}&amp;folder={folder}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
     if(name!=null)
-      queryParams.put("name", String.valueOf(name));
+	  resourcePath = resourcePath.replace("{" + "name" + "}" , apiInvoker.toPathValue(name));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]name.*?(?=&|\\?|$)", "");
     if(sectionIndex!=null)
-      queryParams.put("sectionIndex", String.valueOf(sectionIndex));
+	  resourcePath = resourcePath.replace("{" + "sectionIndex" + "}" , apiInvoker.toPathValue(sectionIndex));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]sectionIndex.*?(?=&|\\?|$)", "");
     if(paragraphIndex!=null)
-      queryParams.put("paragraphIndex", String.valueOf(paragraphIndex));
+	  resourcePath = resourcePath.replace("{" + "paragraphIndex" + "}" , apiInvoker.toPathValue(paragraphIndex));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]paragraphIndex.*?(?=&|\\?|$)", "");
     if(formfieldIndex!=null)
-      queryParams.put("formfieldIndex", String.valueOf(formfieldIndex));
+	  resourcePath = resourcePath.replace("{" + "formfieldIndex" + "}" , apiInvoker.toPathValue(formfieldIndex));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]formfieldIndex.*?(?=&|\\?|$)", "");
     if(storage!=null)
-      queryParams.put("storage", String.valueOf(storage));
+	  resourcePath = resourcePath.replace("{" + "storage" + "}" , apiInvoker.toPathValue(storage));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]storage.*?(?=&|\\?|$)", "");
     if(folder!=null)
-      queryParams.put("folder", String.valueOf(folder));
+	  resourcePath = resourcePath.replace("{" + "folder" + "}" , apiInvoker.toPathValue(folder));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]folder.*?(?=&|\\?|$)", "");
     String[] contentTypes = {
       "application/json"};
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
-      FormDataMultiPart mp = new FormDataMultiPart();
-      if(hasFields)
-        postBody = mp;
-    }
-    try {
-		response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType);
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "GET", queryParams, postBody, headerParams, formParams, contentType);
 		return (FormFieldResponse) ApiInvoker.deserialize(response, "", FormFieldResponse.class);
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
@@ -2176,7 +2344,6 @@ public class WordsApi {
       }
     }
   }
-  //error info- code: 404 reason: "no project found" model: <none>
   /**
 	* PostFormField
 	* Updates form field's properties, returns updated form field's data.
@@ -2198,40 +2365,48 @@ public class WordsApi {
        throw new ApiException(400, "missing required params");
     }
     // create path and map variables
-    String path = "/words/{name}/sections/{sectionIndex}/paragraphs/{paragraphIndex}/formfields/{formfieldIndex}/?appSid={appSid}&amp;destFileName={destFileName}&amp;storage={storage}&amp;folder={folder}".replaceAll("\\{format\\}","json");
-
+    String resourcePath = "/words/{name}/sections/{sectionIndex}/paragraphs/{paragraphIndex}/formfields/{formfieldIndex}/?appSid={appSid}&amp;destFileName={destFileName}&amp;storage={storage}&amp;folder={folder}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
     if(name!=null)
-      queryParams.put("name", String.valueOf(name));
+	  resourcePath = resourcePath.replace("{" + "name" + "}" , apiInvoker.toPathValue(name));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]name.*?(?=&|\\?|$)", "");
     if(sectionIndex!=null)
-      queryParams.put("sectionIndex", String.valueOf(sectionIndex));
+	  resourcePath = resourcePath.replace("{" + "sectionIndex" + "}" , apiInvoker.toPathValue(sectionIndex));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]sectionIndex.*?(?=&|\\?|$)", "");
     if(paragraphIndex!=null)
-      queryParams.put("paragraphIndex", String.valueOf(paragraphIndex));
+	  resourcePath = resourcePath.replace("{" + "paragraphIndex" + "}" , apiInvoker.toPathValue(paragraphIndex));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]paragraphIndex.*?(?=&|\\?|$)", "");
     if(formfieldIndex!=null)
-      queryParams.put("formfieldIndex", String.valueOf(formfieldIndex));
+	  resourcePath = resourcePath.replace("{" + "formfieldIndex" + "}" , apiInvoker.toPathValue(formfieldIndex));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]formfieldIndex.*?(?=&|\\?|$)", "");
     if(destFileName!=null)
-      queryParams.put("destFileName", String.valueOf(destFileName));
+	  resourcePath = resourcePath.replace("{" + "destFileName" + "}" , apiInvoker.toPathValue(destFileName));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]destFileName.*?(?=&|\\?|$)", "");
     if(storage!=null)
-      queryParams.put("storage", String.valueOf(storage));
+	  resourcePath = resourcePath.replace("{" + "storage" + "}" , apiInvoker.toPathValue(storage));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]storage.*?(?=&|\\?|$)", "");
     if(folder!=null)
-      queryParams.put("folder", String.valueOf(folder));
+	  resourcePath = resourcePath.replace("{" + "folder" + "}" , apiInvoker.toPathValue(folder));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]folder.*?(?=&|\\?|$)", "");
     String[] contentTypes = {
       "application/json"};
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
-      FormDataMultiPart mp = new FormDataMultiPart();
-      if(hasFields)
-        postBody = mp;
-    }
-    try {
-		response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType);
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "POST", queryParams, postBody, headerParams, formParams, contentType);
 		return (FormFieldResponse) ApiInvoker.deserialize(response, "", FormFieldResponse.class);
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
@@ -2242,7 +2417,6 @@ public class WordsApi {
       }
     }
   }
-  //error info- code: 404 reason: "no project found" model: <none>
   /**
 	* PutFormField
 	* Adds form field to paragraph, returns added form field's data.
@@ -2264,40 +2438,48 @@ public class WordsApi {
        throw new ApiException(400, "missing required params");
     }
     // create path and map variables
-    String path = "/words/{name}/sections/{sectionIndex}/paragraphs/{paragraphIndex}/formfields/?appSid={appSid}&amp;insertBeforeNode={insertBeforeNode}&amp;destFileName={destFileName}&amp;storage={storage}&amp;folder={folder}".replaceAll("\\{format\\}","json");
-
+    String resourcePath = "/words/{name}/sections/{sectionIndex}/paragraphs/{paragraphIndex}/formfields/?appSid={appSid}&amp;insertBeforeNode={insertBeforeNode}&amp;destFileName={destFileName}&amp;storage={storage}&amp;folder={folder}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
     if(name!=null)
-      queryParams.put("name", String.valueOf(name));
+	  resourcePath = resourcePath.replace("{" + "name" + "}" , apiInvoker.toPathValue(name));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]name.*?(?=&|\\?|$)", "");
     if(sectionIndex!=null)
-      queryParams.put("sectionIndex", String.valueOf(sectionIndex));
+	  resourcePath = resourcePath.replace("{" + "sectionIndex" + "}" , apiInvoker.toPathValue(sectionIndex));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]sectionIndex.*?(?=&|\\?|$)", "");
     if(paragraphIndex!=null)
-      queryParams.put("paragraphIndex", String.valueOf(paragraphIndex));
+	  resourcePath = resourcePath.replace("{" + "paragraphIndex" + "}" , apiInvoker.toPathValue(paragraphIndex));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]paragraphIndex.*?(?=&|\\?|$)", "");
     if(insertBeforeNode!=null)
-      queryParams.put("insertBeforeNode", String.valueOf(insertBeforeNode));
+	  resourcePath = resourcePath.replace("{" + "insertBeforeNode" + "}" , apiInvoker.toPathValue(insertBeforeNode));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]insertBeforeNode.*?(?=&|\\?|$)", "");
     if(destFileName!=null)
-      queryParams.put("destFileName", String.valueOf(destFileName));
+	  resourcePath = resourcePath.replace("{" + "destFileName" + "}" , apiInvoker.toPathValue(destFileName));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]destFileName.*?(?=&|\\?|$)", "");
     if(storage!=null)
-      queryParams.put("storage", String.valueOf(storage));
+	  resourcePath = resourcePath.replace("{" + "storage" + "}" , apiInvoker.toPathValue(storage));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]storage.*?(?=&|\\?|$)", "");
     if(folder!=null)
-      queryParams.put("folder", String.valueOf(folder));
+	  resourcePath = resourcePath.replace("{" + "folder" + "}" , apiInvoker.toPathValue(folder));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]folder.*?(?=&|\\?|$)", "");
     String[] contentTypes = {
       "application/json"};
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
-      FormDataMultiPart mp = new FormDataMultiPart();
-      if(hasFields)
-        postBody = mp;
-    }
-    try {
-		response = apiInvoker.invokeAPI(basePath, path, "PUT", queryParams, postBody, headerParams, formParams, contentType);
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "PUT", queryParams, postBody, headerParams, formParams, contentType);
 		return (FormFieldResponse) ApiInvoker.deserialize(response, "", FormFieldResponse.class);
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
@@ -2308,7 +2490,6 @@ public class WordsApi {
       }
     }
   }
-  //error info- code: 404 reason: "no project found" model: <none>
   /**
 	* DeleteHeadersFooters
 	* Delete document headers and footers.
@@ -2327,36 +2508,40 @@ public class WordsApi {
        throw new ApiException(400, "missing required params");
     }
     // create path and map variables
-    String path = "/words/{name}/headersfooters/?appSid={appSid}&amp;headersFootersTypes={headersFootersTypes}&amp;filename={filename}&amp;storage={storage}&amp;folder={folder}".replaceAll("\\{format\\}","json");
-
+    String resourcePath = "/words/{name}/headersfooters/?appSid={appSid}&amp;headersFootersTypes={headersFootersTypes}&amp;filename={filename}&amp;storage={storage}&amp;folder={folder}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
     if(name!=null)
-      queryParams.put("name", String.valueOf(name));
+	  resourcePath = resourcePath.replace("{" + "name" + "}" , apiInvoker.toPathValue(name));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]name.*?(?=&|\\?|$)", "");
     if(headersFootersTypes!=null)
-      queryParams.put("headersFootersTypes", String.valueOf(headersFootersTypes));
+	  resourcePath = resourcePath.replace("{" + "headersFootersTypes" + "}" , apiInvoker.toPathValue(headersFootersTypes));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]headersFootersTypes.*?(?=&|\\?|$)", "");
     if(filename!=null)
-      queryParams.put("filename", String.valueOf(filename));
+	  resourcePath = resourcePath.replace("{" + "filename" + "}" , apiInvoker.toPathValue(filename));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]filename.*?(?=&|\\?|$)", "");
     if(storage!=null)
-      queryParams.put("storage", String.valueOf(storage));
+	  resourcePath = resourcePath.replace("{" + "storage" + "}" , apiInvoker.toPathValue(storage));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]storage.*?(?=&|\\?|$)", "");
     if(folder!=null)
-      queryParams.put("folder", String.valueOf(folder));
+	  resourcePath = resourcePath.replace("{" + "folder" + "}" , apiInvoker.toPathValue(folder));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]folder.*?(?=&|\\?|$)", "");
     String[] contentTypes = {
       "application/json"};
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
-      FormDataMultiPart mp = new FormDataMultiPart();
-      if(hasFields)
-        postBody = mp;
-    }
-    try {
-		response = apiInvoker.invokeAPI(basePath, path, "DELETE", queryParams, postBody, headerParams, formParams, contentType);
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "DELETE", queryParams, postBody, headerParams, formParams, contentType);
 		return (SaaSposeResponse) ApiInvoker.deserialize(response, "", SaaSposeResponse.class);
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
@@ -2367,7 +2552,6 @@ public class WordsApi {
       }
     }
   }
-  //error info- code: 404 reason: "no project found" model: <none>
   /**
 	* GetDocumentHyperlinkByIndex
 	* Read document hyperlink by its index.
@@ -2385,34 +2569,36 @@ public class WordsApi {
        throw new ApiException(400, "missing required params");
     }
     // create path and map variables
-    String path = "/words/{name}/hyperlinks/{hyperlinkIndex}/?appSid={appSid}&amp;storage={storage}&amp;folder={folder}".replaceAll("\\{format\\}","json");
-
+    String resourcePath = "/words/{name}/hyperlinks/{hyperlinkIndex}/?appSid={appSid}&amp;storage={storage}&amp;folder={folder}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
     if(name!=null)
-      queryParams.put("name", String.valueOf(name));
+	  resourcePath = resourcePath.replace("{" + "name" + "}" , apiInvoker.toPathValue(name));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]name.*?(?=&|\\?|$)", "");
     if(hyperlinkIndex!=null)
-      queryParams.put("hyperlinkIndex", String.valueOf(hyperlinkIndex));
+	  resourcePath = resourcePath.replace("{" + "hyperlinkIndex" + "}" , apiInvoker.toPathValue(hyperlinkIndex));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]hyperlinkIndex.*?(?=&|\\?|$)", "");
     if(storage!=null)
-      queryParams.put("storage", String.valueOf(storage));
+	  resourcePath = resourcePath.replace("{" + "storage" + "}" , apiInvoker.toPathValue(storage));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]storage.*?(?=&|\\?|$)", "");
     if(folder!=null)
-      queryParams.put("folder", String.valueOf(folder));
+	  resourcePath = resourcePath.replace("{" + "folder" + "}" , apiInvoker.toPathValue(folder));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]folder.*?(?=&|\\?|$)", "");
     String[] contentTypes = {
       "application/json"};
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
-      FormDataMultiPart mp = new FormDataMultiPart();
-      if(hasFields)
-        postBody = mp;
-    }
-    try {
-		response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType);
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "GET", queryParams, postBody, headerParams, formParams, contentType);
 		return (HyperlinkResponse) ApiInvoker.deserialize(response, "", HyperlinkResponse.class);
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
@@ -2423,7 +2609,6 @@ public class WordsApi {
       }
     }
   }
-  //error info- code: 404 reason: "no project found" model: <none>
   /**
 	* GetDocumentHyperlinks
 	* Read document hyperlinks common info.
@@ -2440,32 +2625,32 @@ public class WordsApi {
        throw new ApiException(400, "missing required params");
     }
     // create path and map variables
-    String path = "/words/{name}/hyperlinks/?appSid={appSid}&amp;storage={storage}&amp;folder={folder}".replaceAll("\\{format\\}","json");
-
+    String resourcePath = "/words/{name}/hyperlinks/?appSid={appSid}&amp;storage={storage}&amp;folder={folder}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
     if(name!=null)
-      queryParams.put("name", String.valueOf(name));
+	  resourcePath = resourcePath.replace("{" + "name" + "}" , apiInvoker.toPathValue(name));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]name.*?(?=&|\\?|$)", "");
     if(storage!=null)
-      queryParams.put("storage", String.valueOf(storage));
+	  resourcePath = resourcePath.replace("{" + "storage" + "}" , apiInvoker.toPathValue(storage));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]storage.*?(?=&|\\?|$)", "");
     if(folder!=null)
-      queryParams.put("folder", String.valueOf(folder));
+	  resourcePath = resourcePath.replace("{" + "folder" + "}" , apiInvoker.toPathValue(folder));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]folder.*?(?=&|\\?|$)", "");
     String[] contentTypes = {
       "application/json"};
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
-      FormDataMultiPart mp = new FormDataMultiPart();
-      if(hasFields)
-        postBody = mp;
-    }
-    try {
-		response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType);
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "GET", queryParams, postBody, headerParams, formParams, contentType);
 		return (HyperlinksResponse) ApiInvoker.deserialize(response, "", HyperlinksResponse.class);
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
@@ -2476,7 +2661,58 @@ public class WordsApi {
       }
     }
   }
-  //error info- code: 404 reason: "no project found" model: <none>
+  /**
+	* DeleteDocumentMacros
+	* Remove macros from document.
+	* @param name	String	The file name.
+	* @param storage	String	The document storage.
+	* @param folder	String	The document folder.
+	* @return SaaSposeResponse
+	*/
+
+  public SaaSposeResponse DeleteDocumentMacros (String name, String storage, String folder) {
+    Object postBody = null;
+    // verify required params are set
+    if(name == null ) {
+       throw new ApiException(400, "missing required params");
+    }
+    // create path and map variables
+    String resourcePath = "/words/{name}/macros/?appSid={appSid}&amp;storage={storage}&amp;folder={folder}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
+    // query params
+    Map<String, String> queryParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<String, String>();
+
+    if(name!=null)
+	  resourcePath = resourcePath.replace("{" + "name" + "}" , apiInvoker.toPathValue(name));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]name.*?(?=&|\\?|$)", "");
+    if(storage!=null)
+	  resourcePath = resourcePath.replace("{" + "storage" + "}" , apiInvoker.toPathValue(storage));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]storage.*?(?=&|\\?|$)", "");
+    if(folder!=null)
+	  resourcePath = resourcePath.replace("{" + "folder" + "}" , apiInvoker.toPathValue(folder));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]folder.*?(?=&|\\?|$)", "");
+    String[] contentTypes = {
+      "application/json"};
+
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "DELETE", queryParams, postBody, headerParams, formParams, contentType);
+		return (SaaSposeResponse) ApiInvoker.deserialize(response, "", SaaSposeResponse.class);
+    } catch (ApiException ex) {
+      if(ex.getCode() == 404) {
+      	throw new ApiException(404, "");
+      }
+      else {
+        throw ex;
+      }
+    }
+  }
   /**
 	* GetDocumentFieldNames
 	* Read document field names.
@@ -2494,34 +2730,36 @@ public class WordsApi {
        throw new ApiException(400, "missing required params");
     }
     // create path and map variables
-    String path = "/words/{name}/mailMergeFieldNames/?appSid={appSid}&amp;useNonMergeFields={useNonMergeFields}&amp;storage={storage}&amp;folder={folder}".replaceAll("\\{format\\}","json");
-
+    String resourcePath = "/words/{name}/mailMergeFieldNames/?appSid={appSid}&amp;useNonMergeFields={useNonMergeFields}&amp;storage={storage}&amp;folder={folder}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
     if(name!=null)
-      queryParams.put("name", String.valueOf(name));
+	  resourcePath = resourcePath.replace("{" + "name" + "}" , apiInvoker.toPathValue(name));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]name.*?(?=&|\\?|$)", "");
     if(useNonMergeFields!=null)
-      queryParams.put("useNonMergeFields", String.valueOf(useNonMergeFields));
+	  resourcePath = resourcePath.replace("{" + "useNonMergeFields" + "}" , apiInvoker.toPathValue(useNonMergeFields));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]useNonMergeFields.*?(?=&|\\?|$)", "");
     if(storage!=null)
-      queryParams.put("storage", String.valueOf(storage));
+	  resourcePath = resourcePath.replace("{" + "storage" + "}" , apiInvoker.toPathValue(storage));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]storage.*?(?=&|\\?|$)", "");
     if(folder!=null)
-      queryParams.put("folder", String.valueOf(folder));
+	  resourcePath = resourcePath.replace("{" + "folder" + "}" , apiInvoker.toPathValue(folder));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]folder.*?(?=&|\\?|$)", "");
     String[] contentTypes = {
       "application/json"};
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
-      FormDataMultiPart mp = new FormDataMultiPart();
-      if(hasFields)
-        postBody = mp;
-    }
-    try {
-		response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType);
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "GET", queryParams, postBody, headerParams, formParams, contentType);
 		return (FieldNamesResponse) ApiInvoker.deserialize(response, "", FieldNamesResponse.class);
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
@@ -2532,7 +2770,6 @@ public class WordsApi {
       }
     }
   }
-  //error info- code: 404 reason: "no project found" model: <none>
   /**
 	* PostDocumentExecuteMailMerge
 	* Execute document mail merge operation.
@@ -2543,53 +2780,72 @@ public class WordsApi {
 	* @param filename	String	Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document
 	* @param storage	String	The document storage.
 	* @param folder	String	The document folder.
+	* @param useWholeParagraphAsRegion	Boolean	Gets or sets a value indicating whether paragraph with TableStart or TableEnd field should be fully included into mail merge region or particular range between TableStart and TableEnd fields.             The default value is true.
 	* @param file	File	
 	* @return DocumentResponse
 	*/
 
-  public DocumentResponse PostDocumentExecuteMailMerge (String name, Boolean withRegions, String mailMergeDataFile, String cleanup, String filename, String storage, String folder, File file) {
+  public DocumentResponse PostDocumentExecuteMailMerge (String name, Boolean withRegions, String mailMergeDataFile, String cleanup, String filename, String storage, String folder, Boolean useWholeParagraphAsRegion, File file) {
     Object postBody = null;
     // verify required params are set
     if(name == null || withRegions == null || file == null ) {
        throw new ApiException(400, "missing required params");
     }
     // create path and map variables
-    String path = "/words/{name}/executeMailMerge/{withRegions}/?appSid={appSid}&amp;mailMergeDataFile={mailMergeDataFile}&amp;cleanup={cleanup}&amp;filename={filename}&amp;storage={storage}&amp;folder={folder}".replaceAll("\\{format\\}","json");
-
+    String resourcePath = "/words/{name}/executeMailMerge/{withRegions}/?appSid={appSid}&amp;mailMergeDataFile={mailMergeDataFile}&amp;cleanup={cleanup}&amp;filename={filename}&amp;storage={storage}&amp;folder={folder}&amp;useWholeParagraphAsRegion={useWholeParagraphAsRegion}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
     if(name!=null)
-      queryParams.put("name", String.valueOf(name));
+	  resourcePath = resourcePath.replace("{" + "name" + "}" , apiInvoker.toPathValue(name));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]name.*?(?=&|\\?|$)", "");
     if(withRegions!=null)
-      queryParams.put("withRegions", String.valueOf(withRegions));
+	  resourcePath = resourcePath.replace("{" + "withRegions" + "}" , apiInvoker.toPathValue(withRegions));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]withRegions.*?(?=&|\\?|$)", "");
     if(mailMergeDataFile!=null)
-      queryParams.put("mailMergeDataFile", String.valueOf(mailMergeDataFile));
+	  resourcePath = resourcePath.replace("{" + "mailMergeDataFile" + "}" , apiInvoker.toPathValue(mailMergeDataFile));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]mailMergeDataFile.*?(?=&|\\?|$)", "");
     if(cleanup!=null)
-      queryParams.put("cleanup", String.valueOf(cleanup));
+	  resourcePath = resourcePath.replace("{" + "cleanup" + "}" , apiInvoker.toPathValue(cleanup));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]cleanup.*?(?=&|\\?|$)", "");
     if(filename!=null)
-      queryParams.put("filename", String.valueOf(filename));
+	  resourcePath = resourcePath.replace("{" + "filename" + "}" , apiInvoker.toPathValue(filename));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]filename.*?(?=&|\\?|$)", "");
     if(storage!=null)
-      queryParams.put("storage", String.valueOf(storage));
+	  resourcePath = resourcePath.replace("{" + "storage" + "}" , apiInvoker.toPathValue(storage));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]storage.*?(?=&|\\?|$)", "");
     if(folder!=null)
-      queryParams.put("folder", String.valueOf(folder));
+	  resourcePath = resourcePath.replace("{" + "folder" + "}" , apiInvoker.toPathValue(folder));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]folder.*?(?=&|\\?|$)", "");
+    if(useWholeParagraphAsRegion!=null)
+	  resourcePath = resourcePath.replace("{" + "useWholeParagraphAsRegion" + "}" , apiInvoker.toPathValue(useWholeParagraphAsRegion));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]useWholeParagraphAsRegion.*?(?=&|\\?|$)", "");
     String[] contentTypes = {
-      "multipart/form-data"};
+      "multipart/form-data","application/json"};
 
-    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+    String contentType = contentTypes.length > 0 ? "application/json" : "application/json";
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
+    if(file!=null)
+            postBody = file;
+/*if(contentType.startsWith("multipart/form-data")) {      
       FormDataMultiPart mp = new FormDataMultiPart();
-      hasFields = true;
       mp.field("file", file, MediaType.MULTIPART_FORM_DATA_TYPE);
-      if(hasFields)
         postBody = mp;
     }
+*/
     try {
-		response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType);
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "POST", queryParams, postBody, headerParams, formParams, contentType);
 		return (DocumentResponse) ApiInvoker.deserialize(response, "", DocumentResponse.class);
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
@@ -2600,7 +2856,63 @@ public class WordsApi {
       }
     }
   }
-  //error info- code: 404 reason: "no project found" model: <none>
+  /**
+	* DeleteParagraphFields
+	* Remove fields from paragraph.
+	* @param name	String	The file name.
+	* @param index	Integer	Paragraph index
+	* @param storage	String	The document storage.
+	* @param folder	String	The document folder.
+	* @return SaaSposeResponse
+	*/
+
+  public SaaSposeResponse DeleteParagraphFields (String name, Integer index, String storage, String folder) {
+    Object postBody = null;
+    // verify required params are set
+    if(name == null || index == null ) {
+       throw new ApiException(400, "missing required params");
+    }
+    // create path and map variables
+    String resourcePath = "/words/{name}/paragraphs/{index}/fields/?appSid={appSid}&amp;storage={storage}&amp;folder={folder}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
+    // query params
+    Map<String, String> queryParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<String, String>();
+
+    if(name!=null)
+	  resourcePath = resourcePath.replace("{" + "name" + "}" , apiInvoker.toPathValue(name));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]name.*?(?=&|\\?|$)", "");
+    if(index!=null)
+	  resourcePath = resourcePath.replace("{" + "index" + "}" , apiInvoker.toPathValue(index));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]index.*?(?=&|\\?|$)", "");
+    if(storage!=null)
+	  resourcePath = resourcePath.replace("{" + "storage" + "}" , apiInvoker.toPathValue(storage));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]storage.*?(?=&|\\?|$)", "");
+    if(folder!=null)
+	  resourcePath = resourcePath.replace("{" + "folder" + "}" , apiInvoker.toPathValue(folder));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]folder.*?(?=&|\\?|$)", "");
+    String[] contentTypes = {
+      "application/json"};
+
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "DELETE", queryParams, postBody, headerParams, formParams, contentType);
+		return (SaaSposeResponse) ApiInvoker.deserialize(response, "", SaaSposeResponse.class);
+    } catch (ApiException ex) {
+      if(ex.getCode() == 404) {
+      	throw new ApiException(404, "");
+      }
+      else {
+        throw ex;
+      }
+    }
+  }
   /**
 	* GetDocumentParagraph
 	* This resource represents one of the paragraphs contained in the document.
@@ -2618,34 +2930,36 @@ public class WordsApi {
        throw new ApiException(400, "missing required params");
     }
     // create path and map variables
-    String path = "/words/{name}/paragraphs/{index}/?appSid={appSid}&amp;storage={storage}&amp;folder={folder}".replaceAll("\\{format\\}","json");
-
+    String resourcePath = "/words/{name}/paragraphs/{index}/?appSid={appSid}&amp;storage={storage}&amp;folder={folder}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
     if(name!=null)
-      queryParams.put("name", String.valueOf(name));
+	  resourcePath = resourcePath.replace("{" + "name" + "}" , apiInvoker.toPathValue(name));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]name.*?(?=&|\\?|$)", "");
     if(index!=null)
-      queryParams.put("index", String.valueOf(index));
+	  resourcePath = resourcePath.replace("{" + "index" + "}" , apiInvoker.toPathValue(index));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]index.*?(?=&|\\?|$)", "");
     if(storage!=null)
-      queryParams.put("storage", String.valueOf(storage));
+	  resourcePath = resourcePath.replace("{" + "storage" + "}" , apiInvoker.toPathValue(storage));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]storage.*?(?=&|\\?|$)", "");
     if(folder!=null)
-      queryParams.put("folder", String.valueOf(folder));
+	  resourcePath = resourcePath.replace("{" + "folder" + "}" , apiInvoker.toPathValue(folder));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]folder.*?(?=&|\\?|$)", "");
     String[] contentTypes = {
       "application/json"};
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
-      FormDataMultiPart mp = new FormDataMultiPart();
-      if(hasFields)
-        postBody = mp;
-    }
-    try {
-		response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType);
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "GET", queryParams, postBody, headerParams, formParams, contentType);
 		return (ParagraphResponse) ApiInvoker.deserialize(response, "", ParagraphResponse.class);
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
@@ -2656,7 +2970,6 @@ public class WordsApi {
       }
     }
   }
-  //error info- code: 404 reason: "no project found" model: <none>
   /**
 	* GetDocumentParagraphRun
 	* This resource represents one of the paragraphs contained in the document.
@@ -2675,36 +2988,40 @@ public class WordsApi {
        throw new ApiException(400, "missing required params");
     }
     // create path and map variables
-    String path = "/words/{name}/paragraphs/{index}/runs/{runIndex}/?appSid={appSid}&amp;storage={storage}&amp;folder={folder}".replaceAll("\\{format\\}","json");
-
+    String resourcePath = "/words/{name}/paragraphs/{index}/runs/{runIndex}/?appSid={appSid}&amp;storage={storage}&amp;folder={folder}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
     if(name!=null)
-      queryParams.put("name", String.valueOf(name));
+	  resourcePath = resourcePath.replace("{" + "name" + "}" , apiInvoker.toPathValue(name));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]name.*?(?=&|\\?|$)", "");
     if(index!=null)
-      queryParams.put("index", String.valueOf(index));
+	  resourcePath = resourcePath.replace("{" + "index" + "}" , apiInvoker.toPathValue(index));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]index.*?(?=&|\\?|$)", "");
     if(runIndex!=null)
-      queryParams.put("runIndex", String.valueOf(runIndex));
+	  resourcePath = resourcePath.replace("{" + "runIndex" + "}" , apiInvoker.toPathValue(runIndex));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]runIndex.*?(?=&|\\?|$)", "");
     if(storage!=null)
-      queryParams.put("storage", String.valueOf(storage));
+	  resourcePath = resourcePath.replace("{" + "storage" + "}" , apiInvoker.toPathValue(storage));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]storage.*?(?=&|\\?|$)", "");
     if(folder!=null)
-      queryParams.put("folder", String.valueOf(folder));
+	  resourcePath = resourcePath.replace("{" + "folder" + "}" , apiInvoker.toPathValue(folder));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]folder.*?(?=&|\\?|$)", "");
     String[] contentTypes = {
       "application/json"};
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
-      FormDataMultiPart mp = new FormDataMultiPart();
-      if(hasFields)
-        postBody = mp;
-    }
-    try {
-		response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType);
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "GET", queryParams, postBody, headerParams, formParams, contentType);
 		return (RunResponse) ApiInvoker.deserialize(response, "", RunResponse.class);
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
@@ -2715,7 +3032,6 @@ public class WordsApi {
       }
     }
   }
-  //error info- code: 404 reason: "no project found" model: <none>
   /**
 	* GetDocumentParagraphRunFont
 	* This resource represents one of the paragraphs contained in the document.
@@ -2734,36 +3050,40 @@ public class WordsApi {
        throw new ApiException(400, "missing required params");
     }
     // create path and map variables
-    String path = "/words/{name}/paragraphs/{index}/runs/{runIndex}/font/?appSid={appSid}&amp;storage={storage}&amp;folder={folder}".replaceAll("\\{format\\}","json");
-
+    String resourcePath = "/words/{name}/paragraphs/{index}/runs/{runIndex}/font/?appSid={appSid}&amp;storage={storage}&amp;folder={folder}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
     if(name!=null)
-      queryParams.put("name", String.valueOf(name));
+	  resourcePath = resourcePath.replace("{" + "name" + "}" , apiInvoker.toPathValue(name));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]name.*?(?=&|\\?|$)", "");
     if(index!=null)
-      queryParams.put("index", String.valueOf(index));
+	  resourcePath = resourcePath.replace("{" + "index" + "}" , apiInvoker.toPathValue(index));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]index.*?(?=&|\\?|$)", "");
     if(runIndex!=null)
-      queryParams.put("runIndex", String.valueOf(runIndex));
+	  resourcePath = resourcePath.replace("{" + "runIndex" + "}" , apiInvoker.toPathValue(runIndex));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]runIndex.*?(?=&|\\?|$)", "");
     if(storage!=null)
-      queryParams.put("storage", String.valueOf(storage));
+	  resourcePath = resourcePath.replace("{" + "storage" + "}" , apiInvoker.toPathValue(storage));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]storage.*?(?=&|\\?|$)", "");
     if(folder!=null)
-      queryParams.put("folder", String.valueOf(folder));
+	  resourcePath = resourcePath.replace("{" + "folder" + "}" , apiInvoker.toPathValue(folder));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]folder.*?(?=&|\\?|$)", "");
     String[] contentTypes = {
       "application/json"};
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
-      FormDataMultiPart mp = new FormDataMultiPart();
-      if(hasFields)
-        postBody = mp;
-    }
-    try {
-		response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType);
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "GET", queryParams, postBody, headerParams, formParams, contentType);
 		return (FontResponse) ApiInvoker.deserialize(response, "", FontResponse.class);
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
@@ -2774,7 +3094,6 @@ public class WordsApi {
       }
     }
   }
-  //error info- code: 404 reason: "no project found" model: <none>
   /**
 	* GetDocumentParagraphs
 	* Return a list of paragraphs that are contained in the document.
@@ -2791,32 +3110,32 @@ public class WordsApi {
        throw new ApiException(400, "missing required params");
     }
     // create path and map variables
-    String path = "/words/{name}/paragraphs/?appSid={appSid}&amp;storage={storage}&amp;folder={folder}".replaceAll("\\{format\\}","json");
-
+    String resourcePath = "/words/{name}/paragraphs/?appSid={appSid}&amp;storage={storage}&amp;folder={folder}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
     if(name!=null)
-      queryParams.put("name", String.valueOf(name));
+	  resourcePath = resourcePath.replace("{" + "name" + "}" , apiInvoker.toPathValue(name));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]name.*?(?=&|\\?|$)", "");
     if(storage!=null)
-      queryParams.put("storage", String.valueOf(storage));
+	  resourcePath = resourcePath.replace("{" + "storage" + "}" , apiInvoker.toPathValue(storage));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]storage.*?(?=&|\\?|$)", "");
     if(folder!=null)
-      queryParams.put("folder", String.valueOf(folder));
+	  resourcePath = resourcePath.replace("{" + "folder" + "}" , apiInvoker.toPathValue(folder));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]folder.*?(?=&|\\?|$)", "");
     String[] contentTypes = {
       "application/json"};
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
-      FormDataMultiPart mp = new FormDataMultiPart();
-      if(hasFields)
-        postBody = mp;
-    }
-    try {
-		response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType);
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "GET", queryParams, postBody, headerParams, formParams, contentType);
 		return (ParagraphLinkCollectionResponse) ApiInvoker.deserialize(response, "", ParagraphLinkCollectionResponse.class);
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
@@ -2827,7 +3146,6 @@ public class WordsApi {
       }
     }
   }
-  //error info- code: 404 reason: "no project found" model: <none>
   /**
 	* PostDocumentParagraphRunFont
 	* This resource represents one of the paragraphs contained in the document.
@@ -2848,38 +3166,44 @@ public class WordsApi {
        throw new ApiException(400, "missing required params");
     }
     // create path and map variables
-    String path = "/words/{name}/paragraphs/{index}/runs/{runIndex}/font/?appSid={appSid}&amp;storage={storage}&amp;folder={folder}&amp;filename={filename}".replaceAll("\\{format\\}","json");
-
+    String resourcePath = "/words/{name}/paragraphs/{index}/runs/{runIndex}/font/?appSid={appSid}&amp;storage={storage}&amp;folder={folder}&amp;filename={filename}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
     if(name!=null)
-      queryParams.put("name", String.valueOf(name));
+	  resourcePath = resourcePath.replace("{" + "name" + "}" , apiInvoker.toPathValue(name));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]name.*?(?=&|\\?|$)", "");
     if(index!=null)
-      queryParams.put("index", String.valueOf(index));
+	  resourcePath = resourcePath.replace("{" + "index" + "}" , apiInvoker.toPathValue(index));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]index.*?(?=&|\\?|$)", "");
     if(runIndex!=null)
-      queryParams.put("runIndex", String.valueOf(runIndex));
+	  resourcePath = resourcePath.replace("{" + "runIndex" + "}" , apiInvoker.toPathValue(runIndex));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]runIndex.*?(?=&|\\?|$)", "");
     if(storage!=null)
-      queryParams.put("storage", String.valueOf(storage));
+	  resourcePath = resourcePath.replace("{" + "storage" + "}" , apiInvoker.toPathValue(storage));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]storage.*?(?=&|\\?|$)", "");
     if(folder!=null)
-      queryParams.put("folder", String.valueOf(folder));
+	  resourcePath = resourcePath.replace("{" + "folder" + "}" , apiInvoker.toPathValue(folder));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]folder.*?(?=&|\\?|$)", "");
     if(filename!=null)
-      queryParams.put("filename", String.valueOf(filename));
+	  resourcePath = resourcePath.replace("{" + "filename" + "}" , apiInvoker.toPathValue(filename));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]filename.*?(?=&|\\?|$)", "");
     String[] contentTypes = {
       "application/json"};
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
-      FormDataMultiPart mp = new FormDataMultiPart();
-      if(hasFields)
-        postBody = mp;
-    }
-    try {
-		response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType);
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "POST", queryParams, postBody, headerParams, formParams, contentType);
 		return (FontResponse) ApiInvoker.deserialize(response, "", FontResponse.class);
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
@@ -2890,7 +3214,6 @@ public class WordsApi {
       }
     }
   }
-  //error info- code: 404 reason: "no project found" model: <none>
   /**
 	* AcceptAllRevisions
 	* Accept all revisions in document
@@ -2908,34 +3231,36 @@ public class WordsApi {
        throw new ApiException(400, "missing required params");
     }
     // create path and map variables
-    String path = "/words/{name}/revisions/acceptAll/?appSid={appSid}&amp;filename={filename}&amp;storage={storage}&amp;folder={folder}".replaceAll("\\{format\\}","json");
-
+    String resourcePath = "/words/{name}/revisions/acceptAll/?appSid={appSid}&amp;filename={filename}&amp;storage={storage}&amp;folder={folder}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
     if(name!=null)
-      queryParams.put("name", String.valueOf(name));
+	  resourcePath = resourcePath.replace("{" + "name" + "}" , apiInvoker.toPathValue(name));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]name.*?(?=&|\\?|$)", "");
     if(filename!=null)
-      queryParams.put("filename", String.valueOf(filename));
+	  resourcePath = resourcePath.replace("{" + "filename" + "}" , apiInvoker.toPathValue(filename));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]filename.*?(?=&|\\?|$)", "");
     if(storage!=null)
-      queryParams.put("storage", String.valueOf(storage));
+	  resourcePath = resourcePath.replace("{" + "storage" + "}" , apiInvoker.toPathValue(storage));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]storage.*?(?=&|\\?|$)", "");
     if(folder!=null)
-      queryParams.put("folder", String.valueOf(folder));
+	  resourcePath = resourcePath.replace("{" + "folder" + "}" , apiInvoker.toPathValue(folder));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]folder.*?(?=&|\\?|$)", "");
     String[] contentTypes = {
       "application/json"};
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
-      FormDataMultiPart mp = new FormDataMultiPart();
-      if(hasFields)
-        postBody = mp;
-    }
-    try {
-		response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType);
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "POST", queryParams, postBody, headerParams, formParams, contentType);
 		return (RevisionsModificationResponse) ApiInvoker.deserialize(response, "", RevisionsModificationResponse.class);
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
@@ -2946,7 +3271,6 @@ public class WordsApi {
       }
     }
   }
-  //error info- code: 404 reason: "no project found" model: <none>
   /**
 	* RejectAllRevisions
 	* Reject all revisions in document
@@ -2964,34 +3288,36 @@ public class WordsApi {
        throw new ApiException(400, "missing required params");
     }
     // create path and map variables
-    String path = "/words/{name}/revisions/rejectAll/?appSid={appSid}&amp;filename={filename}&amp;storage={storage}&amp;folder={folder}".replaceAll("\\{format\\}","json");
-
+    String resourcePath = "/words/{name}/revisions/rejectAll/?appSid={appSid}&amp;filename={filename}&amp;storage={storage}&amp;folder={folder}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
     if(name!=null)
-      queryParams.put("name", String.valueOf(name));
+	  resourcePath = resourcePath.replace("{" + "name" + "}" , apiInvoker.toPathValue(name));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]name.*?(?=&|\\?|$)", "");
     if(filename!=null)
-      queryParams.put("filename", String.valueOf(filename));
+	  resourcePath = resourcePath.replace("{" + "filename" + "}" , apiInvoker.toPathValue(filename));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]filename.*?(?=&|\\?|$)", "");
     if(storage!=null)
-      queryParams.put("storage", String.valueOf(storage));
+	  resourcePath = resourcePath.replace("{" + "storage" + "}" , apiInvoker.toPathValue(storage));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]storage.*?(?=&|\\?|$)", "");
     if(folder!=null)
-      queryParams.put("folder", String.valueOf(folder));
+	  resourcePath = resourcePath.replace("{" + "folder" + "}" , apiInvoker.toPathValue(folder));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]folder.*?(?=&|\\?|$)", "");
     String[] contentTypes = {
       "application/json"};
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
-      FormDataMultiPart mp = new FormDataMultiPart();
-      if(hasFields)
-        postBody = mp;
-    }
-    try {
-		response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType);
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "POST", queryParams, postBody, headerParams, formParams, contentType);
 		return (RevisionsModificationResponse) ApiInvoker.deserialize(response, "", RevisionsModificationResponse.class);
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
@@ -3002,7 +3328,125 @@ public class WordsApi {
       }
     }
   }
-  //error info- code: 404 reason: "no project found" model: <none>
+  /**
+	* DeleteSectionFields
+	* Remove fields from section.
+	* @param name	String	The file name.
+	* @param sectionIndex	Integer	Section index
+	* @param storage	String	The document storage.
+	* @param folder	String	The document folder.
+	* @return SaaSposeResponse
+	*/
+
+  public SaaSposeResponse DeleteSectionFields (String name, Integer sectionIndex, String storage, String folder) {
+    Object postBody = null;
+    // verify required params are set
+    if(name == null || sectionIndex == null ) {
+       throw new ApiException(400, "missing required params");
+    }
+    // create path and map variables
+    String resourcePath = "/words/{name}/sections/{sectionIndex}/fields/?appSid={appSid}&amp;storage={storage}&amp;folder={folder}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
+    // query params
+    Map<String, String> queryParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<String, String>();
+
+    if(name!=null)
+	  resourcePath = resourcePath.replace("{" + "name" + "}" , apiInvoker.toPathValue(name));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]name.*?(?=&|\\?|$)", "");
+    if(sectionIndex!=null)
+	  resourcePath = resourcePath.replace("{" + "sectionIndex" + "}" , apiInvoker.toPathValue(sectionIndex));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]sectionIndex.*?(?=&|\\?|$)", "");
+    if(storage!=null)
+	  resourcePath = resourcePath.replace("{" + "storage" + "}" , apiInvoker.toPathValue(storage));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]storage.*?(?=&|\\?|$)", "");
+    if(folder!=null)
+	  resourcePath = resourcePath.replace("{" + "folder" + "}" , apiInvoker.toPathValue(folder));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]folder.*?(?=&|\\?|$)", "");
+    String[] contentTypes = {
+      "application/json"};
+
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "DELETE", queryParams, postBody, headerParams, formParams, contentType);
+		return (SaaSposeResponse) ApiInvoker.deserialize(response, "", SaaSposeResponse.class);
+    } catch (ApiException ex) {
+      if(ex.getCode() == 404) {
+      	throw new ApiException(404, "");
+      }
+      else {
+        throw ex;
+      }
+    }
+  }
+  /**
+	* DeleteSectionParagraphFields
+	* Remove fields from section paragraph.
+	* @param name	String	The file name.
+	* @param sectionIndex	Integer	Section index
+	* @param paragraphIndex	Integer	Paragraph index
+	* @param storage	String	The document storage.
+	* @param folder	String	The document folder.
+	* @return SaaSposeResponse
+	*/
+
+  public SaaSposeResponse DeleteSectionParagraphFields (String name, Integer sectionIndex, Integer paragraphIndex, String storage, String folder) {
+    Object postBody = null;
+    // verify required params are set
+    if(name == null || sectionIndex == null || paragraphIndex == null ) {
+       throw new ApiException(400, "missing required params");
+    }
+    // create path and map variables
+    String resourcePath = "/words/{name}/sections/{sectionIndex}/paragraphs/{paragraphIndex}/fields/?appSid={appSid}&amp;storage={storage}&amp;folder={folder}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
+    // query params
+    Map<String, String> queryParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<String, String>();
+
+    if(name!=null)
+	  resourcePath = resourcePath.replace("{" + "name" + "}" , apiInvoker.toPathValue(name));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]name.*?(?=&|\\?|$)", "");
+    if(sectionIndex!=null)
+	  resourcePath = resourcePath.replace("{" + "sectionIndex" + "}" , apiInvoker.toPathValue(sectionIndex));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]sectionIndex.*?(?=&|\\?|$)", "");
+    if(paragraphIndex!=null)
+	  resourcePath = resourcePath.replace("{" + "paragraphIndex" + "}" , apiInvoker.toPathValue(paragraphIndex));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]paragraphIndex.*?(?=&|\\?|$)", "");
+    if(storage!=null)
+	  resourcePath = resourcePath.replace("{" + "storage" + "}" , apiInvoker.toPathValue(storage));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]storage.*?(?=&|\\?|$)", "");
+    if(folder!=null)
+	  resourcePath = resourcePath.replace("{" + "folder" + "}" , apiInvoker.toPathValue(folder));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]folder.*?(?=&|\\?|$)", "");
+    String[] contentTypes = {
+      "application/json"};
+
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "DELETE", queryParams, postBody, headerParams, formParams, contentType);
+		return (SaaSposeResponse) ApiInvoker.deserialize(response, "", SaaSposeResponse.class);
+    } catch (ApiException ex) {
+      if(ex.getCode() == 404) {
+      	throw new ApiException(404, "");
+      }
+      else {
+        throw ex;
+      }
+    }
+  }
   /**
 	* GetSection
 	* Get document section by index.
@@ -3020,34 +3464,36 @@ public class WordsApi {
        throw new ApiException(400, "missing required params");
     }
     // create path and map variables
-    String path = "/words/{name}/sections/{sectionIndex}/?appSid={appSid}&amp;storage={storage}&amp;folder={folder}".replaceAll("\\{format\\}","json");
-
+    String resourcePath = "/words/{name}/sections/{sectionIndex}/?appSid={appSid}&amp;storage={storage}&amp;folder={folder}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
     if(name!=null)
-      queryParams.put("name", String.valueOf(name));
+	  resourcePath = resourcePath.replace("{" + "name" + "}" , apiInvoker.toPathValue(name));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]name.*?(?=&|\\?|$)", "");
     if(sectionIndex!=null)
-      queryParams.put("sectionIndex", String.valueOf(sectionIndex));
+	  resourcePath = resourcePath.replace("{" + "sectionIndex" + "}" , apiInvoker.toPathValue(sectionIndex));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]sectionIndex.*?(?=&|\\?|$)", "");
     if(storage!=null)
-      queryParams.put("storage", String.valueOf(storage));
+	  resourcePath = resourcePath.replace("{" + "storage" + "}" , apiInvoker.toPathValue(storage));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]storage.*?(?=&|\\?|$)", "");
     if(folder!=null)
-      queryParams.put("folder", String.valueOf(folder));
+	  resourcePath = resourcePath.replace("{" + "folder" + "}" , apiInvoker.toPathValue(folder));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]folder.*?(?=&|\\?|$)", "");
     String[] contentTypes = {
       "application/json"};
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
-      FormDataMultiPart mp = new FormDataMultiPart();
-      if(hasFields)
-        postBody = mp;
-    }
-    try {
-		response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType);
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "GET", queryParams, postBody, headerParams, formParams, contentType);
 		return (SectionResponse) ApiInvoker.deserialize(response, "", SectionResponse.class);
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
@@ -3058,7 +3504,6 @@ public class WordsApi {
       }
     }
   }
-  //error info- code: 404 reason: "no project found" model: <none>
   /**
 	* GetSectionPageSetup
 	* Get page setup of section.
@@ -3076,34 +3521,36 @@ public class WordsApi {
        throw new ApiException(400, "missing required params");
     }
     // create path and map variables
-    String path = "/words/{name}/sections/{sectionIndex}/pageSetup/?appSid={appSid}&amp;storage={storage}&amp;folder={folder}".replaceAll("\\{format\\}","json");
-
+    String resourcePath = "/words/{name}/sections/{sectionIndex}/pageSetup/?appSid={appSid}&amp;storage={storage}&amp;folder={folder}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
     if(name!=null)
-      queryParams.put("name", String.valueOf(name));
+	  resourcePath = resourcePath.replace("{" + "name" + "}" , apiInvoker.toPathValue(name));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]name.*?(?=&|\\?|$)", "");
     if(sectionIndex!=null)
-      queryParams.put("sectionIndex", String.valueOf(sectionIndex));
+	  resourcePath = resourcePath.replace("{" + "sectionIndex" + "}" , apiInvoker.toPathValue(sectionIndex));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]sectionIndex.*?(?=&|\\?|$)", "");
     if(storage!=null)
-      queryParams.put("storage", String.valueOf(storage));
+	  resourcePath = resourcePath.replace("{" + "storage" + "}" , apiInvoker.toPathValue(storage));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]storage.*?(?=&|\\?|$)", "");
     if(folder!=null)
-      queryParams.put("folder", String.valueOf(folder));
+	  resourcePath = resourcePath.replace("{" + "folder" + "}" , apiInvoker.toPathValue(folder));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]folder.*?(?=&|\\?|$)", "");
     String[] contentTypes = {
       "application/json"};
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
-      FormDataMultiPart mp = new FormDataMultiPart();
-      if(hasFields)
-        postBody = mp;
-    }
-    try {
-		response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType);
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "GET", queryParams, postBody, headerParams, formParams, contentType);
 		return (SectionPageSetupResponse) ApiInvoker.deserialize(response, "", SectionPageSetupResponse.class);
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
@@ -3114,7 +3561,6 @@ public class WordsApi {
       }
     }
   }
-  //error info- code: 404 reason: "no project found" model: <none>
   /**
 	* GetSections
 	* Return a list of sections that are contained in the document.
@@ -3131,32 +3577,32 @@ public class WordsApi {
        throw new ApiException(400, "missing required params");
     }
     // create path and map variables
-    String path = "/words/{name}/sections/?appSid={appSid}&amp;storage={storage}&amp;folder={folder}".replaceAll("\\{format\\}","json");
-
+    String resourcePath = "/words/{name}/sections/?appSid={appSid}&amp;storage={storage}&amp;folder={folder}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
     if(name!=null)
-      queryParams.put("name", String.valueOf(name));
+	  resourcePath = resourcePath.replace("{" + "name" + "}" , apiInvoker.toPathValue(name));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]name.*?(?=&|\\?|$)", "");
     if(storage!=null)
-      queryParams.put("storage", String.valueOf(storage));
+	  resourcePath = resourcePath.replace("{" + "storage" + "}" , apiInvoker.toPathValue(storage));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]storage.*?(?=&|\\?|$)", "");
     if(folder!=null)
-      queryParams.put("folder", String.valueOf(folder));
+	  resourcePath = resourcePath.replace("{" + "folder" + "}" , apiInvoker.toPathValue(folder));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]folder.*?(?=&|\\?|$)", "");
     String[] contentTypes = {
       "application/json"};
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
-      FormDataMultiPart mp = new FormDataMultiPart();
-      if(hasFields)
-        postBody = mp;
-    }
-    try {
-		response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType);
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "GET", queryParams, postBody, headerParams, formParams, contentType);
 		return (SectionLinkCollectionResponse) ApiInvoker.deserialize(response, "", SectionLinkCollectionResponse.class);
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
@@ -3167,7 +3613,6 @@ public class WordsApi {
       }
     }
   }
-  //error info- code: 404 reason: "no project found" model: <none>
   /**
 	* UpdateSectionPageSetup
 	* Update page setup of section.
@@ -3187,36 +3632,40 @@ public class WordsApi {
        throw new ApiException(400, "missing required params");
     }
     // create path and map variables
-    String path = "/words/{name}/sections/{sectionIndex}/pageSetup/?appSid={appSid}&amp;storage={storage}&amp;folder={folder}&amp;filename={filename}".replaceAll("\\{format\\}","json");
-
+    String resourcePath = "/words/{name}/sections/{sectionIndex}/pageSetup/?appSid={appSid}&amp;storage={storage}&amp;folder={folder}&amp;filename={filename}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
     if(name!=null)
-      queryParams.put("name", String.valueOf(name));
+	  resourcePath = resourcePath.replace("{" + "name" + "}" , apiInvoker.toPathValue(name));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]name.*?(?=&|\\?|$)", "");
     if(sectionIndex!=null)
-      queryParams.put("sectionIndex", String.valueOf(sectionIndex));
+	  resourcePath = resourcePath.replace("{" + "sectionIndex" + "}" , apiInvoker.toPathValue(sectionIndex));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]sectionIndex.*?(?=&|\\?|$)", "");
     if(storage!=null)
-      queryParams.put("storage", String.valueOf(storage));
+	  resourcePath = resourcePath.replace("{" + "storage" + "}" , apiInvoker.toPathValue(storage));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]storage.*?(?=&|\\?|$)", "");
     if(folder!=null)
-      queryParams.put("folder", String.valueOf(folder));
+	  resourcePath = resourcePath.replace("{" + "folder" + "}" , apiInvoker.toPathValue(folder));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]folder.*?(?=&|\\?|$)", "");
     if(filename!=null)
-      queryParams.put("filename", String.valueOf(filename));
+	  resourcePath = resourcePath.replace("{" + "filename" + "}" , apiInvoker.toPathValue(filename));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]filename.*?(?=&|\\?|$)", "");
     String[] contentTypes = {
       "application/json"};
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
-      FormDataMultiPart mp = new FormDataMultiPart();
-      if(hasFields)
-        postBody = mp;
-    }
-    try {
-		response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType);
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "POST", queryParams, postBody, headerParams, formParams, contentType);
 		return (SectionPageSetupResponse) ApiInvoker.deserialize(response, "", SectionPageSetupResponse.class);
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
@@ -3227,7 +3676,6 @@ public class WordsApi {
       }
     }
   }
-  //error info- code: 404 reason: "no project found" model: <none>
   /**
 	* GetDocumentTextItems
 	* Read document text items.
@@ -3244,32 +3692,32 @@ public class WordsApi {
        throw new ApiException(400, "missing required params");
     }
     // create path and map variables
-    String path = "/words/{name}/textItems/?appSid={appSid}&amp;storage={storage}&amp;folder={folder}".replaceAll("\\{format\\}","json");
-
+    String resourcePath = "/words/{name}/textItems/?appSid={appSid}&amp;storage={storage}&amp;folder={folder}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
     if(name!=null)
-      queryParams.put("name", String.valueOf(name));
+	  resourcePath = resourcePath.replace("{" + "name" + "}" , apiInvoker.toPathValue(name));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]name.*?(?=&|\\?|$)", "");
     if(storage!=null)
-      queryParams.put("storage", String.valueOf(storage));
+	  resourcePath = resourcePath.replace("{" + "storage" + "}" , apiInvoker.toPathValue(storage));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]storage.*?(?=&|\\?|$)", "");
     if(folder!=null)
-      queryParams.put("folder", String.valueOf(folder));
+	  resourcePath = resourcePath.replace("{" + "folder" + "}" , apiInvoker.toPathValue(folder));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]folder.*?(?=&|\\?|$)", "");
     String[] contentTypes = {
       "application/json"};
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
-      FormDataMultiPart mp = new FormDataMultiPart();
-      if(hasFields)
-        postBody = mp;
-    }
-    try {
-		response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType);
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "GET", queryParams, postBody, headerParams, formParams, contentType);
 		return (TextItemsResponse) ApiInvoker.deserialize(response, "", TextItemsResponse.class);
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
@@ -3280,7 +3728,6 @@ public class WordsApi {
       }
     }
   }
-  //error info- code: 404 reason: "no project found" model: <none>
   /**
 	* PostReplaceText
 	* Replace document text.
@@ -3299,35 +3746,178 @@ public class WordsApi {
        throw new ApiException(400, "missing required params");
     }
     // create path and map variables
-    String path = "/words/{name}/replaceText/?appSid={appSid}&amp;filename={filename}&amp;storage={storage}&amp;folder={folder}".replaceAll("\\{format\\}","json");
-
+    String resourcePath = "/words/{name}/replaceText/?appSid={appSid}&amp;filename={filename}&amp;storage={storage}&amp;folder={folder}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
     // query params
     Map<String, String> queryParams = new HashMap<String, String>();
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
     if(name!=null)
-      queryParams.put("name", String.valueOf(name));
+	  resourcePath = resourcePath.replace("{" + "name" + "}" , apiInvoker.toPathValue(name));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]name.*?(?=&|\\?|$)", "");
     if(filename!=null)
-      queryParams.put("filename", String.valueOf(filename));
+	  resourcePath = resourcePath.replace("{" + "filename" + "}" , apiInvoker.toPathValue(filename));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]filename.*?(?=&|\\?|$)", "");
     if(storage!=null)
-      queryParams.put("storage", String.valueOf(storage));
+	  resourcePath = resourcePath.replace("{" + "storage" + "}" , apiInvoker.toPathValue(storage));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]storage.*?(?=&|\\?|$)", "");
     if(folder!=null)
-      queryParams.put("folder", String.valueOf(folder));
+	  resourcePath = resourcePath.replace("{" + "folder" + "}" , apiInvoker.toPathValue(folder));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]folder.*?(?=&|\\?|$)", "");
     String[] contentTypes = {
       "application/json"};
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
-    if(contentType.startsWith("multipart/form-data")) {
-      boolean hasFields = false;
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "POST", queryParams, postBody, headerParams, formParams, contentType);
+		return (ReplaceTextResponse) ApiInvoker.deserialize(response, "", ReplaceTextResponse.class);
+    } catch (ApiException ex) {
+      if(ex.getCode() == 404) {
+      	throw new ApiException(404, "");
+      }
+      else {
+        throw ex;
+      }
+    }
+  }
+  /**
+	* PostInsertWatermarkImage
+	* Insert document watermark image.
+	* @param name	String	The document name.
+	* @param filename	String	Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document
+	* @param rotationAngle	Double	The watermark rotation angle.
+	* @param image	String	The image file server full name. If the name is empty the image is expected in request content.
+	* @param storage	String	The document storage.
+	* @param folder	String	The document folder.
+	* @param file	File	
+	* @return DocumentResponse
+	*/
+
+  public DocumentResponse PostInsertWatermarkImage (String name, String filename, Double rotationAngle, String image, String storage, String folder, File file) {
+    Object postBody = null;
+    // verify required params are set
+    if(name == null || file == null ) {
+       throw new ApiException(400, "missing required params");
+    }
+    // create path and map variables
+    String resourcePath = "/words/{name}/insertWatermarkImage/?appSid={appSid}&amp;filename={filename}&amp;rotationAngle={rotationAngle}&amp;image={image}&amp;storage={storage}&amp;folder={folder}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
+    // query params
+    Map<String, String> queryParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<String, String>();
+
+    if(name!=null)
+	  resourcePath = resourcePath.replace("{" + "name" + "}" , apiInvoker.toPathValue(name));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]name.*?(?=&|\\?|$)", "");
+    if(filename!=null)
+	  resourcePath = resourcePath.replace("{" + "filename" + "}" , apiInvoker.toPathValue(filename));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]filename.*?(?=&|\\?|$)", "");
+    if(rotationAngle!=null)
+	  resourcePath = resourcePath.replace("{" + "rotationAngle" + "}" , apiInvoker.toPathValue(rotationAngle));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]rotationAngle.*?(?=&|\\?|$)", "");
+    if(image!=null)
+	  resourcePath = resourcePath.replace("{" + "image" + "}" , apiInvoker.toPathValue(image));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]image.*?(?=&|\\?|$)", "");
+    if(storage!=null)
+	  resourcePath = resourcePath.replace("{" + "storage" + "}" , apiInvoker.toPathValue(storage));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]storage.*?(?=&|\\?|$)", "");
+    if(folder!=null)
+	  resourcePath = resourcePath.replace("{" + "folder" + "}" , apiInvoker.toPathValue(folder));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]folder.*?(?=&|\\?|$)", "");
+    String[] contentTypes = {
+      "multipart/form-data"};
+
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+if(contentType.startsWith("multipart/form-data")) {      
       FormDataMultiPart mp = new FormDataMultiPart();
-      if(hasFields)
+      mp.field("file", file, MediaType.MULTIPART_FORM_DATA_TYPE);
         postBody = mp;
     }
-    try {
-		response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType);
-		return (ReplaceTextResponse) ApiInvoker.deserialize(response, "", ReplaceTextResponse.class);
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "POST", queryParams, postBody, headerParams, formParams, contentType);
+		return (DocumentResponse) ApiInvoker.deserialize(response, "", DocumentResponse.class);
+    } catch (ApiException ex) {
+      if(ex.getCode() == 404) {
+      	throw new ApiException(404, "");
+      }
+      else {
+        throw ex;
+      }
+    }
+  }
+  /**
+	* PostInsertWatermarkText
+	* Insert document watermark text.
+	* @param name	String	The document name.
+	* @param text	String	The text to insert.
+	* @param rotationAngle	Double	The text rotation angle.
+	* @param filename	String	Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document
+	* @param storage	String	The document storage.
+	* @param folder	String	The document folder.
+	* @param body	WatermarkText	with the watermark data.            If the parameter is provided the query string parameters are ignored.
+	* @return DocumentResponse
+	*/
+
+  public DocumentResponse PostInsertWatermarkText (String name, String text, Double rotationAngle, String filename, String storage, String folder, WatermarkText body) {
+    Object postBody = body;
+    // verify required params are set
+    if(name == null || body == null ) {
+       throw new ApiException(400, "missing required params");
+    }
+    // create path and map variables
+    String resourcePath = "/words/{name}/insertWatermarkText/?appSid={appSid}&amp;text={text}&amp;rotationAngle={rotationAngle}&amp;filename={filename}&amp;storage={storage}&amp;folder={folder}";
+	resourcePath = resourcePath.replaceAll("\\*", "").replace("&amp;", "&").replace("/?", "?").replace("toFormat={toFormat}", "format={format}");
+    // query params
+    Map<String, String> queryParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<String, String>();
+
+    if(name!=null)
+	  resourcePath = resourcePath.replace("{" + "name" + "}" , apiInvoker.toPathValue(name));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]name.*?(?=&|\\?|$)", "");
+    if(text!=null)
+	  resourcePath = resourcePath.replace("{" + "text" + "}" , apiInvoker.toPathValue(text));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]text.*?(?=&|\\?|$)", "");
+    if(rotationAngle!=null)
+	  resourcePath = resourcePath.replace("{" + "rotationAngle" + "}" , apiInvoker.toPathValue(rotationAngle));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]rotationAngle.*?(?=&|\\?|$)", "");
+    if(filename!=null)
+	  resourcePath = resourcePath.replace("{" + "filename" + "}" , apiInvoker.toPathValue(filename));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]filename.*?(?=&|\\?|$)", "");
+    if(storage!=null)
+	  resourcePath = resourcePath.replace("{" + "storage" + "}" , apiInvoker.toPathValue(storage));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]storage.*?(?=&|\\?|$)", "");
+    if(folder!=null)
+	  resourcePath = resourcePath.replace("{" + "folder" + "}" , apiInvoker.toPathValue(folder));
+	  else
+	  resourcePath = resourcePath.replaceAll("[&?]folder.*?(?=&|\\?|$)", "");
+    String[] contentTypes = {
+      "application/json"};
+
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+try {
+		response = apiInvoker.invokeAPI(basePath, resourcePath, "POST", queryParams, postBody, headerParams, formParams, contentType);
+		return (DocumentResponse) ApiInvoker.deserialize(response, "", DocumentResponse.class);
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
       	throw new ApiException(404, "");
