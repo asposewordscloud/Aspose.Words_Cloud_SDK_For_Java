@@ -200,7 +200,10 @@ public class ApiInvoker {
 			} else if (body instanceof FormDataMultiPart) {
         response = builder.type(contentType).post(ClientResponse.class, body);
 			} else {
-        response = builder.type(contentType).post(ClientResponse.class, serialize(body));
+			        if(contentType.equalsIgnoreCase("application/json"))
+			               response = builder.type(contentType).post(ClientResponse.class, serialize(body));
+			        else
+			                response = builder.type(contentType).post(ClientResponse.class, body);
     }
 		} else if ("PUT".equals(method)) {
 			if (body == null) {

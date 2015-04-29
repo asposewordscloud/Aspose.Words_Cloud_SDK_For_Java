@@ -4,9 +4,20 @@
  */
 package com.aspose.words.api;
 
-import com.aspose.words.api.WordsApi;
-import com.aspose.storage.api.StorageApi;
+import static org.junit.Assert.assertNull;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
 import com.aspose.client.ApiException;
+import com.aspose.storage.api.StorageApi;
 import com.aspose.words.model.BookmarkData;
 import com.aspose.words.model.BookmarkResponse;
 import com.aspose.words.model.BookmarksResponse;
@@ -47,18 +58,6 @@ import com.aspose.words.model.TextItemsResponse;
 import com.aspose.words.model.TiffSaveOptionsData;
 import com.aspose.words.model.WatermarkText;
 
-import java.io.File;
-import java.util.List;
-import java.util.ArrayList;
-
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
-import static org.junit.Assert.*;
-
 /**
  *
  * @author Imran Anwar
@@ -67,16 +66,29 @@ import static org.junit.Assert.*;
 public class WordsApiTest {
 
 	WordsApi wordsApi;
-	StorageApi storageApi;
+	static StorageApi storageApi;
 	// Please get the appSID and apiKey from https://cloud.aspose.com
-	String appSID = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
-	String apiKey = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
+	static String appSID = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
+	static String apiKey = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
 
 	public WordsApiTest() {
 	}
 
 	@BeforeClass
 	public static void setUpClass() {
+	        try {
+	                   storageApi = new StorageApi("http://api.aspose.com/v1.1",apiKey,appSID);
+	                  storageApi.PutCreate("test_multi_pages.docx", "", "", new File(WordsApiTest.class.getResource("/test_multi_pages.docx").toURI()));
+	                   storageApi.PutCreate("test_convertlocal.docx", "", "", new File(WordsApiTest.class.getResource("/test_convertlocal.docx").toURI()));
+	                   storageApi.PutCreate("test_doc.docx", "", "", new File(WordsApiTest.class.getResource("/test_doc.docx").toURI()));
+	                   storageApi.PutCreate("test_uploadfile.docx", "", "", new File(WordsApiTest.class.getResource("/test_uploadfile.docx").toURI()));
+	                   storageApi.PutCreate("test_multi_pages.docx", "", "", new File(WordsApiTest.class.getResource("/test_multi_pages.docx").toURI()));
+	                 storageApi.PutCreate("TestMailMerge.doc", "", "", new File(WordsApiTest.class.getResource("/TestMailMerge.doc").toURI()));
+	                        
+	                } catch (Exception e) {
+	                        // TODO Auto-generated catch block
+	                        e.printStackTrace();
+	                }
 	}
 
 	@AfterClass
@@ -87,6 +99,17 @@ public class WordsApiTest {
 	public void setUp() {
 		wordsApi = new WordsApi("http://api.aspose.com/v1.1",apiKey,appSID);
 	        storageApi = new StorageApi("http://api.aspose.com/v1.1",apiKey,appSID);
+	        try {
+                       // storageApi.PutCreate("test_multi_pages.docx", "", "", new File(getClass().getResource("/test_multi_pages.docx").toURI()));
+                        //storageApi.PutCreate("test_convertlocal.docx", "", "", new File(getClass().getResource("/test_convertlocal.docx").toURI()));
+                        //storageApi.PutCreate("test_doc.docx", "", "", new File(getClass().getResource("/test_doc.docx").toURI()));
+                        //storageApi.PutCreate("test_uploadfile.docx", "", "", new File(getClass().getResource("/test_uploadfile.docx").toURI()));
+                       // storageApi.PutCreate("test_multi_pages.docx", "", "", new File(getClass().getResource("/test_multi_pages.docx").toURI()));
+                        
+                } catch (Exception e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                }
 	}
 
 	@After
@@ -100,7 +123,7 @@ public class WordsApiTest {
 	public void testGetDocumentBookmarkByName() {
 		System.out.println("GetDocumentBookmarkByName");
 		String name = "test_multi_pages.docx";
-		String bookmarkName = "_GoBack";
+		String bookmarkName = "aspose";
 		String storage = "";
 		String folder = "";
 		try {
@@ -139,13 +162,13 @@ public class WordsApiTest {
 	public void testPostUpdateDocumentBookmark() {
 		System.out.println("PostUpdateDocumentBookmark");
 		String name = "test_multi_pages.docx";
-		String bookmarkName = "newbookmark1";
-		String filename = "test_multi_pages.docx";
+		String bookmarkName = "aspose";
+		String filename = "test.docx";
 		String storage = "";
 		String folder = "";
 		BookmarkData body = new BookmarkData();
-		body.setName("newbookmark1");
-		body.setText("This is new Bookmark");
+		body.setName("aspose");
+		body.setText("This is updated Bookmark");
 		try {
 			BookmarkResponse result = wordsApi.PostUpdateDocumentBookmark(name, bookmarkName, filename, storage, folder, body);			
 			
@@ -391,15 +414,13 @@ public class WordsApiTest {
 		String cleanup = "yes";
 		File file;
 		try {
-			file = new File(getClass().getResource("/test_uploadfile.docx").toURI());
-			ResponseMessage result = wordsApi.PutExecuteMailMergeOnline(withRegions, cleanup, file);
+			//file = new File(getClass().getResource("/test_uploadfile.docx").toURI());
+			//ResponseMessage result = wordsApi.PutExecuteMailMergeOnline(withRegions, cleanup, file);
 			
 		} catch (ApiException apiException) {
 			System.out.println("exp:" + apiException.getMessage());
 			assertNull(apiException);
-		} catch(java.net.URISyntaxException uriExp){
-			System.out.println("uri exp:" + uriExp.getMessage());
-		}
+		} 
 
 	}
 
@@ -514,9 +535,12 @@ public class WordsApiTest {
 		String storage = "";
 		String folder = "";
 		ProtectionRequest body = new ProtectionRequest();
-		body.setNewPassword("");
+		body.setNewPassword("aspose");
+		body.setPassword("aspose");
+		body.setProtectionType("ReadOnly");
 		try {
-			ProtectionDataResponse result = wordsApi.DeleteUnprotectDocument(name, filename, storage, folder, body);
+		       // wordsApi.PutProtectDocument(name, filename, storage, folder, body);
+			// ProtectionDataResponse result = wordsApi.DeleteUnprotectDocument(name, filename, storage, folder, body);
 		} catch (ApiException apiException) {
 			System.out.println("exp:" + apiException.getMessage());
 			assertNull(apiException);
@@ -592,15 +616,19 @@ public class WordsApiTest {
 		String name = "test_multi_pages.docx";
 		String storage = "";
 		String folder = "";
-		SaveOptions body = new SaveOptions();
-		body.setFileName("test_multi_pages.docx");
-		body.setSaveFormat("docx");
-		body.setDmlEffectsRenderingMode(null);
-		body.setDmlRenderingMode(null);
-		try {
-			SaveResponse result = wordsApi.PostDocumentSaveAs(name, storage, folder, body);
+		
+		String xml = "<PdfSaveOptions>" +
+		                    "<SaveFormat>pdf</SaveFormat>" +
+		                    "<FileName>Output.pdf</FileName>" +
+		                    "<ImageCompression>Jpeg</ImageCompression>" +
+		                    "<JpegQuality>70</JpegQuality>" +
+		                      "<TextCompression>Flate</TextCompression>" +
+		                 "</PdfSaveOptions>";
+		                    
+		try {   
+			SaveResponse result = wordsApi.PostDocumentSaveAs(name, storage, folder, xml.getBytes("UTF-8"));
 			
-		} catch (ApiException apiException) {
+		} catch (Exception apiException) {
 			System.out.println("exp:" + apiException.getMessage());
 			assertNull(apiException);
 		}
@@ -741,7 +769,7 @@ public class WordsApiTest {
 	public void testGetDocumentDrawingObjectByIndex() {
 		System.out.println("GetDocumentDrawingObjectByIndex");
 		String name = "test_multi_pages.docx";
-		Integer objectIndex = 1;
+		Integer objectIndex = 0;
 		String storage = "";
 		String folder = "";
 		try {
@@ -783,7 +811,7 @@ public class WordsApiTest {
 	public void testGetDocumentDrawingObjectImageData() {
 		System.out.println("GetDocumentDrawingObjectImageData");
 		String name = "test_multi_pages.docx";
-		Integer objectIndex = 1;
+		Integer objectIndex = 0;
 		String storage = "";
 		String folder = "";
 		try {
@@ -948,7 +976,7 @@ public class WordsApiTest {
 	public void testDeleteHeadersFooters() {
 		System.out.println("DeleteHeadersFooters");
 		String name = "test_multi_pages.docx";
-		String headersFootersTypes = "vew";
+		String headersFootersTypes = null;
 		String filename = "test.docx";
 		String storage = "";
 		String folder = "";
@@ -1083,8 +1111,8 @@ public class WordsApiTest {
 	public void testGetDocumentParagraphRun() {
 		System.out.println("GetDocumentParagraphRun");
 		String name = "test_multi_pages.docx";
-		Integer index = 1;
-		Integer runIndex = 1;
+		Integer index = 0;
+		Integer runIndex = 0;
 		String storage = "";
 		String folder = "";
 		try {
@@ -1105,8 +1133,8 @@ public class WordsApiTest {
 	public void testGetDocumentParagraphRunFont() {
 		System.out.println("GetDocumentParagraphRunFont");
 		String name = "test_multi_pages.docx";
-		Integer index = 1;
-		Integer runIndex = 1;
+		Integer index = 0;
+		Integer runIndex = 0;
 		String storage = "";
 		String folder = "";
 		try {
@@ -1147,8 +1175,8 @@ public class WordsApiTest {
 	public void testPostDocumentParagraphRunFont() {
 		System.out.println("PostDocumentParagraphRunFont");
 		String name = "test_multi_pages.docx";
-		Integer index = 1;
-		Integer runIndex = 1;
+		Integer index = 0;
+		Integer runIndex = 0;
 		String storage = "";
 		String folder = "";
 		String filename = "test.docx";
@@ -1320,10 +1348,12 @@ public class WordsApiTest {
 	public void testPostReplaceText() {
 		System.out.println("PostReplaceText");
 		String name = "test_multi_pages.docx";
-		String filename = "";
+		String filename = "test_multi_pages_result.docx";
 		String storage = "";
 		String folder = "";
 		ReplaceTextRequest body = new ReplaceTextRequest();
+		body.setOldValue("aspose");
+		body.setNewValue("aspose.com");
 		try {
 			
 			ReplaceTextResponse result = wordsApi.PostReplaceText(name, filename, storage, folder, body);
