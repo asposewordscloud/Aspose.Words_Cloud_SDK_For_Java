@@ -65,7 +65,7 @@ import com.aspose.words.model.WatermarkText;
  */
 public class WordsApiTest {
 
-	WordsApi wordsApi;
+	static WordsApi wordsApi;
 	static StorageApi storageApi;
 	// Please get the appSID and apiKey from https://cloud.aspose.com
 	static String appSID = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
@@ -77,6 +77,7 @@ public class WordsApiTest {
 	@BeforeClass
 	public static void setUpClass() {
 	        try {
+	                   wordsApi = new WordsApi("http://api.aspose.com/v1.1",apiKey,appSID);
 	                   storageApi = new StorageApi("http://api.aspose.com/v1.1",apiKey,appSID);
 	                  storageApi.PutCreate("test_multi_pages.docx", "", "", new File(WordsApiTest.class.getResource("/test_multi_pages.docx").toURI()));
 	                   storageApi.PutCreate("test_convertlocal.docx", "", "", new File(WordsApiTest.class.getResource("/test_convertlocal.docx").toURI()));
@@ -97,19 +98,6 @@ public class WordsApiTest {
 
 	@Before
 	public void setUp() {
-		wordsApi = new WordsApi("http://api.aspose.com/v1.1",apiKey,appSID);
-	        storageApi = new StorageApi("http://api.aspose.com/v1.1",apiKey,appSID);
-	        try {
-                       // storageApi.PutCreate("test_multi_pages.docx", "", "", new File(getClass().getResource("/test_multi_pages.docx").toURI()));
-                        //storageApi.PutCreate("test_convertlocal.docx", "", "", new File(getClass().getResource("/test_convertlocal.docx").toURI()));
-                        //storageApi.PutCreate("test_doc.docx", "", "", new File(getClass().getResource("/test_doc.docx").toURI()));
-                        //storageApi.PutCreate("test_uploadfile.docx", "", "", new File(getClass().getResource("/test_uploadfile.docx").toURI()));
-                       // storageApi.PutCreate("test_multi_pages.docx", "", "", new File(getClass().getResource("/test_multi_pages.docx").toURI()));
-                        
-                } catch (Exception e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                }
 	}
 
 	@After
