@@ -16,8 +16,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.aspose.client.ApiException;
 import com.aspose.storage.api.StorageApi;
+import com.aspose.words.client.ApiException;
 import com.aspose.words.model.BookmarkData;
 import com.aspose.words.model.BookmarkResponse;
 import com.aspose.words.model.BookmarksResponse;

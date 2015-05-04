@@ -1,4 +1,4 @@
-package com.aspose.client;
+package com.aspose.words.client;
 
 
 import java.io.File;
@@ -23,9 +23,9 @@ import javax.ws.rs.core.Response.Status.Family;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
 
+import com.aspose.words.client.ApiException;
+import com.aspose.words.client.ApiInvokerResponse;
 import com.aspose.words.model.ResponseMessage;
-
-
 import com.google.gson.Gson;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;

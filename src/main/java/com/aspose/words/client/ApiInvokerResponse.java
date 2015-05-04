@@ -1,4 +1,4 @@
-package com.aspose.client;
+package com.aspose.words.client;
 
 import java.io.InputStream;
 

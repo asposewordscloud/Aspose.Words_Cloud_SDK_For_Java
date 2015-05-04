@@ -1,8 +1,8 @@
 package com.aspose.words.api;
 
-import com.aspose.client.ApiException;
-import com.aspose.client.ApiInvoker;
-import com.aspose.client.ApiInvokerResponse;
+import com.aspose.words.client.ApiException;
+import com.aspose.words.client.ApiInvokerResponse;
+import com.aspose.words.client.ApiInvoker;
 import com.aspose.words.model.BookmarksResponse;
 import com.aspose.words.model.HyperlinkResponse;
 import com.aspose.words.model.LoadWebDocumentData;
@@ -60,11 +60,27 @@ public class WordsApi {
     apiInvoker.addDefaultHeader(apiInvoker.APP_SID, appSid);
   }
 
+  public WordsApi(String basePath, String apiKey, String appSid, boolean isDebug) {
+          this.basePath = basePath;
+          apiInvoker.addDefaultHeader(apiInvoker.API_KEY, apiKey);
+          apiInvoker.addDefaultHeader(apiInvoker.APP_SID, appSid);
+          if(isDebug)
+                  apiInvoker.enableDebug();
+        }
+  
   public WordsApi(String apiKey, String appSid) {
     apiInvoker.addDefaultHeader(apiInvoker.API_KEY, apiKey);
     apiInvoker.addDefaultHeader(apiInvoker.APP_SID, appSid);
   }
 
+  public WordsApi(String apiKey, String appSid, boolean isDebug) {
+          apiInvoker.addDefaultHeader(apiInvoker.API_KEY, apiKey);
+          apiInvoker.addDefaultHeader(apiInvoker.APP_SID, appSid);
+          
+          if(isDebug)
+                  apiInvoker.enableDebug();
+        }
+  
   public ApiInvoker getInvoker() {
     return apiInvoker;
   }
