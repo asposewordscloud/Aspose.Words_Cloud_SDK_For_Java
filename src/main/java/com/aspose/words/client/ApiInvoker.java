@@ -236,9 +236,12 @@ public class ApiInvoker {
 					response = builder.type(MediaType.APPLICATION_OCTET_STREAM).header("Content-Disposition", sContentDisposition).put(ClientResponse.class, fileInStream);
 					} catch (java.io.FileNotFoundException ex) {
 					}
-				} else {
-          response = builder.type(contentType).put(ClientResponse.class, serialize(body));
-      }
+				} else if(contentType.equalsIgnoreCase("application/json")){
+				        response = builder.type(contentType).put(ClientResponse.class, serialize(body));
+				        
+				        }else{
+				                response = builder.type(contentType).put(ClientResponse.class, body);
+				        }
     }
 		} else if ("DELETE".equals(method)) {
 			if (body == null) {

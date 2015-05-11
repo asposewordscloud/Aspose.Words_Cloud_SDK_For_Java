@@ -936,22 +936,34 @@ public class WordsApiTest {
 	@Test
 	public void testPutFormField() {
 		System.out.println("PutFormField");
-		String name = "FormFilled.docx";
+		String name = "test_doc.docx";
 		Integer sectionIndex = 0;
 		Integer paragraphIndex = 0;
 		String insertBeforeNode = "";
 		String destFileName = "test.docx";
 		String storage = "";
 		String folder = "";
-		FormField body = new FormField();
-		body.setName("myfield");
-		body.setEnabled(true);
-		body.setCalculateOnExit(false);
+		
+		  String xml = "<FormFieldTextInput>"
+                                  + "<Name>MyName</Name>"
+                                  + "<Enabled>true</Enabled>"
+                                  + "<StatusText />"
+                                  + "<OwnStatus>false</OwnStatus>"
+                                  + "<HelpText />"
+                                  + "<OwnHelp>false</OwnHelp>"
+                                  + "<CalculateOnExit>true</CalculateOnExit>"
+                                  + "<EntryMacro />"
+                                  + "<ExitMacro />"
+                                  + "<TextInputFormat>UPPERCASE</TextInputFormat>"
+                                  + "<TextInputType>Regular</TextInputType>"
+                                  + "<TextInputDefault>Farooq Sheikh</TextInputDefault>"
+                                  + "</FormFieldTextInput>";
+		  
 		try {
-			//FormFieldResponse result = wordsApi.PutFormField(name, sectionIndex, paragraphIndex, insertBeforeNode, destFileName, storage, folder, body);
+			FormFieldResponse result = wordsApi.PutFormField(name, sectionIndex, paragraphIndex, insertBeforeNode, destFileName, storage, folder, xml.getBytes("UTF-8"));
 			
 			
-		} catch (ApiException apiException) {
+		} catch (Exception apiException) {
 			System.out.println("exp:" + apiException.getMessage());
 			assertNull(apiException);
 		}

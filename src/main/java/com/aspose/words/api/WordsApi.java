@@ -2447,7 +2447,7 @@ try {
 	* @return FormFieldResponse
 	*/
 
-  public FormFieldResponse PutFormField (String name, Integer sectionIndex, Integer paragraphIndex, String insertBeforeNode, String destFileName, String storage, String folder, FormField body) {
+  public FormFieldResponse PutFormField (String name, Integer sectionIndex, Integer paragraphIndex, String insertBeforeNode, String destFileName, String storage, String folder, Object body) {
     Object postBody = body;
     // verify required params are set
     if(name == null || sectionIndex == null || paragraphIndex == null || body == null ) {
@@ -2490,7 +2490,7 @@ try {
 	  else
 	  resourcePath = resourcePath.replaceAll("[&?]folder.*?(?=&|\\?|$)", "");
     String[] contentTypes = {
-      "application/json"};
+      "application/xml"};
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
