@@ -228,14 +228,10 @@ public class ApiInvoker {
           }
           response = builder.type(contentType).put(ClientResponse.class, formParamBuilder.toString());
 				} else if (body instanceof FormDataMultiPart) {
-					FormDataMultiPart form = (FormDataMultiPart) body;
-					File file = (File) form.getField("file").getEntity();
-					try {
-					InputStream fileInStream = new FileInputStream(file);
-						String sContentDisposition = "attachment; filename=\"" + file.getName() + "\"";
-					response = builder.type(MediaType.APPLICATION_OCTET_STREAM).header("Content-Disposition", sContentDisposition).put(ClientResponse.class, fileInStream);
-					} catch (java.io.FileNotFoundException ex) {
-					}
+					
+				        FormDataMultiPart form = (FormDataMultiPart) body;
+					response = builder.type(MediaType.MULTIPART_FORM_DATA_TYPE).put(ClientResponse.class, form);
+					
 				} else if(contentType.equalsIgnoreCase("application/json")){
 				        response = builder.type(contentType).put(ClientResponse.class, serialize(body));
 				        

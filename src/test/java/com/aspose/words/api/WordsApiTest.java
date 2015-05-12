@@ -77,14 +77,14 @@ public class WordsApiTest {
 	@BeforeClass
 	public static void setUpClass() {
 	        try {
-	                   wordsApi = new WordsApi("http://api.aspose.com/v1.1",apiKey,appSID);
-	                   storageApi = new StorageApi("http://api.aspose.com/v1.1",apiKey,appSID);
-	                  storageApi.PutCreate("test_multi_pages.docx", "", "", new File(WordsApiTest.class.getResource("/test_multi_pages.docx").toURI()));
+	                   wordsApi = new WordsApi("http://api.aspose.com/v1.1",apiKey,appSID,true);
+	                   storageApi = new StorageApi("http://api.aspose.com/v1.1",apiKey,appSID,true);
+	                   storageApi.PutCreate("test_multi_pages.docx", "", "", new File(WordsApiTest.class.getResource("/test_multi_pages.docx").toURI()));
 	                   storageApi.PutCreate("test_convertlocal.docx", "", "", new File(WordsApiTest.class.getResource("/test_convertlocal.docx").toURI()));
 	                   storageApi.PutCreate("test_doc.docx", "", "", new File(WordsApiTest.class.getResource("/test_doc.docx").toURI()));
 	                   storageApi.PutCreate("test_uploadfile.docx", "", "", new File(WordsApiTest.class.getResource("/test_uploadfile.docx").toURI()));
 	                   storageApi.PutCreate("test_multi_pages.docx", "", "", new File(WordsApiTest.class.getResource("/test_multi_pages.docx").toURI()));
-	                 storageApi.PutCreate("TestMailMerge.doc", "", "", new File(WordsApiTest.class.getResource("/TestMailMerge.doc").toURI()));
+	                   storageApi.PutCreate("SampleMailMergeTemplate.docx", "", "", new File(WordsApiTest.class.getResource("/SampleMailMergeTemplate.docx").toURI()));
 	                        
 	                } catch (Exception e) {
 	                        // TODO Auto-generated catch block
@@ -401,11 +401,13 @@ public class WordsApiTest {
 		Boolean withRegions = false;
 		String cleanup = "yes";
 		File file;
+		File data;
 		try {
-			//file = new File(getClass().getResource("/test_uploadfile.docx").toURI());
-			//ResponseMessage result = wordsApi.PutExecuteMailMergeOnline(withRegions, cleanup, file);
+			file = new File(getClass().getResource("/SampleMailMergeTemplate.docx").toURI());
+			data = new File(getClass().getResource("/SampleMailMergeTemplateData.txt").toURI());
+			ResponseMessage result = wordsApi.PutExecuteMailMergeOnline(withRegions, cleanup, file,data);
 			
-		} catch (ApiException apiException) {
+		} catch (Exception apiException) {
 			System.out.println("exp:" + apiException.getMessage());
 			assertNull(apiException);
 		} 
@@ -1059,18 +1061,17 @@ public class WordsApiTest {
 	@Test
 	public void testPostDocumentExecuteMailMerge() {
 		System.out.println("PostDocumentExecuteMailMerge");
-		String name = "TestMailMerge.doc";
+		String name = "SampleMailMergeTemplate.docx";
 		Boolean withRegions = false;
 		String mailMergeDataFile = null;
 		String cleanup = null;
-		String filename = "TestMailMergeResult.docx";
+		String filename = "SampleMailMergeResult.docx";
 		String storage = null;
 		String folder = null;
 		Boolean useWholeParagraphAsRegion = false;
 		File file;
 		try {
-			file = new File(getClass().getResource("/TestMailMergeData.txt").toURI());
-	                //storageApi.PutCreate("TestMailMerge.doc", "", "", new File(getClass().getResource("/TestMailMerge.doc").toURI()));
+			file = new File(getClass().getResource("/SampleMailMergeTemplateData.txt").toURI());	          
 			DocumentResponse result = wordsApi.PostDocumentExecuteMailMerge(name, withRegions, mailMergeDataFile, cleanup, filename, storage, folder, useWholeParagraphAsRegion, file);
 			
 			

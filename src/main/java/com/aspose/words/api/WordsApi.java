@@ -494,7 +494,7 @@ try {
 	  else
 	  resourcePath = resourcePath.replaceAll("[&?]withRegions.*?(?=&|\\?|$)", "");
     String[] contentTypes = {
-      "application/json"};
+      "application/xml"};
 
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
@@ -819,10 +819,10 @@ try {
 	* @return ResponseMessage
 	*/
 
-  public ResponseMessage PutExecuteMailMergeOnline (Boolean withRegions, String cleanup, File file) {
+  public ResponseMessage PutExecuteMailMergeOnline (Boolean withRegions, String cleanup, File file, File data) {
     Object postBody = null;
     // verify required params are set
-    if(withRegions == null || file == null ) {
+    if(withRegions == null || file == null || data == null) {
        throw new ApiException(400, "missing required params");
     }
     // create path and map variables
@@ -848,7 +848,8 @@ try {
 
 if(contentType.startsWith("multipart/form-data")) {      
       FormDataMultiPart mp = new FormDataMultiPart();
-      mp.field("file", file, MediaType.MULTIPART_FORM_DATA_TYPE);
+      mp.field("file", file, MediaType.APPLICATION_OCTET_STREAM_TYPE);
+      mp.field("data", data, MediaType.APPLICATION_XML_TYPE);
         postBody = mp;
     }
 try {
@@ -2848,9 +2849,9 @@ try {
 	  else
 	  resourcePath = resourcePath.replaceAll("[&?]useWholeParagraphAsRegion.*?(?=&|\\?|$)", "");
     String[] contentTypes = {
-      "multipart/form-data","application/json"};
+      "application/xml"};
 
-    String contentType = contentTypes.length > 0 ? "application/json" : "application/json";
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
 
     if(file!=null)
             postBody = file;
