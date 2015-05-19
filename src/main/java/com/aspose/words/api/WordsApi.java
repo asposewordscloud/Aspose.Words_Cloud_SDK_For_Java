@@ -1,53 +1,54 @@
 package com.aspose.words.api;
 
-import com.aspose.words.client.ApiException;
-import com.aspose.words.client.ApiInvokerResponse;
-import com.aspose.words.client.ApiInvoker;
-import com.aspose.words.model.BookmarksResponse;
-import com.aspose.words.model.HyperlinkResponse;
-import com.aspose.words.model.LoadWebDocumentData;
-import com.aspose.words.model.SplitDocumentResponse;
-import com.aspose.words.model.DocumentResponse;
-import com.aspose.words.model.SaveOptions;
-import com.aspose.words.model.DocumentEntryList;
-import com.aspose.words.model.FieldNamesResponse;
-import com.aspose.words.model.TiffSaveOptionsData;
-import com.aspose.words.model.HyperlinksResponse;
-import com.aspose.words.model.TextItemsResponse;
-import com.aspose.words.model.PageNumber;
-import com.aspose.words.model.ParagraphLinkCollectionResponse;
-import com.aspose.words.model.DocumentProperty;
-import com.aspose.words.model.RunResponse;
-import com.aspose.words.model.DrawingObjectsResponse;
-import com.aspose.words.model.DocumentPropertyResponse;
-import com.aspose.words.model.PageSetup;
-import com.aspose.words.model.SectionPageSetupResponse;
-import com.aspose.words.model.Font;
-import com.aspose.words.model.SaaSposeResponse;
-import com.aspose.words.model.RevisionsModificationResponse;
-import com.aspose.words.model.SaveResponse;
-import com.aspose.words.model.ProtectionDataResponse;
-import com.aspose.words.model.FormFieldResponse;
-import com.aspose.words.model.ResponseMessage;
-import com.aspose.words.model.ProtectionRequest;
-import com.aspose.words.model.SectionResponse;
-import com.aspose.words.model.FormField;
-import com.aspose.words.model.DocumentPropertiesResponse;
-import com.aspose.words.model.BookmarkResponse;
-import com.aspose.words.model.BookmarkData;
-import com.aspose.words.model.ParagraphResponse;
-import com.aspose.words.model.FontResponse;
-import com.aspose.words.model.WatermarkText;
-import com.aspose.words.model.ReplaceTextResponse;
-import com.aspose.words.model.ReplaceTextRequest;
-import com.aspose.words.model.StatDataResponse;
-import com.aspose.words.model.SectionLinkCollectionResponse;
-import com.sun.jersey.multipart.FormDataMultiPart;
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.ws.rs.core.MediaType;
 
-import java.io.File;
-import java.util.*;
+import com.aspose.words.client.ApiException;
+import com.aspose.words.client.ApiInvoker;
+import com.aspose.words.client.ApiInvokerResponse;
+import com.aspose.words.model.BookmarkData;
+import com.aspose.words.model.BookmarkResponse;
+import com.aspose.words.model.BookmarksResponse;
+import com.aspose.words.model.DocumentEntryList;
+import com.aspose.words.model.DocumentPropertiesResponse;
+import com.aspose.words.model.DocumentProperty;
+import com.aspose.words.model.DocumentPropertyResponse;
+import com.aspose.words.model.DocumentResponse;
+import com.aspose.words.model.DrawingObjectResponse;
+import com.aspose.words.model.DrawingObjectsResponse;
+import com.aspose.words.model.FieldNamesResponse;
+import com.aspose.words.model.Font;
+import com.aspose.words.model.FontResponse;
+import com.aspose.words.model.FormField;
+import com.aspose.words.model.FormFieldResponse;
+import com.aspose.words.model.HyperlinkResponse;
+import com.aspose.words.model.HyperlinksResponse;
+import com.aspose.words.model.LoadWebDocumentData;
+import com.aspose.words.model.PageNumber;
+import com.aspose.words.model.PageSetup;
+import com.aspose.words.model.ParagraphLinkCollectionResponse;
+import com.aspose.words.model.ParagraphResponse;
+import com.aspose.words.model.ProtectionDataResponse;
+import com.aspose.words.model.ProtectionRequest;
+import com.aspose.words.model.ReplaceTextRequest;
+import com.aspose.words.model.ReplaceTextResponse;
+import com.aspose.words.model.ResponseMessage;
+import com.aspose.words.model.RevisionsModificationResponse;
+import com.aspose.words.model.RunResponse;
+import com.aspose.words.model.SaaSposeResponse;
+import com.aspose.words.model.SaveResponse;
+import com.aspose.words.model.SectionLinkCollectionResponse;
+import com.aspose.words.model.SectionPageSetupResponse;
+import com.aspose.words.model.SectionResponse;
+import com.aspose.words.model.SplitDocumentResponse;
+import com.aspose.words.model.StatDataResponse;
+import com.aspose.words.model.TextItemsResponse;
+import com.aspose.words.model.TiffSaveOptionsData;
+import com.aspose.words.model.WatermarkText;
+import com.sun.jersey.multipart.FormDataMultiPart;
 
 public class WordsApi {
   String basePath = "http://api.aspose.com/v1.1";
@@ -1266,8 +1267,8 @@ try {
     }
   }
   /**
-	* DeleteUnprotectDocument
-	* Unprotect document.
+	* Unprotect a Document <br>
+	* This method will only work on JDK8+ because of JDK-7157360 bug - HttpURLConnection: HTTP method DELETE doesn't support<br>
 	* @param name	String	The document name.
 	* @param filename	String	Result name of the document after the operation. If this parameter is omitted then result of the operation will be saved as the source document
 	* @param storage	String	The document storage.
@@ -1947,7 +1948,7 @@ try {
 	* @return ResponseMessage
 	*/
 
-  public ResponseMessage GetDocumentDrawingObjectByIndex (String name, Integer objectIndex, String storage, String folder) {
+  public DrawingObjectResponse GetDocumentDrawingObjectByIndex (String name, Integer objectIndex, String storage, String folder) {
     Object postBody = null;
     // verify required params are set
     if(name == null || objectIndex == null ) {
@@ -1984,7 +1985,7 @@ try {
 
 try {
 		response = apiInvoker.invokeAPI(basePath, resourcePath, "GET", queryParams, postBody, headerParams, formParams, contentType);
-		return (ResponseMessage) ApiInvoker.deserialize(response, "", ResponseMessage.class);
+		return (DrawingObjectResponse) ApiInvoker.deserialize(response, "", DrawingObjectResponse.class);
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
       	throw new ApiException(404, "");

@@ -26,6 +26,7 @@ import com.aspose.words.model.DocumentPropertiesResponse;
 import com.aspose.words.model.DocumentProperty;
 import com.aspose.words.model.DocumentPropertyResponse;
 import com.aspose.words.model.DocumentResponse;
+import com.aspose.words.model.DrawingObjectResponse;
 import com.aspose.words.model.DrawingObjectsResponse;
 import com.aspose.words.model.FieldNamesResponse;
 import com.aspose.words.model.Font;
@@ -79,6 +80,7 @@ public class WordsApiTest {
 	        try {
 	                   wordsApi = new WordsApi("http://api.aspose.com/v1.1",apiKey,appSID);
 	                   storageApi = new StorageApi("http://api.aspose.com/v1.1",apiKey,appSID);
+	                   storageApi.PutCreate("SampleWordDocument.docx", "", "", new File(WordsApiTest.class.getResource("/test_multi_pages.docx").toURI()));
 	                   storageApi.PutCreate("test_multi_pages.docx", "", "", new File(WordsApiTest.class.getResource("/test_multi_pages.docx").toURI()));
 	                   storageApi.PutCreate("test_convertlocal.docx", "", "", new File(WordsApiTest.class.getResource("/test_convertlocal.docx").toURI()));
 	                   storageApi.PutCreate("test_doc.docx", "", "", new File(WordsApiTest.class.getResource("/test_doc.docx").toURI()));
@@ -525,9 +527,7 @@ public class WordsApiTest {
 		String storage = "";
 		String folder = "";
 		ProtectionRequest body = new ProtectionRequest();
-		body.setNewPassword("aspose");
 		body.setPassword("aspose");
-		body.setProtectionType("ReadOnly");
 		try {
 		       // wordsApi.PutProtectDocument(name, filename, storage, folder, body);
 			// ProtectionDataResponse result = wordsApi.DeleteUnprotectDocument(name, filename, storage, folder, body);
@@ -758,13 +758,13 @@ public class WordsApiTest {
 	@Test
 	public void testGetDocumentDrawingObjectByIndex() {
 		System.out.println("GetDocumentDrawingObjectByIndex");
-		String name = "test_multi_pages.docx";
+		String name = "sample_EmbeddedOLE.docx";
 		Integer objectIndex = 0;
 		String storage = "";
 		String folder = "";
 		try {
-			ResponseMessage result = wordsApi.GetDocumentDrawingObjectByIndex(name, objectIndex, storage, folder);
-			
+			 DrawingObjectResponse result = wordsApi.GetDocumentDrawingObjectByIndex(name, objectIndex, storage, folder);
+			 System.out.println(result.getStatus());
 			
 		} catch (ApiException apiException) {
 			System.out.println("exp:" + apiException.getMessage());
@@ -785,7 +785,8 @@ public class WordsApiTest {
 		String storage = "";
 		String folder = "";
 		try {
-			ResponseMessage result = wordsApi.GetDocumentDrawingObjectByIndexWithFormat(name, objectIndex, format, storage, folder);
+			  ResponseMessage result = wordsApi.GetDocumentDrawingObjectByIndexWithFormat(name, objectIndex, format, storage, folder);
+			System.out.println(result.getStatus());
 			
 			
 		} catch (ApiException apiException) {
@@ -800,12 +801,13 @@ public class WordsApiTest {
 	@Test
 	public void testGetDocumentDrawingObjectImageData() {
 		System.out.println("GetDocumentDrawingObjectImageData");
-		String name = "test_multi_pages.docx";
+		String name = "SampleWordDocument.docx";
 		Integer objectIndex = 0;
 		String storage = "";
 		String folder = "";
 		try {
 			ResponseMessage result = wordsApi.GetDocumentDrawingObjectImageData(name, objectIndex, storage, folder);
+			System.out.println(result.getMessage());
 			
 			
 		} catch (ApiException apiException) {
@@ -1311,6 +1313,10 @@ public class WordsApiTest {
 		String filename = "";
 		PageSetup body = new PageSetup();
 		body.setRtlGutter(true);
+		body.setLeftMargin(10.0);
+		body.setOrientation("Landscape");
+		body.setPaperSize("A5");
+		
 		try {
 
 			SectionPageSetupResponse result = wordsApi.UpdateSectionPageSetup(name, sectionIndex, storage, folder, filename, body);
