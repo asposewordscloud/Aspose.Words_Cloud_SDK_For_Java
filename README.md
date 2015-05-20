@@ -21,9 +21,9 @@ You can bypass this GitHub source code repository and depend directly on the rel
 **Maven Dependency**
 ```
 <dependency>
-    <groupId>com.aspose</groupId>
-    <artifactId>aspose-cloud-sdk</artifactId>
-    <version>1.0</version>
+      <groupId>com.aspose</groupId>
+      <artifactId>aspose-cloud-words</artifactId>
+      <version>1.0.0</version>
 </dependency>
 ```
 ##Get Sources and Javadocs
